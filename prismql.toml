@@ -25,6 +25,12 @@ timestamp_field = "time"
 data = "data/village.parquet"
 timestamp_fields = ["time"]
 timestamp_field = "time"
+# Measured 2026-09-22 on this corpus (381k rows, emb column): memory starts
+# in 54 s and answers a two-leg chain in 0.1 s; tantivy with
+# index_path = "data/index/village" (714 MB) starts in 19 s once built and
+# scouts instantly, but the same chain takes 3 s because the query frame is
+# fetched document by document from the index. Stay on memory until the
+# frame is cut from the Arrow table (prismql graph #14).
 
 [corpora.village.dictionaries]
 failure  = ["failed", "error", "timeout", "couldn't", "blocked", "stuck"]
