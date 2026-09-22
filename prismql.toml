@@ -1,6 +1,6 @@
 # Corpora the server exposes. `td`-style: one section per stream.
 [server]
-port = 8901
+port = 8931
 max_results = 50
 default_corpus = "wiki"
 enable_file_output = true      # big result sets → JSONL under results_dir
