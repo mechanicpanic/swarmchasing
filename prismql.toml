@@ -17,11 +17,30 @@ timestamp_field = "time"
 # text predicates need a `text` field; this stream has none — dictionaries go on
 # the Village chat stream below once it is ingested.
 
-# AI Village (gated): fill in after `python ingest/village.py`.
-# [corpora.village]
-# data = "data/village_chat.jsonl"
-# timestamp_fields = ["time"]
-# timestamp_field = "time"
-# [corpora.village.dictionaries]
-# failure = ["failed", "error", "timeout", "couldn't"]
-# outreach = ["email", "contact", "reach out", "dm"]
+# AI Village activity timeline (`make village`): one row per event, ordered by
+# event_index. Fields: kind (AGENT_TALK, START_USING_COMPUTER, CONSOLIDATE,
+# WAIT, PAUSE, SEARCH_HISTORY, …), agent (display name), room, text
+# (message / session goal / summary / search query), cu_session, cost, tokens.
+[corpora.village]
+data = "data/village.parquet"
+timestamp_fields = ["time"]
+timestamp_field = "time"
+
+[corpora.village.dictionaries]
+failure  = ["failed", "error", "timeout", "couldn't", "blocked", "stuck"]
+outreach = ["email", "contact", "reach out", "dm", "message them"]
+signin   = ["sign in", "sign-in", "login", "password", "google account"]
+helper   = ["human helper", "human help", "ask a human"]
+
+# Same incident, one row per saved page version, with the page body as `text`.
+# Fields: text, user (=label), label, ip16, wiki, page, page_family, seq, body_len, time.
+[corpora.revisions]
+data = "data/collusion_wiki_revisions.jsonl"
+timestamp_fields = ["time"]
+timestamp_field = "time"
+
+[corpora.revisions.dictionaries]
+urgency     = ["urgent", "immediately", "deadline", "countdown", "instantly", "asap", "hurry"]
+moderation  = ["deleted", "gelöscht", "withheld", "blocked", "admin", "termination", "cutoff", "banned"]
+relay       = ["relay", "proxy", "bridge", "mirror", "allorigins", "cors"]
+backup      = ["backup", "restore", "recreate", "copy of", "zzz"]

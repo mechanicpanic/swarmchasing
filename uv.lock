@@ -148,7 +148,7 @@ requires-dist = [
     { name = "pandas", marker = "extra == 'demo'", specifier = ">=1.5.0" },
     { name = "polars", specifier = ">=1.44,<2" },
     { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=3.0.0" },
-    { name = "prismql", extras = ["opensearch", "elasticsearch", "nlp", "semantic", "arrow", "plan", "repl", "highlighting", "demo", "server", "mcp"], marker = "extra == 'all'" },
+    { name = "prismql", extras = ["opensearch", "elasticsearch", "nlp", "semantic", "ingest", "arrow", "plan", "repl", "highlighting", "demo", "server", "mcp"], marker = "extra == 'all'" },
     { name = "prompt-toolkit", marker = "extra == 'repl'", specifier = ">=3.0.0" },
     { name = "pyarrow", specifier = ">=15" },
     { name = "pygments", marker = "extra == 'demo'", specifier = ">=2.0.0" },
@@ -157,6 +157,7 @@ requires-dist = [
     { name = "pytest-asyncio", marker = "extra == 'dev'", specifier = ">=0.21.0" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=4.0.0" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.1.0" },
+    { name = "sentence-transformers", marker = "extra == 'ingest'", specifier = ">=2.2" },
     { name = "sentence-transformers", marker = "extra == 'semantic'", specifier = ">=2.2" },
     { name = "spacy", marker = "extra == 'nlp'", specifier = ">=3.0.0" },
     { name = "streamlit", marker = "extra == 'demo'", specifier = ">=1.28.0" },
@@ -165,7 +166,7 @@ requires-dist = [
     { name = "typing-extensions", specifier = ">=4.0.0" },
     { name = "uvicorn", marker = "extra == 'server'", specifier = ">=0.27" },
 ]
-provides-extras = ["opensearch", "elasticsearch", "tantivy", "nlp", "semantic", "arrow", "plan", "highlighting", "repl", "server", "mcp", "demo", "all", "dev"]
+provides-extras = ["opensearch", "elasticsearch", "tantivy", "nlp", "semantic", "ingest", "arrow", "plan", "highlighting", "repl", "server", "mcp", "demo", "all", "dev"]
 
 [package.metadata.requires-dev]
 dev = [
