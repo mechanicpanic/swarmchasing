@@ -1,0 +1,10 @@
+[project]
+name = "swarmchasing"
+version = "0.0.0"
+description = "Workspace for the swarmchasing hackathon: PrismQL over the AI Village / DseWiki event streams"
+requires-python = ">=3.12"
+dependencies = ["prismql[server,repl,highlighting]", "polars>=1.44,<2", "pyarrow>=15"]
+
+[tool.uv.sources]
+# The language, editable from the sibling checkout on this machine.
+prismql = { path = "../../vibes/prismql", editable = true }

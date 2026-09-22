@@ -1,0 +1,27 @@
+# Corpora the server exposes. `td`-style: one section per stream.
+[server]
+port = 8901
+max_results = 50
+default_corpus = "wiki"
+enable_file_output = true      # big result sets → JSONL under results_dir
+results_dir = "results"
+
+# DseWiki incident, public collusion.wiki export, one row per wiki operation.
+# Fields: event_type (save/delete/probe/revert), page, label, ip16, page_family, time.
+[corpora.wiki]
+data = "data/collusion_wiki_events.jsonl"
+timestamp_fields = ["time"]
+timestamp_field = "time"
+
+[corpora.wiki.dictionaries]
+# text predicates need a `text` field; this stream has none — dictionaries go on
+# the Village chat stream below once it is ingested.
+
+# AI Village (gated): fill in after `python ingest/village.py`.
+# [corpora.village]
+# data = "data/village_chat.jsonl"
+# timestamp_fields = ["time"]
+# timestamp_field = "time"
+# [corpora.village.dictionaries]
+# failure = ["failed", "error", "timeout", "couldn't"]
+# outreach = ["email", "contact", "reach out", "dm"]
