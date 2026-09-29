@@ -1,0 +1,15 @@
+# Reality — what a claim is checked against
+The graph models the work, the repo is part of its embodiment; here is the third thing — what the work becomes when it runs, and how to look at it. A claim is decided by the canonical carrier, not by the source that was supposed to produce it; tests are a rung of evidence, not a carrier.
+
+| Claim class | Canonical carrier | How to observe | Who can |
+|---|---|---|---|
+| A finding: a count or pattern about the swarm | the running PrismQL server (`make serve`, :8931) answering the labelled query, plus its null twin | `POST /evaluate` with the query and `"label"`, signed `X-PrismQL-Client`; read `warnings`; read groups with `"explain": true` and `GET /context`; the null twin (`runs/null_twin.py` or the script named in the note) — falsifier: the real count inside the null's 95th percentile, or a warning that the count means something else | agent |
+| A corpus is built right (rows, order, fields) | the Parquet file the server loads (`data/<corpus>.parquet`) | `pyarrow.parquet.read_table`: row count, `position` == row index, field types, schema metadata; `GET /health` shows the same row count after a restart — falsifier: a mismatch in any of these | agent (restart: Aleph) |
+| Embeddings are right | the `emb` column in `data/village.parquet` and its stamped model and prompts | parity: re-encode ~20 texts with `sentence-transformers` and the stamped doc prompt, min cosine > 0.99; zero vectors exactly on rows without text; a `similar_to` query returns on-topic groups — falsifier: cosine below 0.99 or zero/text mismatch | agent |
+| Files shared with the team are complete | the folder on Google Drive `gdrive:swarmchasing/<folder>` | `rclone check <local> gdrive:swarmchasing/<folder>` — falsifier: any difference | agent |
+| The gate is green | `make check` in this checkout | run it; exit code and output — falsifier: non-zero exit | agent |
+| Something on the DGX runs (a container, a model) | the container on the DGX (access: ask Aleph) | `ssh <dgx> docker ps`, the service's `/health`, `nvidia-smi` — falsifier: not listed or not answering | agent |
+
+**Ceiling**: what the swarm's agents actually did beyond the published traces (the Hugging Face / Artifactory side was never released; the wiki shows only what reached it; Village `computer_use_turns` are not yet in the stream); who authored urlquery reports (Transluce marks them candidates, authorship unproven); attributions on public pages (Keenable map). Their ceiling is inference or the convergence of independent sources; they are never closed as "verified".
+
+**The table grows by use.** A session that learned something the table lacks (an unnamed carrier, an observation reachable or unreachable — then under *Ceiling*, a wrong command here) writes the row then, before the teaching work is closed. Only what is needed to observe goes here; dated measurements and history go to the graph or `notes/`.

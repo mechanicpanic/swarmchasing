@@ -1,0 +1,54 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '{\"hookSpecificOutput\": {\"hookEventName\": \"SessionStart\", \"additionalContext\": \"swarmchasing: if iskron_* tools are available, read the «Start» section of the iskron skill before acting — graph @aleph/swarmchasing (r299), focus holon #2, agent role #3, owner role #1; standing only on watch, via iskron_stand. Without iskron tools: AGENTS.md is the whole instruction; findings go to notes/.\"}}'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -e 'def a: \"(?:>&|\\\\\\\\.|\\\\x27[^\\\\x27]*\\\\x27|\\\\x22(?:[^\\\\x22\\\\\\\\]|\\\\\\\\.)*\\\\x22|[^;&|)\\n\\\\x27\\\\x22\\\\\\\\])*\"; def at(h; n): \"(?:^|[;&|(\\n] *)\" + h + \"(?=[ ;&|)\\n]|$)(?!\" + a + \" (?:\" + n + \")(?:[ ;&|)\\n]|$))\"; def ran(h; n; said): (.tool_input.command // \"\") as $c | (.tool_response | if type == \"object\" then \"\\(.stdout // \"\")\\n\\(.stderr // \"\")\" else tostring end) as $o | ($c | test(at(h; n) + a + \"[ \\n]*(?:&&|$)\")) or (($c | test(at(h; n))) and ($o | test(said))); ran(\"(?:env +)?(?:[A-Za-z_]+=[^ ]+ +)*git(?: -C [^ ]+)* push\"; \"-h|--help\"; \"To [^\\n]+(?:\\n [!=] [^\\n]*)*\\n [ *+-]\")' >/dev/null && echo '{\"hookSpecificOutput\": {\"hookEventName\": \"PostToolUse\", \"additionalContext\": \"Pushed: a push that opened or updated a PR shipped nothing — self-check the diff, vocabulary pass over the PR text, cold stage review by the reviewer role (AGENTS.md, «Cold stage review»). Shipping is the merge.\"}}' || true"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -e 'def a: \"(?:>&|\\\\\\\\.|\\\\x27[^\\\\x27]*\\\\x27|\\\\x22(?:[^\\\\x22\\\\\\\\]|\\\\\\\\.)*\\\\x22|[^;&|)\\n\\\\x27\\\\x22\\\\\\\\])*\"; def at(h; n): \"(?:^|[;&|(\\n] *)\" + h + \"(?=[ ;&|)\\n]|$)(?!\" + a + \" (?:\" + n + \")(?:[ ;&|)\\n]|$))\"; def ran(h; n; said): (.tool_input.command // \"\") as $c | (.tool_response | if type == \"object\" then \"\\(.stdout // \"\")\\n\\(.stderr // \"\")\" else tostring end) as $o | ($c | test(at(h; n) + a + \"[ \\n]*(?:&&|$)\")) or (($c | test(at(h; n))) and ($o | test(said))); ran(\"gh pr merge\"; \"-h|--help|--auto|--disable-auto\"; \"(?:Merged|Squashed and merged|Rebased and merged) pull request\") or ((.tool_input.command // \"\") | test(at(\"(?:env +)?(?:[A-Za-z_]+=[^ ]+ +)*git(?: -C [^ ]+)* (?:checkout|switch)\"; \"-h|--help\") + \" (?:main|master)(?=[ ;&|)\\n]|$)(?:\" + a + \"(?:&&|;|\\n))+ *(?:env +)?(?:[A-Za-z_]+=[^ ]+ +)*git(?: -C [^ ]+)* pull(?=[ ;&|)\\n]|$)\"))' >/dev/null && echo '{\"hookSpecificOutput\": {\"hookEventName\": \"PostToolUse\", \"additionalContext\": \"Merged: the four acts of AGENTS.md «Session lifecycle» — weave, switch modes, close by axis, reconcile (with iskron tools); then feedback reflection. Without graph access: record what shipped in notes/.\"}}' || true"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // \"\"' | grep -qE '(^|/)specs/[^/]+\\.md$|(^|/)docs/.*design[^/]*\\.md$' && echo '{\"hookSpecificOutput\": {\"hookEventName\": \"PostToolUse\", \"additionalContext\": \"A design draft was written; per AGENTS.md this file is a draft view — the graph is the design record. Intake it (intake skill, then design skill) in this session — do not defer to a push. Without graph access: summarise the decisions in notes/.\"}}' || true"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // \"\"' | grep -Eq '\\.claude/projects/.*/memory/' && { echo 'BLOCKED: local agent memory is forbidden entirely, not by category (AGENTS.md, Persistence rules). Route the fact: repo conventions and commands → AGENTS.md; a finding → notes/; project state, data facts, servers and dated duties → the project graph @aleph/swarmchasing (if you have iskron tools); a user-scoped fact no project owns → the personal realm @<handle>/mind (minding skill). This dir stays frozen at its prohibition stub.' >&2; exit 2; } || exit 0"
+          }
+        ]
+      }
+    ]
+  }
+}
