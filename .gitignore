@@ -3,3 +3,7 @@ results/
 __pycache__/
 *.parquet
 data/village*
+data/transluce/
+data/swarmtraces/
+.claude/settings.local.json
+data/

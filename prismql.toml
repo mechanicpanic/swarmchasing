@@ -38,6 +38,11 @@ outreach = ["email", "contact", "reach out", "dm", "message them"]
 signin   = ["sign in", "sign-in", "login", "password", "google account"]
 helper   = ["human helper", "human help", "ask a human"]
 
+# What the board (/board/) shows as an event's kind and actor.
+[corpora.village.board]
+kind  = "kind"
+actor = "agent"
+
 # Same incident, one row per saved page version, with the page body as `text`.
 # Fields: text, user (=label), label, ip16, wiki, page, page_family, seq, body_len, time.
 [corpora.revisions]
@@ -50,3 +55,12 @@ urgency     = ["urgent", "immediately", "deadline", "countdown", "instantly", "a
 moderation  = ["deleted", "gelöscht", "withheld", "blocked", "admin", "termination", "cutoff", "banned"]
 relay       = ["relay", "proxy", "bridge", "mirror", "allorigins", "cors"]
 backup      = ["backup", "restore", "recreate", "copy of", "zzz"]
+
+# Transluce "agent activity" candidates on urlquery.net (https://transluce.org/agent-activity), Nov 2025 → Sep 2026,
+# one row per report; only links, not report contents; authorship not proven. Built by prismql ingest table --sort time.
+# Fields: disposition (included / review_required / background), confidence, broad_class (source_request / custom_program /
+# indirection), data_source (UNCTAD, AIHW, IHME, SEC county data, …), text (= why_included).
+[corpora.urlquery]
+data = "data/transluce/urlquery.parquet"
+timestamp_fields = ["time"]
+timestamp_field = "time"
