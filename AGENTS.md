@@ -9,7 +9,7 @@ One row per slot: value and source.
 | Nature | `research` — one-off exploratory runs; relaxed: tests, CI, strict lint on `runs/`. Kept strict: reproducible findings (query + count + null twin) and data boundaries | agreed: Aleph |
 | Graph | `@aleph/swarmchasing` (r299) — every session with `iskron_*` tools starts here; without them, see Persistence rules | derived |
 | Focus holon | `#2` «🔍 Рабочее место расследования роя (swarmchasing)» | derived |
-| Repository | no remote yet — planned private `github.com/mechanicpanic/swarmchasing`; local path `~/Projects/research/swarmchasing` (holon attr `path`) | derived |
+| Repository | `github.com/mechanicpanic/swarmchasing` (private) — attribute `repository` of the holon, from origin | derived |
 | Agent role | `#3` «🕵️ Агент рабочего места swarmchasing» — adhikarin, steward of #2; inbox `iskron_orient(focus="3")` | derived |
 | Owner role | `#1` «👤 Aleph — ведёт направление хакатона» — svatantra, `posed_to` target for out-of-mandate questions | derived |
 | Stack | Python ≥3.12 on uv; polars, pyarrow; PrismQL (`prismql[server,repl,highlighting,tantivy]`) editable from `../../vibes/prismql`; vLLM containers on the DGX for embeddings | derived |
@@ -174,7 +174,7 @@ The carrier table is in `REALITY.md` at the root, read when a claim is made. Bef
 - **Commit trailers**: keep the `Co-Authored-By` / `Claude-Session` lines the harness adds — the history carries them.
 - **Gate — one call**: `make check`; call it by name, do not assemble the steps by hand.
 - **Never commit data**: `data/`, `results/` and exports stay gitignored; they travel via `gdrive:swarmchasing/`. Never commit keys or the DGX's service tokens.
-- **Remote**: until `github.com/mechanicpanic/swarmchasing` exists, work on `master` locally; after it exists — a branch per change, and a pushed branch gets a PR in the same move (forge CLI: `gh`).
+- **Forge**: GitHub, CLI `gh` (`gh pr create`, `gh pr checks <n> --watch`); a branch per change, and a pushed branch gets a PR in the same move.
 - **Definition of done**: a finding is written in `notes/` with its query, count and null twin; code is merged into `master` with `make check` green.
 - **Never** `--no-verify`, `--force`, `--no-gpg-sign`, `git reset --hard` without an explicit instruction.
 
