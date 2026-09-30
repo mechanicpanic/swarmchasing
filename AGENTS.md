@@ -7,14 +7,15 @@ One row per slot: value and source.
 | Slot | Value | Source |
 |---|---|---|
 | Nature | `research` — one-off exploratory runs; relaxed: tests, CI, strict lint on `runs/`. Kept strict: reproducible findings (query + count + null twin) and data boundaries | agreed: Aleph |
-| Graph | `@aleph/swarmchasing` (r299) — every session with `iskron_*` tools starts here; without them, see Persistence rules | derived |
-| Focus holon | `#2` «🔍 Рабочее место расследования роя (swarmchasing)» | derived |
+| Graph | `@aleph/swarmchasing` (r299), in English — every session with `iskron_*` tools starts here; without them, see Persistence rules | derived |
+| Focus holon | `#2` «🔍 Swarm investigation workspace (swarmchasing)» | derived |
 | Repository | `github.com/mechanicpanic/swarmchasing` (private) — attribute `repository` of the holon, from origin | derived |
-| Agent role | `#3` «🕵️ Агент рабочего места swarmchasing» — adhikarin, steward of #2; inbox `iskron_orient(focus="3")` | derived |
-| Owner role | `#1` «👤 Aleph — ведёт направление хакатона» — svatantra, `posed_to` target for out-of-mandate questions | derived |
+| Agent role | `#3` «🕵️ swarmchasing workspace agent» — adhikarin, steward of #2; inbox `iskron_orient(focus="3")` | derived |
+| Owner role | `#1` «👤 Aleph — leads the hackathon direction» — svatantra, `posed_to` target for out-of-mandate questions | derived |
+| Teammate role | `#15` «👤 Mermachine — teammate» — svatantra, bound to her account; writer in the graph | derived |
 | Stack | Python ≥3.12 on uv; polars, pyarrow; PrismQL (`prismql[server,repl,highlighting,tantivy]`) editable from `../../vibes/prismql`; vLLM containers on the DGX for embeddings | derived |
 | Gate | `make check` | derived |
-| Consumers | Aleph and Mermachine (teammate; shares this repo, may have no graph access; gets data via Google Drive `gdrive:swarmchasing/`); the hackathon report and demo in `../prismql-research/hackathon/swarmchasing/`; the prismql session (language gaps are sent there) | agreed: Aleph |
+| Consumers | Aleph and Mermachine (teammate; shares this repo and the graph — her sessions may still lack `iskron_*` tools; gets data via Google Drive `gdrive:swarmchasing/`); the hackathon report and demo in `../prismql-research/hackathon/swarmchasing/`; the prismql session (language gaps are sent there) | agreed: Aleph |
 | Cost of breakage | a wrong finding in the report in front of judges from METR / AI Village; everything else is cheap — except exporting other people's data and loading third-party services, which is expensive | agreed: Aleph |
 | Reality | `REALITY.md` at the root — read when a claim is made (section «Reality» below) | agreed: Aleph |
 | Layout | code map: section «Project structure» below; gotchas: graph nodes on #2 (referenced from here) | derived |
