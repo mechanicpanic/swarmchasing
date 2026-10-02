@@ -137,6 +137,7 @@ The carrier table is in `REALITY.md` at the root, read when a claim is made. Bef
 | `make smoke` | two known counts on the wiki stream against a running server: 25 restores within 10 minutes, 47 same-label restores within a day |
 | `make check` | the gate: full ruff + format on `prepare/`, pyflakes on `runs/`, smoke if the server is up |
 | `make village` | AI Village export (`data/village/`) → `data/village.parquet` without embeddings |
+| `make wiki-msgs` | collusion.wiki export → `data/wiki_msgs.parquet`: one row per text a save added or removed (from `hunks`), plus deletes, probes, reverts |
 
 - Query the server signed: header `X-PrismQL-Client: claude` (or your own name) and a `"label"` on anything worth finding again; `runs/ask.py CORPUS < queries` does both and prints `warnings`. Read `warnings` before reporting a number.
 - The query method: `.claude/skills/prismql/SKILL.md` — `GET /schema` first, then `POST /evaluate`; totals via `AGGREGATE count()`; big result sets via `"output": "file"` (files land in `results/`). Language cheat sheet: `../../vibes/prismql/docs/MENTAL_MODEL.md`.
@@ -145,7 +146,7 @@ The carrier table is in `REALITY.md` at the root, read when a claim is made. Bef
 ## Project structure
 | Path | What |
 |---|---|
-| `prepare/` | data pipeline: export tables → one stream per corpus (`village.py`, `uq_wiki.py`; `dgx/` — embedding run) |
+| `prepare/` | data pipeline: export tables → one stream per corpus (`village.py`, `uq_wiki.py`, `wiki_msgs.py`; `dgx/` — embedding run) |
 | `runs/` | exploratory query and analysis scripts (null twins, lag profiles, mention graph, embedding evals) |
 | `notes/` | findings by day — the record of what was found and its limits |
 | `keenable/` | SQL of public-page searches (Keenable SELECT) |
