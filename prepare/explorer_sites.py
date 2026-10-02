@@ -37,6 +37,20 @@ def sites():
     return [s for s in dict.fromkeys(names) if s not in HAVE and "/" not in s]
 
 
+def found_by():
+    # the sites index says who found each venue; community finds came after the report (2026-09-04), when fake posts
+    # also appeared — their untimed rows cannot be dated and are unverified
+    index = get(BASE + "sites/", OUT / "sites.html")
+    out = {}
+    for site, row in re.findall(
+        r'<a class="row" href="([^"]+)"(.*?)</a>', index, re.DOTALL
+    ):
+        row = re.sub(r"\s+", " ", text(row))
+        who = re.search(r"reported by (.+?)\s*$", row)
+        out[site] = "community: " + who.group(1) if who else "report authors"
+    return out
+
+
 def record_keys(site):
     # a long site index is split into site, site~2, site~3 … (250 records each)
     keys, todo, seen = [], [site], set()
@@ -100,6 +114,7 @@ def parse():
     import polars as pl
     from textkey import key
 
+    by = found_by()
     rows = []
     for s, k in all_keys():
         p = page_path(k)
@@ -131,6 +146,7 @@ def parse():
                             "text": t,
                             "sources": text(src.group(1)).strip() if src else None,
                             "flag": flag.group(1) if flag else None,
+                            "found_by": by.get(s),
                             "shared_urls": shared,
                         }
                     )
