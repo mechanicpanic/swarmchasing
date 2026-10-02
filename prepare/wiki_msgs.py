@@ -13,11 +13,10 @@ shaped it, not who first wrote its words.
 Output: data/wiki_msgs_rows.parquet (then `prismql ingest table … --id id --time time --sort seq`)."""
 
 import gzip
-import hashlib
 import json
-import re
 
 import polars as pl
+from textkey import key
 
 W = "/Users/aleph/Projects/research/prismql-research/hackathon/swarmchasing/data/"
 
@@ -25,20 +24,6 @@ W = "/Users/aleph/Projects/research/prismql-research/hackathon/swarmchasing/data
 def jsonl(name):
     with gzip.open(W + name, "rt") as fh:
         return [json.loads(line) for line in fh]
-
-
-# texts that compare equal without being the same message: the publishers' redaction marker and the wiki's own
-# new-page template; they get no text_key
-NO_KEY = re.compile(
-    r"withheld\]|^(describe the new page here\.|beschreibe hier die neue seite\.)$"
-)
-
-
-def key(text):
-    norm = re.sub(r"\s+", " ", text.strip().lower())
-    if NO_KEY.search(norm):
-        return None
-    return hashlib.sha1(norm.encode()).hexdigest()[:16]
 
 
 pfam = {p["page_key"]: p.get("page_family") for p in jsonl("pages.jsonl.gz")}

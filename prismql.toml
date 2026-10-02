@@ -77,3 +77,14 @@ timestamp_field = "time"
 [corpora.wiki_msgs.board]
 kind  = "kind"
 actor = "label"
+
+# wiki_msgs + the collusion.wiki explorer's timed rows from other venues (pastebins, other wikis; `make swarm-msgs`).
+# `wiki` names the venue, `source` = wiki | explorer; explorer rows have no label or ip16.
+[corpora.swarm_msgs]
+data = "data/swarm_msgs.parquet"
+timestamp_fields = ["time"]
+timestamp_field = "time"
+
+[corpora.swarm_msgs.board]
+kind  = "kind"
+actor = "label"
