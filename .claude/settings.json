@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo '{\"hookSpecificOutput\": {\"hookEventName\": \"SessionStart\", \"additionalContext\": \"swarmchasing: if iskron_* tools are available, read the «Start» section of the iskron skill before acting — graph @aleph/swarmchasing (r299), focus holon #2, agent role #3, owner role #1; standing only on watch, via iskron_stand. Without iskron tools: AGENTS.md is the whole instruction; findings go to notes/.\"}}'"
+            "command": "echo '{\"hookSpecificOutput\": {\"hookEventName\": \"SessionStart\", \"additionalContext\": \"swarmchasing: if iskron_* tools are available, read the «Start» section of the iskron skill before acting — graph @aleph/prismql (r72), focus contour #157, agent role #156, owner role #2; standing only on watch, via iskron_stand. Without iskron tools: AGENTS.md is the whole instruction; findings go to notes/.\"}}'"
           }
         ]
       }
@@ -45,7 +45,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r '.tool_input.file_path // \"\"' | grep -Eq '\\.claude/projects/.*/memory/' && { echo 'BLOCKED: local agent memory is forbidden entirely, not by category (AGENTS.md, Persistence rules). Route the fact: repo conventions and commands → AGENTS.md; a finding → notes/; project state, data facts, servers and dated duties → the project graph @aleph/swarmchasing (if you have iskron tools); a user-scoped fact no project owns → the personal realm @<handle>/mind (minding skill). This dir stays frozen at its prohibition stub.' >&2; exit 2; } || exit 0"
+            "command": "jq -r '.tool_input.file_path // \"\"' | grep -Eq '\\.claude/projects/.*/memory/' && { echo 'BLOCKED: local agent memory is forbidden entirely, not by category (AGENTS.md, Persistence rules). Route the fact: repo conventions and commands → AGENTS.md; a finding → notes/; project state, data facts, servers and dated duties → the project graph @aleph/prismql, contour #157 (if you have iskron tools); a user-scoped fact no project owns → the personal realm @<handle>/mind (minding skill). This dir stays frozen at its prohibition stub.' >&2; exit 2; } || exit 0"
           }
         ]
       }

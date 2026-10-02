@@ -7,18 +7,18 @@ One row per slot: value and source.
 | Slot | Value | Source |
 |---|---|---|
 | Nature | `research` — one-off exploratory runs; relaxed: tests, CI, strict lint on `runs/`. Kept strict: reproducible findings (query + count + null twin) and data boundaries | agreed: Aleph |
-| Graph | `@aleph/swarmchasing` (r299), in English — every session with `iskron_*` tools starts here; without them, see Persistence rules | derived |
-| Focus holon | `#2` «🔍 Swarm investigation workspace (swarmchasing)» | derived |
+| Graph | `@aleph/prismql` (r72), contour #157 (moved from `@aleph/swarmchasing` on 2026-10-02; one graph for the language and the hackathon) — every session with `iskron_*` tools starts here; without them, see Persistence rules | agreed: Aleph |
+| Focus holon | `#157` «🔍 Swarm investigation workspace (swarmchasing)» | derived |
 | Repository | `github.com/mechanicpanic/swarmchasing` (private) — attribute `repository` of the holon, from origin | derived |
-| Agent role | `#3` «🕵️ swarmchasing workspace agent» — adhikarin, steward of #2; inbox `iskron_orient(focus="3")` | derived |
-| Owner role | `#1` «👤 Aleph — leads the hackathon direction» — svatantra, `posed_to` target for out-of-mandate questions | derived |
-| Teammate role | `#15` «👤 Mermachine — teammate» — svatantra, bound to her account; writer in the graph | derived |
+| Agent role | `#156` «🐝 swarmchasing agent (hackathon)» — steward of #157; inbox `iskron_orient(focus="156")` | derived |
+| Owner role | `#2` «👤 Владелец языка» (Aleph) — svatantra, `posed_to` target for out-of-mandate questions | derived |
+| Teammate role | `#136` «👤 Мермейд» (Mermachine) — svatantra, bound to her account; writer in the graph | derived |
 | Stack | Python ≥3.12 on uv; polars, pyarrow; PrismQL (`prismql[server,repl,highlighting,tantivy]`) editable from `../../vibes/prismql`; vLLM containers on the DGX for embeddings | derived |
 | Gate | `make check` | derived |
 | Consumers | Aleph and Mermachine (teammate; shares this repo and the graph — her sessions may still lack `iskron_*` tools; gets data via Google Drive `gdrive:swarmchasing/`); the hackathon report and demo in `../prismql-research/hackathon/swarmchasing/`; the prismql session (language gaps are sent there) | agreed: Aleph |
 | Cost of breakage | a wrong finding in the report in front of judges from METR / AI Village; everything else is cheap — except exporting other people's data and loading third-party services, which is expensive | agreed: Aleph |
 | Reality | `REALITY.md` at the root — read when a claim is made (section «Reality» below) | agreed: Aleph |
-| Layout | code map: section «Project structure» below; gotchas: graph nodes on #2 (referenced from here) | derived |
+| Layout | code map: section «Project structure» below; gotchas: graph nodes in #157 (referenced from here) | derived |
 | Cross-project memory | personal graph `@aleph/mind`; no global instruction file; never the harness memory directory | derived |
 | Feedback reflection | yes | agreed: Aleph |
 | Workflow-suite interop | full | agreed: Aleph |
@@ -27,7 +27,7 @@ One row per slot: value and source.
 ## Persistence rules
 State lives in the **repo** or the **graph** — nowhere else. The harness's built-in memory (memory directory, conversation summaries, `/tmp`, machine-local files) is **forbidden entirely, not by category**.
 - **Repo**: code, configs, rituals (how to act here), findings by day in `notes/`, branch state.
-- **Graph** (`@aleph/swarmchasing`): decisions, questions of substance (vimarshas), plans, lessons, gotchas. Link the graph from the repo; do not retell it.
+- **Graph** (`@aleph/prismql`, contour #157): decisions, questions of substance (vimarshas), plans, lessons, gotchas. Link the graph from the repo; do not retell it.
 - **No graph access** (a collaborator's session without `iskron_*` tools): findings and decisions go to `notes/<YYYY-MM-DD>-<topic>.md` and the PR body; skip node references and graph steps below; never invent node numbers.
 - **Fetch state, do not recall.** No source for "we decided…" — read the graph, `notes/` or git before acting.
 - **External design/spec files are drafts to intake**: the graph holds the decisions.
@@ -117,7 +117,7 @@ The carrier table is in `REALITY.md` at the root, read when a claim is made. Bef
 | Commands, conventions, stack | ✓ (AGENTS.md) | |
 | Reality carriers | ✓ (REALITY.md) | |
 | Findings by day | ✓ (`notes/`) | ✓ transitions and decisions they change |
-| Gotchas | | ✓ nodes on #2; this file links them |
+| Gotchas | | ✓ nodes in #157; this file links them |
 | Branch state, what is in flight | git + PR body (from case lines) | ✓ (a `genre=hint` seed of a transformation) |
 | Methodology, ontology | | ✓ |
 | Decisions | | ✓ (a node, at once) |
@@ -159,11 +159,11 @@ The carrier table is in `REALITY.md` at the root, read when a claim is made. Bef
 | `REALITY.md` | claim carriers |
 
 ## Code conventions
-- **Meaning lives in the graph, code references it**: a comment with a rationale, rejected alternatives or integration design is a node; in code — "(graph `@aleph/swarmchasing`, node #N)". Mechanics — in words on the spot. Without graph access (Mermachine): write the rationale in `notes/` and link the note instead.
+- **Meaning lives in the graph, code references it**: a comment with a rationale, rejected alternatives or integration design is a node; in code — "(graph `@aleph/prismql`, node #N)". Mechanics — in words on the spot. Without graph access (Mermachine): write the rationale in `notes/` and link the note instead.
 - A question is a shape in an ordered stream: then / near / same entity / never followed. Vary one token at a time.
-- **Every count gets its null twin before it is called a finding**, and the twin must break exactly what is being tested (graph, #7).
+- **Every count gets its null twin before it is called a finding**, and the twin must break exactly what is being tested (graph, #161).
 - Data preparation lives in `prepare/` and is reproducible end to end; one-off analysis lives in `runs/`.
-- Gotchas (graph `@aleph/swarmchasing`): THOUGHT rows shift positional windows (#4); one `similar_to` threshold does not fit every question (#5); a wiki revision is the whole page, not a message (#6); the null twin must break what is tested (#7); village goals change weekly — compare within a goal and a regime (#8).
+- Gotchas (graph `@aleph/prismql`): THOUGHT rows shift positional windows (#158); one `similar_to` threshold does not fit every question (#159); a wiki revision is the whole page, not a message (#160); the null twin must break what is tested (#161); village goals change weekly — compare within a goal and a regime (#162).
 - **Test discipline**: none for exploratory runs; the gate covers lint and format of the pipeline plus the server smoke.
 
 ## What to update when

@@ -1,5 +1,5 @@
 """collusion.wiki export → one stream of what each save ADDED or REMOVED, plus page deletes, probes and recreations.
-A revision body is the whole page (graph @aleph/swarmchasing, node #6); the export's `hunks` say which lines a save
+A revision body is the whole page (graph @aleph/prismql, node #160); the export's `hunks` say which lines a save
 changed (indices into body.split("\n"), checked equal to `lines` on all 14,591 revisions), so one row per hunk is one
 message-sized change with its author label, network and time.
 kind: add (insert/replace, new text) · remove (delete/replace, text taken from the base revision) · delete (admin page
