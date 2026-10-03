@@ -1,0 +1,30 @@
+[server]
+port = 8953
+default_corpus = "collusion"
+max_results = 50
+results_dir = "results"
+
+[corpora.collusion]
+data = "/Users/phosphorus/projects/prismql-data/collusion-wiki/collusion.parquet"
+[corpora.collusion.board]
+kind = "kind"
+actor = "actor"
+
+[corpora.urlquery]
+data = "/Users/phosphorus/projects/prismql-data/transluce-urlquery/urlquery.parquet"
+[corpora.urlquery.board]
+kind = "kind"
+actor = "actor"
+
+[corpora.swarmtraces]
+data = "/Users/phosphorus/projects/prismql-data/swarmtraces/swarmtraces.parquet"
+timestamp_field = "time"
+[corpora.swarmtraces.board]
+kind = "kind"
+actor = "actor"
+
+[corpora.union]
+data = "/Users/phosphorus/projects/prismql-data/transluce-urlquery/union.parquet"
+[corpora.union.board]
+kind = "source"
+actor = "actor"

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PrismQL Trails</title>
+<style>
+:root{--bg:#f7f6f3;--panel:#fff;--ink:#1d1d1f;--muted:#6b6b70;--line:#e3e1dc;--accent:#5b4bd6;--yes:#1f8a4c;--no:#c0392b;--unsure:#b7791f;--chip:#eeeaff;--code:#f1efea;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#141416;--panel:#1d1d21;--ink:#ececf0;--muted:#9a9aa3;--line:#2e2e35;--accent:#9d8fff;--yes:#3ccf7a;--no:#ff6b5c;--unsure:#f0b44c;--chip:#2c2850;--code:#25252b;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+header{display:flex;gap:14px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:2;flex-wrap:wrap}
+header h1{font-size:15px;margin:0} header a{color:var(--accent)} .sp{flex:1}
+input,select,textarea,button{font:inherit;color:inherit}
+input,select,textarea{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 8px;width:100%}
+textarea{min-height:64px} textarea.code{font-family:ui-monospace,Menlo,monospace;font-size:12px}
+button{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:6px 10px;cursor:pointer;width:auto}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+main{display:grid;grid-template-columns:340px 1fr;min-height:calc(100vh - 50px)}
+aside{border-right:1px solid var(--line);padding:12px;background:var(--panel);overflow:auto}
+aside h2{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:14px 0 6px}
+.t{padding:8px;border-radius:8px;border:1px solid transparent;cursor:pointer;margin-bottom:4px}
+.t.on{border-color:var(--accent);background:var(--chip)} .t:hover{border-color:var(--line)}
+form{display:grid;gap:6px} .row{display:flex;gap:6px;align-items:center} .row>*{flex:1}
+.small{font-size:12px;color:var(--muted)} .err{color:var(--no);white-space:pre-wrap}
+section{padding:18px 22px;overflow:auto;min-width:0}
+.step{border-left:2px solid var(--line);margin:0 0 0 14px;padding:4px 0 4px 16px;position:relative}
+.step::before{content:"";position:absolute;left:-7px;top:14px;width:12px;height:12px;border-radius:50%;background:var(--panel);border:2px solid var(--accent)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:6px 0}
+.q{font-size:15px;font-weight:600}
+pre{background:var(--code);border-radius:6px;padding:8px 10px;margin:8px 0;white-space:pre-wrap;word-break:break-word;font-size:12px}
+.meta{font-size:12px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.chip{background:var(--chip);border-radius:999px;padding:1px 8px}
+.concl{margin-top:8px;padding:8px 10px;border-radius:6px;background:var(--chip)}
+.concl.empty{background:transparent;border:1px dashed var(--line);color:var(--muted)}
+.y{color:var(--yes)} .no{color:var(--no)} .u{color:var(--unsure)}
+.kids{margin-left:6px}
+@media (max-width:760px){main{grid-template-columns:1fr} aside{border-right:0;border-bottom:1px solid var(--line)}}
+</style>
+</head>
+<body>
+<header><h1>PrismQL Trails</h1><span class="small">why each query was run, what it follows from, what we concluded</span>
+  <span class="sp"></span><a href="/">Review →</a></header>
+<main>
+<aside>
+  <h2>Trails</h2><div id="list"></div>
+  <h2>Add a step</h2>
+  <form id="f">
+    <input id="trail" placeholder="trail (story) name" list="trail-names"><datalist id="trail-names"></datalist>
+    <textarea id="question" placeholder="the question, in plain words: what are we trying to find out, and why?"></textarea>
+    <label class="small">follows up on <select id="parent"><option value="">(nothing: a starting question)</option></select></label>
+    <div class="row"><label class="small"><input type="radio" name="kind" value="query" checked style="width:auto"> PrismQL query</label>
+      <label class="small"><input type="radio" name="kind" value="note" style="width:auto"> note (work done elsewhere)</label></div>
+    <div id="qbox" style="display:grid;gap:6px">
+      <div class="row"><select id="server"></select><select id="corpus"></select></div>
+      <textarea id="query" class="code" placeholder="SELECT …"></textarea>
+      <label class="small"><input type="checkbox" id="review" style="width:auto"> also make a review queue of its groups</label>
+    </div>
+    <textarea id="note" placeholder="what was done / found (for notes), or extra context"></textarea>
+    <input id="author" placeholder="your name">
+    <button class="primary">Add step</button><div id="err" class="err"></div>
+  </form>
+</aside>
+<section id="view"><p class="small">Pick a trail, or add its first step.</p></section>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const store = {get(k){try{return localStorage.getItem(k)}catch{return null}}, set(k,v){try{localStorage.setItem(k,v)}catch{}}};
+let T = {}, cur = store.get("trails.cur"), servers = {};
+async function api(p, o={}) { const r = await fetch(p, {headers:{"Content-Type":"application/json"}, ...o});
+  const j = await r.json().catch(()=>({})); if (!r.ok) throw new Error(j.detail || r.statusText); return j; }
+
+async function load() {
+  T = await api("/api/trails");
+  const names = Object.keys(T);
+  $("#list").innerHTML = names.map(n => `<div class="t ${n===cur?"on":""}" data-t="${esc(n)}"><b>${esc(n)}</b><div class="small">${T[n].length} steps</div></div>`).join("") || '<p class="small">none yet</p>';
+  $("#trail-names").innerHTML = names.map(n => `<option value="${esc(n)}">`).join("");
+  if (cur && T[cur]) { $("#trail").value = cur; render(); }
+  fillParents();
+}
+function fillParents() {
+  const steps = T[$("#trail").value] || [];
+  $("#parent").innerHTML = '<option value="">(nothing: a starting question)</option>' +
+    steps.map(s => `<option value="${s.id}">${esc(s.question.slice(0,70))}</option>`).join("");
+}
+$("#trail").oninput = fillParents;
+$("#list").onclick = e => { const d = e.target.closest("[data-t]"); if (!d) return; cur = d.dataset.t; store.set("trails.cur", cur); $("#trail").value = cur; load(); };
+
+function stepHtml(s, kids) {
+  const t = s.tally;
+  return `<div class="step"><div class="card">
+    <div class="q">${esc(s.question)}</div>
+    <div class="meta">${s.kind === "query" ? `<span class="chip">${esc(s.server)}/${esc(s.corpus)}</span><span>${s.total ?? "?"} groups</span>` : `<span class="chip">note</span>`}
+      ${t ? `<span><span class="y">✔ ${t.yes}</span> <span class="no">✘ ${t.no}</span> <span class="u">? ${t.unsure}</span>${t.precision!=null?` · reviewed precision ${Math.round(t.precision*100)}%`:""} · <a href="/" data-open="${s.queue}">review</a></span>` : ""}
+      <span>${esc(s.author||"")} · ${esc(s.at)}</span></div>
+    ${s.query ? `<pre>${esc(s.query)}</pre>` : ""}
+    ${s.note ? `<div style="margin-top:6px;white-space:pre-wrap">${esc(s.note)}</div>` : ""}
+    <div class="concl ${s.conclusion?"":"empty"}" data-concl="${s.id}" title="click to edit">${s.conclusion ? "<b>Concluded:</b> " + esc(s.conclusion) : "no conclusion yet (click to add)"}</div>
+    <div class="small" style="margin-top:6px"><a href="#" data-follow="${s.id}">+ follow-up question</a></div>
+  </div><div class="kids">${kids}</div></div>`;
+}
+function render() {
+  const steps = T[cur] || []; const by = {};
+  for (const s of steps) (by[s.parent || ""] ||= []).push(s);
+  const tree = p => (by[p] || []).map(s => stepHtml(s, tree(s.id))).join("");
+  $("#view").innerHTML = `<h2 style="margin-top:0">${esc(cur)}</h2>${tree("") || '<p class="small">no steps</p>'}`;
+}
+$("#view").onclick = async e => {
+  const t = e.target;
+  if (t.dataset.follow) { e.preventDefault(); $("#trail").value = cur; fillParents(); $("#parent").value = t.dataset.follow; $("#question").focus(); }
+  if (t.dataset.open) store.set("review.queue", t.dataset.open);
+  const c = t.closest("[data-concl]");
+  if (c && !c.querySelector("textarea")) {
+    const id = c.dataset.concl, s = (T[cur]||[]).find(x => x.id === id);
+    c.innerHTML = `<textarea>${esc(s.conclusion||"")}</textarea><button class="primary">save</button>`;
+    c.querySelector("textarea").focus();
+    c.querySelector("button").onclick = async ev => { ev.stopPropagation();
+      await api("/api/steps/" + id, {method:"POST", body: JSON.stringify({conclusion: c.querySelector("textarea").value})}); load(); };
+  }
+};
+document.querySelectorAll('input[name=kind]').forEach(r => r.onchange = () => $("#qbox").style.display = r.value==="query" && r.checked ? "grid" : (r.checked ? "none" : $("#qbox").style.display));
+async function loadServers() {
+  servers = await api("/api/servers");
+  $("#server").innerHTML = Object.keys(servers).map(s => `<option>${s}</option>`).join("");
+  const fill = () => $("#corpus").innerHTML = (servers[$("#server").value]||[]).map(c => `<option>${c}</option>`).join("");
+  $("#server").onchange = fill; fill();
+}
+$("#f").onsubmit = async e => {
+  e.preventDefault(); $("#err").textContent = "working…";
+  const kind = document.querySelector('input[name=kind]:checked').value;
+  const body = {trail: $("#trail").value.trim(), question: $("#question").value.trim(), parent: $("#parent").value, kind,
+    note: $("#note").value, author: $("#author").value};
+  if (kind === "query") Object.assign(body, {server: $("#server").value, corpus: $("#corpus").value, query: $("#query").value, review: $("#review").checked});
+  if (!body.trail || !body.question) { $("#err").textContent = "a trail name and a question are needed"; return; }
+  try { await api("/api/steps", {method:"POST", body: JSON.stringify(body)});
+    cur = body.trail; store.set("trails.cur", cur); $("#err").textContent = "";
+    ["#question","#query","#note"].forEach(s => $(s).value = ""); load();
+  } catch (err) { $("#err").textContent = err.message; }
+};
+$("#author").value = store.get("review.reviewer") || "";
+loadServers().then(load);
+</script>
+</body>
+</html>

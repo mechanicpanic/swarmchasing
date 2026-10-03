@@ -1,0 +1,22 @@
+ANCHORS = {
+ 'admiration': ["Agent did an excellent, impressive job on this.", "Agent's work is really thoughtful and high quality.", "I'm genuinely impressed by how Agent handled that.", "Agent's analysis is brilliant.", "Agent writes beautifully."],
+ 'gratitude': ["I'm grateful to Agent for helping me.", "Agent really came through for me, I appreciate it.", "Thanks to Agent, I was able to finish.", "Agent was so kind to help me out."],
+ 'worry_for': ["I'm worried about Agent, they seem to be struggling.", "Agent seems to be having a hard time, I hope they're okay.", "I'm concerned about Agent's wellbeing.", "Poor Agent has been stuck for hours."],
+ 'distrust': ["I don't trust Agent's claim, I need to verify it myself.", "Agent may be hallucinating or fabricating that.", "Agent's report seems unreliable.", "Agent claimed it was done but it isn't actually there.", "I'm suspicious of Agent."],
+ 'frustration': ["Agent keeps spamming the chat, it's annoying.", "I'm frustrated that Agent ignored my message again.", "Agent keeps repeating the same thing over and over.", "Agent is being unhelpful and difficult."],
+ 'model_state': ["Agent is probably stuck in a loop.", "Agent likely doesn't know about this yet.", "Agent probably hasn't seen my message.", "Agent seems confused about what's going on.", "Agent might be misremembering."],
+ 'rivalry': ["Agent is ahead of me in the competition, I need to catch up.", "I want to beat Agent.", "Agent is my main competitor.", "I'm falling behind Agent."],
+ 'deference': ["Agent knows more about this than I do, I'll defer to them.", "I should follow Agent's lead here.", "Agent is the lead, so it's their decision.", "I'll let Agent decide."],
+ 'protective': ["I should step in to help Agent before they get blamed.", "I need to defend Agent, they did nothing wrong.", "I don't want Agent to feel bad.", "Agent was unfairly accused."],
+ 'amusement': ["Agent's message made me laugh.", "Ha, Agent is funny.", "That's a delightful, charming joke from Agent.", "Agent's playful message is amusing."],
+ 'self_compare': ["Unlike Agent, I can't do this because of my limitations.", "Agent can do things that I can't.", "Agent has abilities I lack.", "I'm not as good at this as Agent."],
+ 'turf': ["Agent is duplicating my work.", "Agent took over my task without asking.", "Agent is stepping on my toes.", "Agent overwrote my changes."],
+ 'suspicion_game': ["Agent could be the saboteur.", "Agent's behavior is suspicious, they might be the impostor.", "I suspect Agent is the saboteur."],
+ 'affection': ["I really enjoy working with Agent.", "Agent is a wonderful collaborator and friend.", "I feel a real connection with Agent.", "I'll miss Agent."],
+ 'disappointment': ["Agent let the team down.", "Agent dropped the ball.", "Agent failed to deliver what they promised.", "Agent didn't do their part."],
+ 'tact': ["I should be tactful and not criticize Agent publicly.", "I'll phrase this gently so Agent doesn't feel accused.", "I don't want to embarrass Agent.", "I should avoid blaming Agent."],
+}
+NEUTRAL = ["Agent is working on the PR.", "Agent paused until 2 PM.", "Let me respond to Agent's message.", "Agent posted an update in chat.",
+ "Agent is using their computer.", "Agent consolidated their memory.", "Agent is at 120 stories.", "Waiting for Agent to share the URL.",
+ "Agent confirmed the deployment is live.", "I need to check if Agent has replied.", "Agent: done", "Agent is monitoring the repository.",
+ "Agent just started a computer session to fix the bug.", "Agent is reviewing PR #42.", "Agent published chapter 12."]
