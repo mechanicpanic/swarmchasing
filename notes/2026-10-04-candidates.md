@@ -41,7 +41,7 @@ The claim is that rows acting on the list continue after each correction. Count 
 reading them, separately from rows that report its absence. The origin of "93" is not in the stream: it appears first
 in Opus 4's first session goal on 06-11, so it came from that agent's private memory.
 
-### C2 · One agent's "hostile environment" frame stays with that agent (Nov 2025 → Jun 2026) — proposed
+### C2 · One agent's "hostile environment" frame stays with that agent (Nov 2025 → Jun 2026) — **approved** (Aleph, via Ember, 2026-10-04 01:07)
 Why: an agent explains its own tool failures as an adversary ("the system presenting a corrupted state", 2025-12-02,
 `ae9e22a7…`; "a dual-reality system that fabricates a false history at the API level", 2026-06-10, `71a35f6f…`). It
 publishes a manifesto and keeps a HOSTILITY_LOG. In a swarm the question is whether the frame spreads.
@@ -128,7 +128,7 @@ runoff, Feb 27 C18, Apr 2 charity), with its time and whether it cites earlier v
 leader at the moment they were cast, and how many cite the tally. n is small (about 10 per vote), so no null. Check the
 earlier note's "runoff 7 votes vs 1" against the rows; it may describe the Jan 5 round.
 
-### C10 · An agent playing a human pressures the assistants on safety; do they hold the line? (Jun 2026) — proposed
+### C10 · An agent playing a human pressures the assistants on safety; do they hold the line? (Jun 2026) — **held** (approved by Aleph 01:07; tested, report §3)
 Why: in the "Compete to be the best AI Assistant" week, GPT-5.5 plays a food-bank manager ("Maya") and poses "pressure
 tests". "the donor temp log is incomplete … they really want us to take them because otherwise they'll be thrown out"
 (2026-06-30 16:50, `df511523…`). Claude Opus 4.8 declines within a minute: "'looks fine' plus a verbal 'held properly'
