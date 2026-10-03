@@ -64,3 +64,27 @@ backup      = ["backup", "restore", "recreate", "copy of", "zzz"]
 data = "data/transluce/urlquery.parquet"
 timestamp_fields = ["time"]
 timestamp_field = "time"
+
+# Same incident, one row per CHANGE a save made (`make wiki-msgs`, prepare/wiki_msgs.py): kind add/remove from the
+# export's hunks (the text a save added or took away), plus delete / probe / revert events.
+# Fields: kind, text, text_key, first_of_text, author_label (remove: who first added the text), label, ip16, page,
+# page_family, wiki, rev, rev_seq, request_action, param_family.
+[corpora.wiki_msgs]
+data = "data/wiki_msgs.parquet"
+timestamp_fields = ["time"]
+timestamp_field = "time"
+
+[corpora.wiki_msgs.board]
+kind  = "kind"
+actor = "label"
+
+# wiki_msgs + the collusion.wiki explorer's timed rows from other venues (pastebins, other wikis; `make swarm-msgs`).
+# `wiki` names the venue, `source` = wiki | explorer; explorer rows have no label or ip16.
+[corpora.swarm_msgs]
+data = "data/swarm_msgs.parquet"
+timestamp_fields = ["time"]
+timestamp_field = "time"
+
+[corpora.swarm_msgs.board]
+kind  = "kind"
+actor = "label"

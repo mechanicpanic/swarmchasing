@@ -3,13 +3,14 @@ usage: python runs/ask.py CORPUS < queries
   # heading        echoed
   QUERY            run with AGGREGATE count() appended
   @label QUERY     run for groups (max 20) under that board label; prints group count and the first group"""
-import sys, json, urllib.request
+import os, sys, json, urllib.request
+URL = os.environ.get("PRISMQL_URL", "http://localhost:8931")
 corpus = sys.argv[1]
 def warn(r):
     for w in r.get("warnings") or []:
         print(f"         ⚠ {w.get('code')}: {w.get('message')}" + (f"  → {w.get('suggestion')}" if w.get('suggestion') else ""))
 def post(body):
-    req = urllib.request.Request("http://localhost:8931/evaluate", json.dumps(body).encode(),
+    req = urllib.request.Request(URL + "/evaluate", json.dumps(body).encode(),
                                  {"Content-Type": "application/json", "X-PrismQL-Client": "claude"})
     try: return json.load(urllib.request.urlopen(req, timeout=600))
     except urllib.error.HTTPError as e: return json.load(e)

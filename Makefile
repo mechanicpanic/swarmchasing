@@ -1,4 +1,4 @@
-.PHONY: sync serve repl smoke check village village-embed embed-deps
+.PHONY: sync serve repl smoke check village village-embed embed-deps wiki-msgs explorer-fetch swarm-msgs
 sync:            ## install the language (editable, from ../../vibes/prismql)
 	uv sync
 serve:           ## the query server on every corpus in prismql.toml
@@ -29,3 +29,16 @@ village-embed:   ## same, with an `emb` column (multilingual model; needs embed-
 	uv run prismql ingest table data/village_events.parquet data/village.parquet \
 	  --id id --time created_at --sort seq \
 	  --embed text --model paraphrase-multilingual-MiniLM-L12-v2
+
+# --- collusion.wiki: what each save added or removed (hunks), plus deletes / probes / reverts.
+wiki-msgs:       ## export (../prismql-research/hackathon/swarmchasing/data) → data/wiki_msgs.parquet
+	uv run python prepare/wiki_msgs.py
+	uv run prismql ingest table data/wiki_msgs_rows.parquet data/wiki_msgs.parquet \
+	  --id id --time time --sort seq
+explorer-fetch:  ## collusion.wiki explorer pages of venues not in the download → data/collusion_explorer/ (network, cached, ~30 min cold)
+	uv run python prepare/explorer_sites.py fetch
+swarm-msgs: wiki-msgs  ## wiki_msgs + explorer rows with a time → data/swarm_msgs.parquet (needs explorer-fetch once)
+	uv run python prepare/explorer_sites.py parse
+	uv run python prepare/swarm_msgs.py
+	uv run prismql ingest table data/swarm_msgs_rows.parquet data/swarm_msgs.parquet \
+	  --id id --time time --sort seq
