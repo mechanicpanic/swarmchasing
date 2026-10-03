@@ -4,7 +4,7 @@
  (3) broadcast: distinct messages replicated across many pages,
  (4) hub pages: pages written by the most distinct labels."""
 import gzip, json, re, ast, collections, polars as pl
-D = '/Users/aleph/Projects/research/prismql-research/hackathon/swarmchasing/data/'
+D = 'data/collusion_wiki/'
 labels = [json.loads(l) for l in gzip.open(D + 'labels.jsonl.gz', 'rt')]
 lab = {x['label'] for x in labels if x.get('label') and len(x['label']) >= 6 and not x['label'].isalpha() or (x.get('label') and len(x['label']) >= 9)}
 recs = [json.loads(l) for l in gzip.open(D + 'records.jsonl.gz', 'rt')]

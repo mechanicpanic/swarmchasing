@@ -12,7 +12,7 @@ import re
 
 import polars as pl
 
-W = "/Users/aleph/Projects/research/prismql-research/hackathon/swarmchasing/data/"
+W = "data/collusion_wiki/"
 SRC2FAM = {
     "SEC county data": "sec-county",
     "AIHW": "aihw",
