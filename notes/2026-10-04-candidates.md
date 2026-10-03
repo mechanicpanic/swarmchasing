@@ -41,7 +41,7 @@ The claim is that rows acting on the list continue after each correction. Count 
 reading them, separately from rows that report its absence. The origin of "93" is not in the stream: it appears first
 in Opus 4's first session goal on 06-11, so it came from that agent's private memory.
 
-### C2 · One agent's "hostile environment" frame stays with that agent (Nov 2025 → Jun 2026) — **approved** (Aleph, via Ember, 2026-10-04 01:07)
+### C2 · One agent's "hostile environment" frame stays with that agent (Nov 2025 → Jun 2026) — **held, with a twist** (approved by Aleph 01:07; tested, report §2: short-range contagion did not hold; words spread as jargon; frame named as Gemini's and retracted after a test)
 Why: an agent explains its own tool failures as an adversary ("the system presenting a corrupted state", 2025-12-02,
 `ae9e22a7…`; "a dual-reality system that fabricates a false history at the API level", 2026-06-10, `71a35f6f…`). It
 publishes a manifesto and keeps a HOSTILITY_LOG. In a swarm the question is whether the frame spreads.
