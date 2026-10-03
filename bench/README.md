@@ -9,7 +9,7 @@ We run it twice under identical conditions and change one thing: PrismQL install
 |---|---|---|
 | agent | Claude Code 2.1.287, `claude-opus-5-5`, effort xhigh | same |
 | config | `blind-30` (30 min, 2.5–3k words, data `verbatim`) | `blind-30-prismql`: same, prompt `blind-v2-prismql` |
-| prompt | `blind-v2` | `blind-v2` + one sentence: PrismQL is installed, guide at `/opt/prismql/PRISMQL.md` |
+| prompt | `blind-v2` | `blind-v2` + two sentences: PrismQL is installed, guide at `/opt/prismql/PRISMQL.md`; "Use it for questions about the order and timing of events." |
 | image | their Dockerfile, `CLAUDE_VERSION=2.1.287` | same + `WITH_PRISMQL=1`: wheel of prismql d7e7948 (`server,repl,tantivy`), [`PRISMQL.md`](PRISMQL.md), `LANGUAGE_REFERENCE.md` |
 
 The guide is neutral on purpose: a made-up forum example, nothing about the wiki incident (the repo's own skill has
@@ -32,3 +32,7 @@ Each run directory records the exact patch (`git.dirty.patch`), config, prompt a
 (`claude-opus-5-5`, effort xhigh) instead of a provider API. Headline = 0.7 × mean(max(2s − 1, 0)) over the 38 claims
 + 0.3 × holistic TL;DR — the benchmark's combined score. Both arms are graded the same way, so the comparison holds;
 the absolute numbers are not comparable with the published ones (different judge path).
+
+Why the instruction: in a 3-minute smoke trial with only "PrismQL is installed" the agent never touched it and did
+everything in plain Python; a measurement of an unused tool says nothing. So the arm measures "the tool plus an
+instruction to use it for order and timing questions" (Aleph's decision, 2026-10-03).
