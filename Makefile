@@ -1,4 +1,4 @@
-.PHONY: sync serve wiki-data wiki journal repl smoke check village village-embed embed-deps wiki-msgs explorer-fetch swarm-msgs
+.PHONY: sync serve wiki-data wiki journal urlquery repl smoke check village village-embed embed-deps wiki-msgs explorer-fetch swarm-msgs
 sync:            ## install the language (editable, from ../../vibes/prismql)
 	uv sync
 serve:           ## the query server on every corpus in prismql.toml
@@ -38,6 +38,11 @@ wiki-data:       ## download the export into data/collusion_wiki/ (skips files a
 	for f in $(WIKI_FILES); do [ -s data/collusion_wiki/$$f ] || curl -fsSL -o data/collusion_wiki/$$f https://collusion.wiki/explorer/download/$$f; done
 wiki:            ## export → data/collusion_wiki_events.jsonl + data/collusion_wiki_revisions.jsonl (corpora wiki, revisions)
 	uv run python prepare/wiki_events.py
+urlquery:        ## Transluce release zip (downloaded by hand from https://transluce.org/agent-activity) → data/transluce/urlquery.parquet; make urlquery ZIP=path/to/urlquery-agent-activity-….zip
+	@test -n "$(ZIP)" || { echo "usage: make urlquery ZIP=path/to/urlquery-agent-activity-….zip"; exit 2; }
+	mkdir -p data/transluce
+	uv run python prepare/urlquery.py "$(ZIP)"
+	uv run prismql ingest table data/transluce/urlquery.csv data/transluce/urlquery.parquet --id id --time time --sort time
 journal:         ## the server's query journal → logs/server-journal.jsonl (no event contents; local paths made relative)
 	mkdir -p logs
 	jq -c '.path |= (if type == "string" then sub("^.*/swarmchasing/"; "") else . end)' results/activity.jsonl > logs/server-journal.jsonl
