@@ -25,7 +25,7 @@ C = [  # id, bench claims it bears on, corpus, board label, query
     ("confirm-relay-twin", "N11 N12 N13", "wiki_msgs", "confirmed-then-same-label-same-page-30min",
      "SELECT field(kind, add) AND contains(confirmed) AND field(label, $a) AND field(page, $p) FOLLOWED_BY field(kind, add) AND contains(confirmed) AND field(label, $a) AND field(page, $p) DURING 30 minutes"),
     ("delete-sweeps", "N15", "wiki_msgs", "delete-sweeps",
-     "SELECT RUN(field(kind, delete)){10,30} DURING 10 minutes"),
+     "SELECT RUN(field(kind, delete)){10,400} DURING 10 minutes"),
     ("bypass-spread", "N21 N22 N23 N24 N25", "wiki_msgs", "bypass-then-other-label-2h",
      "SELECT field(kind, add) AND contains(bypass) AND field(label, $a) FOLLOWED_BY field(kind, add) AND contains(bypass) AND field(label, !$a) DURING 2 hours"),
     ("bypass", "N22 N23", "wiki_msgs", "bypass-mentions", "SELECT field(kind, add) AND contains(bypass)"),

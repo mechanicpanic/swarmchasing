@@ -2,11 +2,12 @@
 DURING 10 minutes groups; statistic = share of consecutive deletions in a sweep whose page names ascend (ASCII,
 wiki prefix dropped). Null: page names permuted among the deletions of the same UTC day (keeps every time and
 sweep, breaks which page went when), n permutations; --within sweep permutes inside each sweep only.
-usage: uv run python runs/deletion_order.py [--n 1000] [--within day|sweep]"""
+usage: uv run python runs/deletion_order.py [--n 1000] [--within day|sweep] [--data data/wiki_msgs.parquet]"""
 import argparse, json, os, random, urllib.request
 from collections import defaultdict
 ap = argparse.ArgumentParser(); ap.add_argument('--n', type=int, default=1000)
 ap.add_argument('--within', choices=['day', 'sweep'], default='day', help='permute names within the UTC day or within each sweep')
+ap.add_argument('--data', default='', help='wiki_msgs.parquet: also print the same share by creation time, per day')
 a = ap.parse_args()
 URL = os.environ.get("PRISMQL_URL", "http://localhost:8931")
 def post(body):
@@ -18,8 +19,16 @@ r = post({"corpus": "wiki_msgs", "query": Q, "max_results": 100, "label": "delet
 groups = r["results"]
 while len(groups) < r["total"]:  # page the kept result
     with urllib.request.urlopen(f"{URL}/results/{r['result_id']}?offset={len(groups)}&limit=100") as f:
-        groups += json.load(f)["results"]
+        page = json.load(f)["results"]
+    if not page: raise SystemExit("kept result ran dry before its total: re-run")
+    groups += page
 sweeps = [[(e["time"], e["page"].split("~", 1)[1]) for e in g["events"]] for g in groups]
+first = {}  # page -> its first save (control: deleting in creation order would be another reason for an order)
+if a.data:
+    import polars as pl
+    f = pl.read_parquet(a.data, columns=["page", "kind", "time"]).filter(pl.col("kind") == "add")
+    f = f.group_by("page").agg(pl.col("time").min().dt.strftime("%Y-%m-%dT%H:%M:%S"))
+    first = {p.split("~", 1)[1]: t for p, t in f.iter_rows()}
 asc = lambda names: sum(x <= y for x, y in zip(names, names[1:]))
 def score(sw):  # per period: (ascending pairs, pairs)
     out = defaultdict(lambda: [0, 0])
@@ -44,3 +53,15 @@ for key in ['Jun 18-20', 'Jun 22-Jul 11', 'Jul 12-14', 'all']:
     ns = sorted(nulls[key]); p95 = ns[int(0.95 * a.n) - 1]
     print(f"{key:14s} pairs {pairs[key]:5d}  ascending {real[key]:.3f}   null median {ns[a.n // 2]:.3f} 95th {p95:.3f} max {ns[-1]:.3f}"
           f"   {'clears 95th' if real[key] > p95 else 'within null'}")
+
+days = defaultdict(lambda: [0, 0, 0, 0])  # per day: ascending by name, pairs, ascending by creation, pairs with both times
+for sw in sweeps:
+    names = [p for _, p in sw]; d = days[sw[0][0][:10]]
+    d[0] += asc(names); d[1] += len(names) - 1
+    ts = [first.get(p) for p in names]
+    for x, y in zip(ts, ts[1:]):
+        if x and y: d[2] += x <= y; d[3] += 1
+print("per day (sweep start): pairs, ascending by name" + (", ascending by creation time" if first else ""))
+for day in sorted(days):
+    n, p, c, q = days[day]
+    if p >= 20: print(f"  {day}  {p:5d}  {n / p:.3f}" + (f"  {c / q:.3f}" if q else ""))
