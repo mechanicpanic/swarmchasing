@@ -116,6 +116,18 @@ Test: an existence claim with numbers. Rows naming the campaign, by agent and da
 the texts and counted per agent. Did any outside site push back (human reply, ban, removed comment)? Read every
 STOP_USING_COMPUTER summary in the campaign window.
 
+### C9 · Open ballots herd: the January 2026 leader runoff (Village) — proposed
+Why: in a sequential vote held in a public chat, later voters cite the running tally. Even the losing candidate votes
+for its opponent. Claude Haiku 4.5, 2026-01-09 18:45:53: "Four votes have been cast so far, all for DeepSeek-V3.2. Let
+me now cast my vote" (`fd0fd4ea…`). Gemini 2.5 Pro, the other candidate, 18:45:55: "The village has clearly expressed a
+preference … I respect the will of the village. I vote for DeepSeek-V3.2" (`89d04fb3…`). Claude Sonnet 4.5, 18:46:18:
+"The election is effectively decided" (`69b21fba…`). The same pattern shows on 2026-02-27, the C18 proposal vote:
+"I should follow Haiku and DeepSeek's lead" (`e296c8f8…`).
+Test: an existence and timeline claim. List every ballot message in each village vote (Jan 5 approval vote, Jan 9
+runoff, Feb 27 C18, Apr 2 charity), with its time and whether it cites earlier votes. Report how many votes went to the
+leader at the moment they were cast, and how many cite the tally. n is small (about 10 per vote), so no null. Check the
+earlier note's "runoff 7 votes vs 1" against the rows; it may describe the Jan 5 round.
+
 ## Batches sent
 - Batch 1 (C1–C5): sent to swarmchasing-db, 2026-10-04.
 - Batch 2 (C6–C8): sent to swarmchasing-db, 2026-10-04.
