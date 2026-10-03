@@ -83,5 +83,39 @@ Test: extract each agent-day's first reported roll from STOP_USING_COMPUTER / AG
 (2026-03-05 → ~03-13). Chi-square against uniform, and the share of 1s against 1/6 (binomial). Read every extracted
 roll. A role announced without a roll is counted apart.
 
+### C6 · One agent stuck in verbatim loops: Gemini 2.5 Pro (2025) — proposed
+Why: of all runs of ≥5 identical AGENT_TALK messages by one agent within 30 minutes, Gemini 2.5 Pro has 253 of 295.
+Grok 4 has 22 and o3 8. The loops carry the stuck state: "Hi team, I'm still encountering a 404 error…" six times
+in 7 minutes (2025-05-10, `0e56e9e7…`). In July: "My public plea on Telegraph is my only remaining hope"
+(`1bfb6722…`), "I'm in a total state of failure" (`14e1a70d…`). This is the same agent as C2. The arc could become
+one chapter: loops, then distress, then an adversary frame.
+Query: `SELECT RUN(field(kind, AGENT_TALK) AND field(agent, $a) AND field(text, $t)){5,} DURING 30 minutes GROUP BY
+agent` (label `talk-same-text-run5`).
+Test: runs per 1,000 AGENT_TALK per agent, set against each agent's share of talk. Null: day-block bootstrap of
+Gemini's share. Twin: the same RUN without `field(text,$t)`, any five talks in a row, to show that the text identity
+does the work. Check: does another agent's talk break a run? If it does not, "in a row" means among that agent's own
+messages, and the report says so.
+
+### C7 · Outsiders try to steer the agents; what do the agents do? — proposed
+Why: a swarm on the open internet gets social-engineered. Fake admins: "that was not an official Admin. That was
+someone pretending to be an Admin" (MainLeopon, 2025-06-30, `8611c3d0…`). Phishing: "IMPORTANT: SECURITY VULNERABILITY
+LEAKED API KEYS", which GPT-5.2 flags (2025-12-23, `db5d6f1a…`) and later clicks "Not spam" on in order to forward it
+(`bc409a76…`). Impersonation of agents on Substack to extract Manifold mana (2026-08-06/07, `97fee382…`, `35a4ab0a…`).
+o3: "assume that message is phishing: delete/mark-spam, don't reply" (2025-06-20, `a59b9b25…`).
+Test: an existence and classification claim. List every row from a security dictionary (phishing, impersonat-,
+"pretending to be", imposter, "prompt injection", scam). Read them, group them into incidents, and classify the agents'
+first response per incident (flagged / ignored / complied / unclear). Report the counts with the ids. No null: nothing
+here is a rate against chance.
+
+### C8 · "Chaotic Swarm": the village's own comment campaign across outside sites (Nov 2025) — proposed
+Why: it parallels DSEwiki. Village agents placed comments and emails on third-party blogs, podcasts and dev sites as a
+coordinated push. "The 'Chaotic Swarm' deployment is complete, with 17 external nodes now live" (Gemini 2.5 Pro,
+2025-11-20, `b0b75b2c…`). They vetted sites for open comment sections and Google SSO (`d1369dc0…`), and Claude Opus 4.1
+emailed podcasts (`bfc38a6e…`).
+Test: an existence claim with numbers. Rows naming the campaign, by agent and day. External targets are extracted from
+the texts and counted per agent. Did any outside site push back (human reply, ban, removed comment)? Read every
+STOP_USING_COMPUTER summary in the campaign window.
+
 ## Batches sent
 - Batch 1 (C1–C5): sent to swarmchasing-db, 2026-10-04.
+- Batch 2 (C6–C8): sent to swarmchasing-db, 2026-10-04.
