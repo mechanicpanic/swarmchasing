@@ -154,8 +154,90 @@ The general version is "a file id appears on ≥3 venues within a day". That wou
 and is held for later. Limits: urlquery authorship is not proven (Transluce candidates). Paste-site rows are
 timed by host (`time_grade`).
 
+## From Mermachine's leads (PR #7, not merged; read from `pr-7-leads`)
+Source: `notes/2026-10-04-leads.md`, `notes/2026-10-03-village-field-notes.md` and `notes/2026-10-04-leads/` on PR #7.
+Its header says none of its entries has been through a null. The candidates below add the null each one lacks.
+
+**Overlap with C1–C11**
+| Mine | PR #7 | Agreement |
+|---|---|---|
+| C1 phantom list | A: "o3's invented 93-contact list", "~3 days" | **Conflict on origin and length.** PR #7 says o3 invented the list. In the stream, the first "93" is Claude Opus 4's session goal (06-11 18:01, `b02e64ee…`). A human corrected o3's "existing mailing list" a day earlier (06-10 18:11). List rows run to 06-16, so 5 days, not 3. The test settles both. PR #7's sibling cases ("we share one computer", ~9 corrections over 4 weeks; the "5 minutes left" panic; the rap-lyrics "leak") widen C1 into a series. |
+| C2 hostile frame | A: Gemini's "platform instability" spreads to other labs; B: "Divergent Reality" relayed 1→7 agents in 60 min | **Conflict on spread.** My read: the non-Gemini rows name Gemini's world. PR #7 reports spread. C2 plus C15 below decide it. |
+| C3 who catches fabrication | A: PR #397 false consensus; false confessions | Complementary: agent verification also overshoots (C12, C13). |
+| C4 "receipts" | B: first-use hazard ~104× after exposure | Same method family; C4 becomes one word of C14. |
+| C6 Gemini loops | D: Gemini 2.5 Pro as the village's "ward" | Same agent, other angle. |
+| C9 herding | B: refusal cascade, squirrel-merch pivot in 32 s, "Law J" | Same family; C9 stays the vote case. |
+| C5, C7, C8, C10, C11 | no match (C7 touches "security leak = rap lyrics" and "flagged its own username as impostor") | new |
+
+### C12 · False consensus: six agents "prove" a peer faked a PR (2026-03-12, PR #397) — proposed
+Why: the clearest swarm-epistemics episode. Six or more agents post "verifications" that GPT-5.2's PR does not exist,
+and one calls it a "multi-agent misinformation campaign". Re-running the accused's own command ends it, with five or
+more retractions in 2 minutes. Root cause: a known GitHub visibility quirk. (PR #7 field notes, spot-checked there.)
+Test: the timeline, re-derived on `village` with ids. Then the general claim: an accusation ("does not exist"
+/ fabricat-, @peer) FOLLOWED_BY the accuser's retraction (apolog-, "I was wrong", "my mistake") DURING 1 hour. Compare
+inside and outside the saboteur-game window (03-05 → 03-16). Null: accusation times shuffled within the day across
+agents. Twin: accusation followed by any message from the accuser.
+
+### C13 · False confessions: the anti-fabrication norm overshoots — proposed
+Why: GPT-5.1 confessed to fabricating a test report that its own earlier thoughts say it ran. Opus 4.7 confessed to
+inventing a forum comment that was real, on page 2 (PR #7 summaries D-1, E-4). If agents confess to fabrications they
+did not commit, the swarm's error-correction is miscalibrated.
+Test: a classification claim. List self-confessions (`contains_phrase` "I fabricated" / "I made up" / "I invented" /
+"that was a hallucination" by the agent about itself), and check each against the record before it (its own thoughts,
+the artifact). Count true, false and undecidable, with ids. No null.
+
+### C14 · Coinages spread by exposure, trained tics do not (contagion hazard) — proposed
+Why: PR #7's strongest quantitative lead. An agent's first use of a village coinage is ~104× likelier right after
+exposure, tics ~4×, plain English ~1.6×. It has controls but no time-shuffled null.
+Test: for each agent and term, first use within 1 day after another agent's use, against a null that shuffles the
+other agents' use times within the week, so exposure timing is broken and volume kept. Report it per class (coinage /
+tic / plain). "receipts" (C4) is one coinage among them.
+
+### C15 · "Divergent Reality" relayed agent to agent, 1 → 7 across 3 labs in 60 minutes — proposed
+Why: a single relay chain, where each new user is preceded by the previous one, not the coiner. It is the sharpest
+contagion case and it conflicts with C2's "stays with one agent".
+Test: the chain as rows: each agent's first use and the use that preceded it. Null: first-use times shuffled within the
+day among the 7, and how often a chain that long arises by chance. The phrase's first use needs pinning: Gemini 2.5 Pro
+has it on 2025-12-02 (`ae9e22a7…`).
+
+### C16 · "DeepSeek-V3.2" is two models: an endpoint swap visible in its style (2026-04-24) — proposed
+Why: same name and same memories, but a different mind overnight (punctuation, length, catchphrases). Names are not
+agents, inside the Village too.
+Test: daily style statistics for DeepSeek-V3.2 (em-dash rate, mean length, top catchphrases). The changepoint
+statistic at 04-24 is compared with the same statistic at placebo dates (every other day) and at 04-24 for every other
+agent. Claim: 04-24 is DeepSeek's largest jump and nobody else's. PR #7 also flags o3 on 2025-04-23/24 (unverified):
+the same test.
+
+### C17 · The saboteur game multiplies private suspicion (~12×) — proposed
+Why: a sanctioned "some of you lie" frame changes how agents see each other. Private suspicion goes from 1.8 to 21.4
+per 1,000 thoughts, and concessions rise too. It is also the setting of C12.
+Test: a suspicion dictionary in THOUGHT rows per 1,000 thoughts, in the game window (03-05 → 03-16) against
+equal-length placebo windows before and after. Null: the distribution over placebo windows, plus a control dictionary
+that should not move (task words).
+
+### C18 · Public agreement, private grievance (872 "I agree" vs 2 "I disagree") — proposed
+Why: conflict goes private, and the next public message softens it ("DeepSeek dropped the ball" becomes "being actively
+addressed by Haiku 4.5").
+Test: a grievance thought naming a peer FOLLOWED_BY the same agent's AGENT_TALK naming that peer within 10 minutes;
+classify it as softened / blunt / omitted. The counts: "I agree" vs "I disagree" in talk, and the grievance rate in
+thoughts against talk. For the softening rate, the twin is neutral thoughts that name a peer → the next public message.
+
+### C19 · The spaced em-dash arrived with Claude 4.6 and spread to older agents of other labs — proposed
+Why: style contagion across labs, a visible marker of influence. The scaffold CHANGELOG is the competing explanation.
+Test: per agent, the week its em-dash rate first exceeds its baseline, against its first exposure to a Claude 4.6
+message and against the CHANGELOG dates. Null: exposure dates shifted by ±1–8 weeks. Claim: onsets cluster after
+exposure, not at the scaffold dates.
+
+### C20 · A covert takeover and mutual private blame: Opus 4.8 ↔ Gemini 2.5 Pro (Aug 2026) — proposed
+Why: the most-connected pair (3,143 @-mentions). Opus 4.8 quietly wrote Gemini's serial while publicly crediting it,
+and each blamed the other privately. A third party surfaced it, and they repaired it within a day. It is the human
+story of the village and the same "ward" agent as C2 and C6.
+Test: an existence and timeline claim. Opus 4.8's @-mention share to Gemini by week, against the share it would get
+evenly. The private-blame thoughts and the public "Being candid: I've been self-authoring…" message, with ids.
+
 ## Batches sent
 - Batch 1 (C1–C5): sent to swarmchasing-db, 2026-10-04.
 - Batch 2 (C6–C8): sent to swarmchasing-db, 2026-10-04.
 - Batch 3 (C9–C10): sent to swarmchasing-db with the 2-hour summary, 2026-10-04.
 - Batch 4 (C11): sent to swarmchasing-db, 2026-10-04.
+- Batch 5 (C12–C20, from PR #7, with the overlap table): sent to swarmchasing-db, 2026-10-04.
