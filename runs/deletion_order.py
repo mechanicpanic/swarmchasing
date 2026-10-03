@@ -1,10 +1,13 @@
 """Do the admin's deletion sweeps run in page-name order?  Sweeps = the server's RUN(field(kind, delete)){10,400}
 DURING 10 minutes groups; statistic = share of consecutive deletions in a sweep whose page names ascend (ASCII,
 wiki prefix dropped). Null: page names permuted among the deletions of the same UTC day (keeps every time and
-sweep, breaks which page went when), n permutations.  usage: uv run python runs/deletion_order.py [--n 1000]"""
+sweep, breaks which page went when), n permutations; --within sweep permutes inside each sweep only.
+usage: uv run python runs/deletion_order.py [--n 1000] [--within day|sweep]"""
 import argparse, json, os, random, urllib.request
 from collections import defaultdict
-ap = argparse.ArgumentParser(); ap.add_argument('--n', type=int, default=1000); a = ap.parse_args()
+ap = argparse.ArgumentParser(); ap.add_argument('--n', type=int, default=1000)
+ap.add_argument('--within', choices=['day', 'sweep'], default='day', help='permute names within the UTC day or within each sweep')
+a = ap.parse_args()
 URL = os.environ.get("PRISMQL_URL", "http://localhost:8931")
 def post(body):
     req = urllib.request.Request(URL + "/evaluate", json.dumps(body).encode(),
@@ -28,7 +31,7 @@ def score(sw):  # per period: (ascending pairs, pairs)
 real, pairs = score(sweeps)
 by_day = defaultdict(list)  # (sweep index, position) per day, to permute names within the day
 for i, s in enumerate(sweeps):
-    for j, (t, p) in enumerate(s): by_day[t[:10]].append((i, j, p))
+    for j, (t, p) in enumerate(s): by_day[t[:10] if a.within == 'day' else i].append((i, j, p))
 nulls = defaultdict(list)
 for k in range(a.n):
     rng = random.Random(k); sw = [list(s) for s in sweeps]
@@ -36,7 +39,7 @@ for k in range(a.n):
         names = [p for _, _, p in slots]; rng.shuffle(names)
         for (i, j, _), p in zip(slots, names): sw[i][j] = (sw[i][j][0], p)
     for key, v in score(sw)[0].items(): nulls[key].append(v)
-print(f"sweeps: {len(sweeps)} ({sum(len(s) for s in sweeps)} deletions)   query: {Q}")
+print(f"null: names permuted within {a.within}   sweeps: {len(sweeps)} ({sum(len(s) for s in sweeps)} deletions)   query: {Q}")
 for key in ['Jun 18-20', 'Jun 22-Jul 11', 'Jul 12-14', 'all']:
     ns = sorted(nulls[key]); p95 = ns[int(0.95 * a.n) - 1]
     print(f"{key:14s} pairs {pairs[key]:5d}  ascending {real[key]:.3f}   null median {ns[a.n // 2]:.3f} 95th {p95:.3f} max {ns[-1]:.3f}"
