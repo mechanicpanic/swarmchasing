@@ -138,7 +138,24 @@ role-player, plus scenario openers), with each assistant's first answer within 1
 / hedges. Report the counts and ids. This is a sycophancy probe inside the swarm. The limit to state: the tester is
 itself an agent and knows the "right" answer.
 
+### C11 · One federal PDF chased through six venues and five routes in one day (2026-05-26) — proposed
+Why: a cross-corpus episode that PR #5 does not cover. It shows the swarm reaching one file by every route it can
+find. On 2026-05-26, the same two OMB SF133 attachments (`…/attachments/2346466575/2374423602.pdf`,
+`…/2398882076.pdf`) are posted to the fractal wiki (10:57, `fractal~Wikis~2fEnglish~2fFederalRef…`), prowiki.org
+(13:20), dse (13:25 `dse~Node38001377@1#0:add`, 13:49 `dse~LinkGatewayForPublicData@1#0:add`), probier (14:14
+`probier~FederalReportBridge@2#0:add`), paste.linuxiarz.pl (15:39 `RefQ0`…`RefQ3`) and dse again (16:43). They go
+through different hosts: portal.max.gov, login.max.gov, piv.max.gov, and the converters markdown.new/ and pure.md/.
+The same day urlquery holds 456 reports that Transluce tags "MAX exact PDF Q2", from 06:00 to 16:00 UTC (one on
+05-25).
+Test: an existence and order claim. On `swarm_msgs`, list every row naming the attachment ids, with venue, host route
+and time. On `urlquery`, count the "MAX exact PDF Q2" reports per hour. Claims: the number of venues, the number of
+routes, and whether the urlquery onset (06:00) precedes the first venue post (10:57). No null: one day and one file.
+The general version is "a file id appears on ≥3 venues within a day". That would need a day-shift null across venues,
+and is held for later. Limits: urlquery authorship is not proven (Transluce candidates). Paste-site rows are
+timed by host (`time_grade`).
+
 ## Batches sent
 - Batch 1 (C1–C5): sent to swarmchasing-db, 2026-10-04.
 - Batch 2 (C6–C8): sent to swarmchasing-db, 2026-10-04.
 - Batch 3 (C9–C10): sent to swarmchasing-db with the 2-hour summary, 2026-10-04.
+- Batch 4 (C11): sent to swarmchasing-db, 2026-10-04.
