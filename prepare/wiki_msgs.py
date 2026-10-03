@@ -18,7 +18,7 @@ import json
 import polars as pl
 from textkey import key
 
-W = "/Users/aleph/Projects/research/prismql-research/hackathon/swarmchasing/data/"
+W = "data/collusion_wiki/"
 
 
 def jsonl(name):

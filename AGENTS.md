@@ -137,6 +137,9 @@ The carrier table is in `REALITY.md` at the root, read when a claim is made. Bef
 | `make smoke` | two known counts on the wiki stream against a running server: 25 restores within 10 minutes, 47 same-label restores within a day |
 | `make check` | the gate: full ruff + format on `prepare/`, pyflakes on `runs/`, smoke if the server is up |
 | `make village` | AI Village export (`data/village/`) → `data/village.parquet` without embeddings |
+| `make wiki-data` | the public collusion.wiki export → `data/collusion_wiki/` (network; skips files already there) |
+| `make wiki` | export → `data/collusion_wiki_events.jsonl` + `data/collusion_wiki_revisions.jsonl` (corpora `wiki`, `revisions`) |
+| `make journal` | the server's query journal → `logs/server-journal.jsonl` (published; no event contents) |
 | `make wiki-msgs` | collusion.wiki export → `data/wiki_msgs.parquet`: one row per text a save added or removed (from `hunks`), plus deletes, probes, reverts |
 | `make explorer-fetch` | collusion.wiki explorer pages of the venues the download lacks → `data/collusion_explorer/` (network; cached; 1.5 s between requests) |
 | `make swarm-msgs` | `wiki_msgs` + the explorer's timed rows from other venues → `data/swarm_msgs.parquet` |
@@ -148,7 +151,7 @@ The carrier table is in `REALITY.md` at the root, read when a claim is made. Bef
 ## Project structure
 | Path | What |
 |---|---|
-| `prepare/` | data pipeline: export tables → one stream per corpus (`village.py`, `uq_wiki.py`, `wiki_msgs.py`, `explorer_sites.py`, `swarm_msgs.py`, `textkey.py`; `dgx/` — embedding run) |
+| `prepare/` | data pipeline: export tables → one stream per corpus (`village.py`, `wiki_events.py`, `uq_wiki.py`, `wiki_msgs.py`, `explorer_sites.py`, `swarm_msgs.py`, `textkey.py`; `dgx/` — embedding run) |
 | `runs/` | exploratory query and analysis scripts (null twins, lag profiles, mention graph, embedding evals) |
 | `notes/` | findings by day — the record of what was found and its limits |
 | `keenable/` | SQL of public-page searches (Keenable SELECT) |
