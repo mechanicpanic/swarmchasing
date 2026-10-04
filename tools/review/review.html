@@ -134,7 +134,8 @@ function bindMark(h) {
 }
 function evHtml(e, why, opts={}) {
   const who = e.agent ?? e.actor ?? e.label ?? "", kind = e.kind ?? "";
-  const where = [e.page, e.add_type === "copy" && "copy of someone else's text"].filter(Boolean).map(esc).join(" · ");
+  const where = [e.page, e.add_type === "copy" && "copy of someone else's text",
+                 e.add_type === "readd" && "this text was on this page before (re-added)"].filter(Boolean).map(esc).join(" · ");
   const diff = kind === "add" || kind === "remove", sign = kind === "add" ? "+ " : "− ";
   const mark = h => { h = bindMark(h); return diff ? h.split("\n").map(l => `<span class="sign">${sign}</span>${l}`).join("\n") : h; };
   if (e.none) return `<div class="ev none"><div class="x small">none</div></div>`;
