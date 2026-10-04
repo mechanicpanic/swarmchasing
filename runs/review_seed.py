@@ -36,6 +36,16 @@ SWARM = [  # questions about the wiki swarm, each a queue of groups to read
     ("Swarm 7: a message about deleting, written within a day after an admin deletion — did the agents notice the admin?",
      'SELECT field(kind, add) AND (contains_phrase("deleted") OR contains_phrase("deletion") OR contains_phrase("sweep") OR contains_phrase("gelöscht")) PRECEDED_BY field(kind, delete) DURING 1 day', 30),
 ]
+SIGNED_OTHER = "field(kind, add) AND field(label, $n) AND field(signature, $s) AND field(label, !$s)"  # signed by another name
+SWARM += [
+    ("Swarm 8a: a save signed by another name than the one it was saved under, and that name's previous save (within a day)"
+     " — the same author rotating names, or a borrowed name?",
+     f"SELECT {SIGNED_OTHER} PRECEDED_BY field(kind, add) AND field(label, $n) DURING 1 day", 30),
+    ("Swarm 8b: a save signed by another name, with the signature's own saves as a name the day before and the day after"
+     " — whose name is it?",
+     f"SELECT {SIGNED_OTHER} PRECEDED_BY field(kind, add) AND field(label, $s) DURING 1 day "
+     "FOLLOWED_BY field(kind, add) AND field(label, $s) DURING 1 day", 30),
+]
 Q += [("/api/queues", {"corpus": "wiki_msgs", "name": n, "query": q, "limit": lim}) for n, q, lim in SWARM]
 if "village" in corpora:
     Q += [("/api/queues", {"corpus": "village", "limit": 60, "dictionaries": C12,
@@ -46,9 +56,6 @@ if "village" in corpora:
           ("/api/queues/claims", {"corpus": "village", "path": "notes/2026-10-04-leads/summaries.jsonl",
            "ids": [json.loads(line)["id"] for line in open("notes/2026-10-04-leads/summary_links.jsonl")],
            "name": "Leads that dispute the official Village summaries"})]
-import subprocess  # Swarm 8 is built from the data, not from one query
-if not os.path.exists("tools/review/queues/swarm8.json") and os.path.exists("data/wiki_msgs.parquet"):
-    subprocess.run([sys.executable, os.path.join(HERE, "swarm8_queue.py")], check=False)
 for path, body in Q:
     body["server"] = SERVER
     if body["name"] in have: print("have  ", body["name"]); continue
