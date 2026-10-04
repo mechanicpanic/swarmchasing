@@ -1,6 +1,6 @@
-# 2026-09-23 — choosing the embedder (run on the DGX Spark, vLLM v0.29 aarch64, container emb-vllm on :8100)
+# 2026-09-23 — choosing the embedder (run on a GPU machine, vLLM v0.29 aarch64, container emb-vllm on :8100)
 
-Code and caches on the DGX: `~/swarmchasing/runs/{embed_client,eval_actions,eval_paraphrase,sweep,sweep_para}.py|sh`,
+Code and caches on the GPU machine: `~/swarmchasing/runs/{embed_client,eval_actions,eval_paraphrase,sweep,sweep_para}.py|sh`,
 vectors in `~/swarmchasing/results/emb_cache/<model>/`, MTEB table `~/swarmchasing/results/mteb_retrieval_eng_v2.csv`.
 
 ## MTEB(eng, v2), 10 retrieval tasks, only models reporting all 10
@@ -41,7 +41,7 @@ One global threshold costs 20–32% F1; Qwen3's scale is the most stable, granit
 
 ## Decision and build (2026-09-23)
 Aleph chose embeddinggemma-300m (retrieval table only for now; the symmetric table waits for `near`, prismql #103).
-`data/village.parquet` = `prismql ingest table data/village_events.parquet … --id id --time created_at --sort seq` (no embed) + `emb` from vLLM on the DGX
+`data/village.parquet` = `prismql ingest table data/village_events.parquet … --id id --time created_at --sort seq` (no embed) + `emb` from vLLM on the GPU machine
 (`~/swarmchasing/runs/build_emb.py`): 486,812 texts, 107.7M tokens, 28 min; client-side limit 64k tok/s (8×32 in flight) vs 160k the server can do — use more workers next time.
 Parity vLLM vs sentence-transformers on 20 texts: min cosine 0.9999 (docs, "title: none | text: "), 1.0000 (queries, "task: search result | query: ").
 Metadata stamped as prismql.ingest.core.write does. Previous file kept as `data/village.pre-gemma.parquet` (381k rows, no THOUGHT, MiniLM).
