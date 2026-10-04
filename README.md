@@ -85,7 +85,8 @@ curl -s -X POST localhost:8931/evaluate -H 'content-type: application/json' \
 ```
 That is the wiki admin's deletion sweeps: 10 to 400 deletions with no gap over 10 minutes. Interactive:
 `prismql --config prismql.toml`. A file of queries: `uv run python runs/ask.py CORPUS < queries` (signs them and prints
-the server's warnings). Agents: give them [`skills/prismql/`](skills/prismql/), plus MCP if they speak it:
+the server's warnings). Agents: give them [`skills/prismql/`](skills/prismql/) for the language and
+[`skills/swarm-investigation/`](skills/swarm-investigation/) for the loop above, plus MCP if they speak it:
 `{"mcpServers": {"prismql": {"command": "prismql-mcp", "env": {"PRISMQL_SERVER_URL": "http://127.0.0.1:8931"}}}}`.
 To check a count against chance: `runs/null_twin.py` (usage in its header).
 
