@@ -59,7 +59,7 @@ flowchart TD
 ## Try it: the tool on public data, five minutes
 Needs [uv](https://docs.astral.sh/uv/) and Python ≥ 3.12.
 ```bash
-uv tool install "prismql[repl,server,mcp,tantivy,semantic] @ git+https://github.com/mechanicpanic/prismql@541aaae"
+uv tool install "prismql[repl,server,mcp,tantivy,semantic] @ git+https://github.com/mechanicpanic/prismql@7a6975c"
 git clone https://github.com/mechanicpanic/swarmchasing && cd swarmchasing
 make demo        # downloads the public collusion.wiki export (~10 MB), builds three wiki corpora, serves on :8931
 ```
