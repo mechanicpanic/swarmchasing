@@ -58,7 +58,8 @@ OTHER = 'field(kind, add) AND field(label, $n) AND NOT field(text_key, "146d7f0c
 SWARM += [
     ("Swarm 9: a name that posted in the 311-page burst — its last save before (30 days), its first burst page, its next save"
      " after — did this name write ordinary posts of its own before the burst? (y: ordinary posts, a real agent's name the"
-     " burst carried · n: also link blocks or scripts)",
+     " burst carried · n: also link blocks or scripts)."
+     "Signed saves under another name are tested in report §25; the burst is not in it.",
      f"SELECT {BURST} AND field(label, $n) NOT_PRECEDED_BY {BURST} AND field(label, $n) DURING 1 hour "
      f"PRECEDED_BY {OTHER} DURING 30 days FOLLOWED_BY {OTHER} DURING 30 days", 40),
 ]
