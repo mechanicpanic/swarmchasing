@@ -5,8 +5,10 @@ message-sized change with its author label, network and time.
 kind: add (insert/replace, new text) · remove (delete/replace, text taken from the base revision) · delete (admin page
 delete) · probe (scripted request, no save) · revert (save recreating a deleted page).
 text_key: hash of the normalised text; first_of_text marks its first appearance in the stream (copy vs new message);
-author_label on remove rows: the label that first added that text to the same page (whose text was removed);
-by_other: the remover is not that author (null when the author is outside the published cut).
+author_label on remove rows: whose text was removed — for each removed line, the label of the latest earlier save on
+the same page that added that line; the label most of the lines point to (null when no earlier save holds them, e.g.
+text from before the published cut). Line by line, because a save often removes one line of a block another save added.
+by_other: the remover is not that author (null when the author is unknown).
 add_type: new | copy (text seen before, never on this page) | readd (already added on this page: restore, edit war,
 recreation). An edited line is a new text and counts as `new` under the editor — authorship of a line is who last
 shaped it, not who first wrote its words.
@@ -17,12 +19,32 @@ Output: data/wiki_msgs_rows.parquet (then `prismql ingest table … --id id --ti
 import gzip
 import json
 import re
+from collections import Counter
 
 import polars as pl
 from textkey import key
 
 W = "data/collusion_wiki/"
 SIG = re.compile(r"--\s*([A-Za-z][\w$()+%.-]{2,})\s*$")
+
+
+def line_authors(rows):
+    """remove row id -> label of the latest earlier add on the same page holding its lines (majority over lines)."""
+    adds, out = {}, {}
+    for r in rows:
+        lines = [x.strip() for x in (r["text"] or "").splitlines() if x.strip()]
+        if r["kind"] == "add":
+            adds.setdefault(r["page"], []).append((r["rev"], r["label"], set(lines)))
+        elif r["kind"] == "remove" and lines:
+            votes = Counter()
+            for line in lines:
+                for rev, label, held in reversed(adds.get(r["page"], [])):
+                    if rev != r["rev"] and line in held:
+                        votes[label] += 1
+                        break
+            if votes:
+                out[r["id"]] = votes.most_common(1)[0][0]
+    return out
 
 
 def signature(text):
@@ -102,11 +124,6 @@ df = (
     )
 )
 msg = pl.col("kind").is_in(["add", "remove"])
-first_add = (
-    df.filter(pl.col("kind") == "add")
-    .group_by("page", "text_key")
-    .agg(pl.col("label").sort_by("seq").first().alias("author_label"))
-)
 df = (
     df.with_columns(
         pl.when((pl.col("kind") == "add") & pl.col("text_key").is_not_null())
@@ -116,18 +133,7 @@ df = (
         )
         .alias("first_of_text")
     )
-    .join(first_add, on=["page", "text_key"], how="left")
-    .with_columns(
-        pl.when(pl.col("kind") == "remove")
-        .then(pl.col("author_label"))
-        .alias("author_label"),
-        pl.when(msg).then(pl.col("text_key")).alias("text_key"),
-    )
-    .with_columns(
-        pl.when(pl.col("kind") == "remove")
-        .then(pl.col("label") != pl.col("author_label"))
-        .alias("by_other")
-    )
+    .with_columns(pl.when(msg).then(pl.col("text_key")).alias("text_key"))
     .sort("seq")
     .with_columns(
         # adds only: new = first time anywhere; readd = already added on this page; copy = seen only on other pages
@@ -141,10 +147,20 @@ df = (
         .alias("add_type")
     )
 )
+authors = line_authors(
+    df.sort("seq")
+    .select("id", "page", "rev", "kind", "label", "text")
+    .iter_rows(named=True)
+)
 df = df.with_columns(
     pl.when(msg)
     .then(pl.col("text").map_elements(signature, return_dtype=pl.Utf8))
-    .alias("signature")
+    .alias("signature"),
+    pl.col("id").replace_strict(authors, default=None).alias("author_label"),
+).with_columns(
+    pl.when(pl.col("kind") == "remove")
+    .then(pl.col("label") != pl.col("author_label"))
+    .alias("by_other")
 )
 assert df["id"].is_unique().all()
 df.write_parquet("data/wiki_msgs_rows.parquet")
