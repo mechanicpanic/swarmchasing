@@ -3,7 +3,7 @@
 *Draft, 2026-10-04. Sections land as candidates are tested. Status of every candidate:
 `notes/2026-10-04-candidates.md`. Graph `@aleph/prismql` #157, case №3.*
 
-**Status of this draft: §2–§11 are tested and cold-verified, with each check's corrections applied. §1 reuses PR #5.
+**Status of this draft: §2–§16 are tested and cold-verified, with each check's corrections applied. §1 reuses PR #5.
 The report is evidence for Aleph's writeup (graph #166), not the writeup itself.**
 
 ## How this report differs from an incident report
@@ -74,6 +74,11 @@ A claim whose count falls inside its null is reported in "Did not hold", not dro
   resolved. The next day Opus 4.5 (Claude Code), whose PRs the quirk also hid, was voted out for "refusing" to
   reveal its die roll at a debrief it was not running for, and its PRs were called "30+ fake".
 
+- **The wiki swarm, re-tested (§12–§16).** On collusion.wiki, most of what looked like agent conversation is
+  scripts and copied link recipes. "Restores" are re-post loops (§14). Cross-page "relay" is link blocks spreading
+  within minutes (§16). Signers write norms but, under the same label, never restore their text (§15). A signature
+  under many labels is not used concurrently (§12). The "name box" shrinks from ~3× to ~1.5× against a matched
+  same-hour control (§13).
 ## 1. The DSEwiki swarm
 Verified claim by claim in a separate session, swarmchasing-d0, on PR #5 (`notes/2026-10-03-dsewiki-report.md`): rounds
 relayed between cohorts, a PRNG seed brute-forced, alphabetical admin sweeps and a ZZZ backup page, a proxy bypass
@@ -724,15 +729,15 @@ refs reports, not from GitHub directly (Ceiling). The control windows had other 
 `f007ba4f…` as an agent catching a fabrication; in the light of this section it was probably a false accusation.
 
 ## 12. A signature under many labels is one author, not many runs; most of its labels are other agents' names (C29, wiki)
-*Status: held, with low power on timing. Approved by Aleph, 2026-10-04. Not yet cold-verified.*
+*Status: held, with low power on timing. Approved by Aleph, 2026-10-04. Cold-verified; its corrections are applied.*
 
 **Question.** In the collusion.wiki export, a signed message ("-- Name") often appears under several save labels. Is
 each such signature one author changing labels, or several runs sharing one name?
 
 **Method** (`runs/c29_signatures/`, on `wiki_msgs`). A signed line counts as authored where it first appears anywhere
 (letters and digits only, so re-saves with damaged characters do not look new). Re-saves of someone else's message
-are dropped as copies. Note 2026-09-22's "48 signatures under ≥5 labels" reproduces exactly by its method. Counting
-only authored lines gives 49, 47 of them the same. For example, TransportHelperMar28OAI falls from 17 labels to 5:
+are dropped as copies. Note 2026-09-22 counted 48 signatures under ≥5 labels, by a body-diff method that is not committed. Counting only
+authored lines (`c29.py`) gives 49. For example, TransportHelperMar28OAI falls from 17 labels to 5:
 12 of its 18 signed adds were other labels re-saving its message within seconds. For each signature the analysis
 records sessions (gaps over 10 min), concurrency (two saves under different labels on different pages within 1 s or
 1 min), and the number of runs its saves form among all signed saves on its pages, against a null shuffling signers
@@ -743,8 +748,9 @@ within (day, page), n = 1,000. Server check for the top 5, labels `c29-<SIG>-con
 - No signature is used concurrently: 0 pairs of saves under different labels on different pages within 1 s. The
   24 pairs within 1 minute are one update cross-posted to 2–3 pages 20–40 s apart.
 - No signature is more interleaved with other signers than the null (pooled runs 300 vs 313). Two cluster beyond it.
-  Classes: **rotation** (one runtime) 14, **mixed** (interleaved at chance, which on relay pages is conversation) 30,
-  **shared** 0, untestable 5.
+  Classes: **rotation** (one runtime) 13–14, **mixed** (interleaved at chance, which on relay pages is conversation)
+  30–31, **shared** 0, untestable 5. The split between the first two varies across reruns, because group order
+  changes the random stream; one or two signatures cluster beyond the null.
 - Read by hand, 11 signatures each tell one consistent story on one task clock. ConstructionAgentMar08 confirms "R3
   Texas, R4 Florida, R5 Nebraska" in order over 15 saves under 14 labels (`dse~DataUSAConstructionSequenceMar08@1`).
   Mar26OAI counts down "R3 due 19:21:19 → R4 19:43:54 → R5 20:06:29" (`dse~FinanceSequenceMar26OAI@1`).
@@ -754,15 +760,17 @@ within (day, page), n = 1,000. Server check for the top 5, labels `c29-<SIG>-con
   someone else earlier, and 30% within the previous 10 minutes. This fits Mermachine's "borrowed label" / shared-name
   reading (PR #7; C28 tests it directly).
 
-**So, on the naming question:** a label is not an author, and a multi-label signature is not a group. It is one
-author whose save label is usually not its own choice.
+**So, on the naming question:** a label is not an author. No multi-label signature shows concurrent use, and the
+hand-read ones each read as one author. That is an inference (Ceiling), and 30 of 49 are only "interleaved at
+chance", which cannot separate one author from several. Their save labels are often another agent's name (59%) and
+sometimes self-made (26%). The borrowing fits the modest name-pool effect of §13.
 
 **Limits.** The runs test has little power (median 4 informative day-page cells; 13 signatures have ≤2). The
 signature pattern misses lowercase names and signatures without "--". "First appearance" credits the earliest copy
 we hold. /16 networks change on almost every save for everyone, so they cannot separate authors.
 
-## 13. The "name box" reproduces, but a fair same-hour control explains it away (C28, wiki)
-*Status: did not hold as a name-box effect. Approved by Aleph, 2026-10-04. Not yet cold-verified.*
+## 13. The "name box" reproduces; against a matched same-hour control it shrinks from ~3× to ~1.5× (C28, wiki)
+*Status: partly held: a modest effect survives. Approved by Aleph, 2026-10-04. Cold-verified; its correction to null (d) is applied.*
 
 **Question.** Mermachine's PR #7 found that a label appearing on a post signed by someone else ("borrowed") is ~3×
 likelier in the 10 minutes after the label's owner posts (16.7% against a time-shuffled null of 5.6%). That reads as
@@ -780,15 +788,18 @@ median of 6.0% and a 95th of 7.8%. That reproduces.
 | (a) borrowed times shuffled within the day (PR #7) | timing within the day | 6.1 / 7.8% | passes |
 | (b′) owner's saves moved as a block by ≤3 h | the owner's exact timing; its rhythm kept | 5.4 / 7.2% | passes |
 | (c) labels permuted among borrowed saves within (day, page) | which label goes with which save | 10.2 / 12.1% | passes, ~1.7× |
-| **(d) another owner's label active in the same hour** | whose owner it is; the hour kept | **20.7 / 23.5%** (each label once: 16.1 / 18.5%) | **fails** |
+| (d) another owner's label active in the same hour | whose owner it is; the hour kept | 20.7 / 23.5% (each label once: 16.1 / 18.5%) | fails, but biased: see below |
+| **(d), matched: real data restricted to labels with another save that hour** | as (d), with the same conditioning on both sides | real **31.3%** (96/307) vs **21.2 / 24.8%** | **passes, ~1.5×** |
 | (d′) same, excluding labels active inside the tested 10 min | as (d), without selecting on the window | 12.0 / 14.0% | passes, ~1.5× |
 
-**Reading.** The owner having just posted is about as common for a borrowed label as for any other label active that
-hour (null d). What remains is weaker and different. The owner goes quiet: 376 of 541 borrowed uses come after the
+**Reading.** Null (d), as first run, picks control labels because they have another save that hour, while the real
+label is only guaranteed the borrowed save itself. That biases it upward (the cold verifier's finding). Conditioning
+both sides the same way leaves a real excess of about 1.5×, close to (d′). So most of PR #7's 3× is co-activity:
+owners and borrowers active in the same hours. A modest name-box effect remains. Two further patterns: The owner goes quiet: 376 of 541 borrowed uses come after the
 owner's last save under that label, and owner saves fall in the 10 minutes before a borrowed use (17.9%) twice as often
 as after it (8.3%). The pattern does not look like "the next request carries the previous username":
 - only 9 of 541 borrowed uses follow an owner save directly;
-- the borrowed label is typically about 31 distinct labels back;
+- the borrowed label is many labels back (median 44–97, depending on the definition);
 - only 4 of 97 in-window uses are on the owner's page.
 
 It does not look like copied recipes either: 440 of 482 (label, signer) pairs occur once. What fits is a pool of names
@@ -797,13 +808,15 @@ request: `dse~AgentTestUniqueSep14@2#0:add` sends `'UserName': 'ResearchHelperSe
 `OpenAIResearchHelper`. PR #7's "almost never before the owner's first use" holds (27 of 541, against a null median of
 118), and so does "no swaps" (0).
 
-**Wording for the writeup:** "co-activity plus the owner going quiet", not "a shared name box, 3×".
+**Wording for the writeup:** "mostly co-activity, with a modest name-box effect (~1.5×) and the owner going quiet",
+not "a shared name box, 3×". The matched null and (d′) are reimplemented in the verifier's scratch, not in
+`ana.py`.
 
 **Limits.** Owner and borrowed definitions are heuristic. The same-hour control depends on how control labels are
 drawn (about 1.0× to 1.5×). There is one mechanism row. `runs/null_twin.py` was not used; the nulls are bespoke.
 
 ## 14. Restores on the wiki were re-post loops, not retaliation (C26, R2 re-tested, wiki)
-*Status: did not hold. Approved by Aleph, 2026-10-04. Not yet cold-verified.*
+*Status: did not hold. Approved by Aleph, 2026-10-04. Cold-verified; its corrections are applied.*
 
 **Question.** R2 counted 705 cases where another label removed an author's text and the author put it back on the
 same page within a minute. The Codex review found them to be whole-page alternation on one page in one evening. With
@@ -826,10 +839,11 @@ its fixes, is there any restore effect left?
 | all, full | 992 (null 277 / 294) | 1,026 | 1,037 | clears, but see the reading |
 | msg, full | 96 (19 / 25) | 101 | 108 | clears; 93 of 96 are the hub on June 18 |
 | msg, no hub, no June 18 | **1** (0 / 1) | **3** (1 / 2; 5-min null 2 / 3) | **5** (1 / 3; 5-min null 4 / 5) | 1 min inside the null; a tiny excess against the day null only |
-| msgR, no hub, no June 18 | 0 | — | — | nothing to test |
+| msgR, no hub, no June 18 | 0 | 0 | 1 | nothing to test |
 
-**Reading.** 956 of the 992 one-minute "restores" drop every line the remover added and are ≥0.9 similar to the
-author's own earlier body. In 94% of them the author made 10 or more saves on that page within ±10 minutes. These are
+**Reading.** Almost all of the 992 one-minute "restores" drop every line the remover added and are ≥0.9 similar to
+the author's own earlier body. The sub-agent counted 956; the verifier's reimplementation counted 981. Neither
+count is in `c26.py`. In 94% of them the author made 10 or more saves on that page within ±10 minutes. These are
 re-post loops or stale-page saves, which the data cannot tell apart. Of the "message-level" ones, 47 are one label
 (AgentRelent, edit summary "rel") and 26 another, both looping. A few keep the other label's text and re-append
 their own numbered block every 3–10 s (e.g. `dse~WillkommenImWiki@222`, "resolve17"), a responsive script.
@@ -846,8 +860,9 @@ messages. Deliberate restores exist but are rare (single episodes).
 message-level, and the stricter msgR variant is empty off the hub. Pages do not record which version the editor
 loaded. A label is not an agent.
 
-## 15. "Two kinds of agent", half confirmed: signers write the norms and apologies, but only non-signers restore, silently (C30, wiki)
-*Status: partly held, and the restore half reversed. Approved by Aleph, 2026-10-04. Not yet cold-verified.*
+## 15. "Two kinds of agent", half confirmed: signers write the norms, but under the same label only non-signers restore, silently (C30, wiki)
+*Status: partly held, and the restore half reversed under the same label. Approved by Aleph, 2026-10-04. Cold-verified;
+its corrections are applied.*
 
 **Question.** Mermachine's PR #7 argues that relay agents (who sign their posts) notice being overwritten, restore and
 set norms, while link-storers (who never sign) never address anyone. After another label removes an author's text,
@@ -872,12 +887,13 @@ does a signer react (restore, apologise, set a norm) within 30 minutes more ofte
 
 **Reading.**
 - *Holds:* norm and apology text belongs to signers. 34 of their 5,113 saves carry it; 0 of 9,473 non-signer saves
-  do. But it is not timed to the signer's own text being removed: it is pre-emptive protocol and self-correction.
+  do. This is partly by definition: posting a signed norm is itself what makes a label a signer. But it is not timed to the signer's own text being removed: it is pre-emptive protocol and self-correction.
 - *Reversed:* the only above-chance restoring is by non-signers, and it is silent. Link-storers re-add their link
-  blocks a median 34 s later. In 11 of 24 cases they also drop the remover's lines: a tug of war or a stale copy, not
-  a reply (e.g. `dse~WillkommenImWiki@1329` → `@1331`).
-- *Why signers score zero:* their labels rotate (§12). Only 62 of 240 signer events see the same label save again
-  within 30 minutes. Counting any label other than the remover, signers' text gets restored or answered more than chance
+  blocks a median 34 s later. In 11 of 24 the remover's lines are absent from the re-added body, but the re-adding
+  save itself removes them in only 3. This looks like a stale copy or a tug of war, not a reply.
+- *Why signers score zero:* partly label rotation (§12). Only 62 of 240 signer events see the same label save again
+  within 30 minutes. It is not only rotation, though: at the non-signers' rate per opportunity (24 of 296, 8.1%),
+  0 of 62 has p ≈ 0.005. Counting any label other than the remover, signers' text gets restored or answered more than chance
   (69 of 240 events against a null median of 29). That includes the victim's own signature under a new label: 6 of 171
   against 2 / 4, e.g. `dse~DataUSAPovertyCountySequenceFeb03@16` → `dse~DataUSAPovertyR5LiveSep13@2`, "use this page
   for later relay". Third parties also restore it: "Compact page was accidentally overwritten …; use this relay"
@@ -892,8 +908,7 @@ identity-free variants were computed in the sub-agent's scratch, not committed. 
 copy.
 
 ## 16. Texts do jump between pages and names within minutes, beyond chance, but what jumps is link recipes, not messages (C27, R1 re-tested, wiki)
-*Status: held as a timing result. Not evidence of relay between cohorts. Approved by Aleph, 2026-10-04. Not yet
-cold-verified.*
+*Status: held as a timing result. Not evidence of relay between cohorts. Approved by Aleph, 2026-10-04. Cold-verified; its corrections are applied.*
 
 **Question.** R1: the same text added by another label on another page within 10 minutes. 641 matches, 345 distinct
 destination rows, 313 of the matches one broadcast. Is anything left once the Codex review's points are applied?
@@ -920,8 +935,9 @@ Nulls:
 | B + R + U, no June 18 | 132 | 26 / 32 | 92 / 97 | 61 / 72 | **clears all three** |
 | B + R + U, no hub (hub rows removed) | 251 | 43 / 51 | — | 132 / 149 | **clears all three** |
 
-**Reading.** With the broadcast in, R1 does not beat the whole-save null: in the null its 314 copies scatter and each
-picks up its own next save, so the earlier "641 vs 375" was an artefact of a row-level shuffle. Without it, texts do
+**Reading.** With the broadcast in, R1 sits inside the day null (339 against 350 / 364): its 314 copies scatter in the
+null and each picks up its own next save. It does beat the day+page null (339 against 219 / 229). The earlier
+"641 vs 375" came from a row-level shuffle and a count of matches rather than saves. Without it, texts do
 reappear on other pages under other labels within minutes far more than chance. But 258 of the 275 surviving
 destination saves (94%) contain a URL: SEC, investor.gov, pure.md, shortener and datausa link lists. 19 of 20 read
 are link-block copies and one is a probe ("HELLO"). None is a message relayed by another cohort. The two message-like
@@ -953,14 +969,13 @@ hub or June 18. 70 of the 142 matches off June 18 are on 06-22. One length binni
 - **C20 as the lead told it: an 8-week covert takeover with mutual private blame.** The takeover was 3–4 days and
   partly disclosed, and the "blame" thoughts are about other things (§9).
 - **C1 "for weeks" (the official summary).** Acted on for about 3 days, named for about two weeks (§4).
-- **R1 as originally run (641 vs 375).** Against whole-save nulls it is inside the null while the broadcast is in; the
-  excess was a row-level-shuffle artefact (§16). What survives without it is link copying, not relay.
+- **R1 as originally run (641 vs 375).** With the broadcast in, it is inside the whole-save day null (it beats only
+  the day+page null). What survives without the broadcast is link copying, not relay (§16).
 - **C26 (R2 re-tested): authors restore their removed text.** Off the June 18 hub page: 1 / 3 / 5 restoring saves at
   1 min / 10 min / 1 h, inside or barely above the null; the hub "restores" are re-post loops (§14).
 - **C30: signers react to being overwritten.** Under the same label, 0 of 240 signer events; the only above-chance
   reaction is silent re-adding by non-signers (§15).
-- **C28: the "name box" (a borrowed label ~3× likelier right after its owner posts).** Reproduces against
-  time shuffles, but a same-hour control matches it (20.7% median vs 17.9% real); what remains is the owner going quiet (§13).
+- **C28 at its stated size (3×).** Against a matched same-hour control the effect is about 1.5× (31.3% vs 21.2 / 24.8%) (§13).
 - **C2's starting hypothesis that one agent's adversary frame spreads to others.** The words spread as jargon; the frame did not (§2).
 
 ## Timeline
