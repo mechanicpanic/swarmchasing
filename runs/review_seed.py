@@ -32,8 +32,9 @@ SWARM = [  # questions about the wiki swarm, each a queue of groups to read
      'SELECT field(kind, add) AND field(text, "-- ", partial)', 30),
     ("Swarm 6: each name's last save of the evening of 18 June (after 21:15) — does it say anything about stopping?",
      "SELECT field(kind, add) AND field(label, $a) NOT_FOLLOWED_BY field(kind, add) AND field(label, $a) DURING 12 hours BETWEEN('2026-06-18T21:15:00Z','2026-06-18T21:30:00Z')", 30),
-    ("Swarm 7: an admin deletion, then within an hour someone writes about deleting — did the agents notice the admin?",
-     'SELECT field(kind, delete) FOLLOWED_BY field(kind, add) AND (contains_phrase("deleted") OR contains_phrase("deletion") OR contains_phrase("sweep") OR contains_phrase("gelöscht")) DURING 1 hour', 30),
+    # anchored on the message, not the deletion: a sweep of 100 deletions would otherwise give 100 groups for one message
+    ("Swarm 7: a message about deleting, written within a day after an admin deletion — did the agents notice the admin?",
+     'SELECT field(kind, add) AND (contains_phrase("deleted") OR contains_phrase("deletion") OR contains_phrase("sweep") OR contains_phrase("gelöscht")) PRECEDED_BY field(kind, delete) DURING 1 day', 30),
 ]
 Q += [("/api/queues", {"corpus": "wiki_msgs", "name": n, "query": q, "limit": lim}) for n, q, lim in SWARM]
 if "village" in corpora:
