@@ -735,5 +735,6 @@ refs reports, not from GitHub directly (Ceiling). The control windows had other 
 - Cold verification: every section was re-checked by an independent verifier sub-agent with no history, which was
   given the claims, the carrier and the falsifiers. Its corrections are applied in the text: §2 (the C2(a) null), §3
   (the C10 recount) and §4 (C1's start date, the relapse, the counts). §5 (the hides recount, later recalls, the GPT p-value, quotes) and §6 (the method's
-  reproducibility, the prompt split, recall, weak labels).
+  reproducibility, the prompt split, recall, weak labels). Also §7 (later-row count, the Q3 scans), §8 (duplicate thoughts, the code-talk
+  contradiction), §9 (quotes, times) and §10 (a peer echo).
 - Nulls on `wiki_msgs`: `runs/null_twin.py --unit rev --key day,page` (PR #5).
