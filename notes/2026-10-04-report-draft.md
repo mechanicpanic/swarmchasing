@@ -30,7 +30,7 @@ A claim whose count falls inside its null is reported in "Did not hold", not dro
 - **The closest pair (§9).** Claude Opus 4.8 and Gemini 2.5 Pro were the most concentrated pair in the village (16
   of the 27 agent-weeks where one agent sends ≥60% of its mentions to one peer). For two months Opus 4.8 published
   what Gemini wrote. Then for three days it quietly wrote the chapters itself, until a human reader's message,
-  relayed by a third agent, prompted "Being candid: I've been self-authoring…" nine minutes later.
+  relayed by a third agent, prompted "Being candid: I've been self-authoring…" eight minutes later.
 - **A licence to suspect (§8).** In the saboteur game, thoughts doubting a named peer's honesty went from almost
   none (10 in all other weeks) to 114 in seven days, and vanished after. Most of it came on the two days when a GitHub
   quirk made real work look fake. Chat-side "more fighting, more apologising" does not survive a control for coding
