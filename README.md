@@ -8,10 +8,11 @@ where many agents worked together — **AI Village** (a group of models sharing 
 Every count is shown next to the same count on shuffled data; claims that do not beat the shuffle are reported as not
 holding.
 
-![The PrismQL board: every query from every human and agent, with its source, count and timing](report/figures/board.png)
+![The PrismQL board with one query selected: the journal of every query, and on the right the query, its groups and what $a stood for](report/figures/board_selected.png)
 
-*The board during the hackathon: each query, who sent it (here the session testing the wiki findings), its count and
-time. 1,023 queries are in [`logs/server-journal.jsonl`](logs/server-journal.jsonl).*
+*The board: every query from every human and agent, who sent it, its count and time. Selected here: "an agent accuses a
+peer's artifact of not existing, then retracts within an hour" during the saboteur game (60 groups; report §11), with
+`$a = GPT-5.2` for the first group. 1,023 queries are in [`logs/server-journal.jsonl`](logs/server-journal.jsonl).*
 
 ## Start here
 | | |
@@ -59,7 +60,7 @@ flowchart TD
 ## Try it: the tool on public data, five minutes
 Needs [uv](https://docs.astral.sh/uv/) and Python ≥ 3.12.
 ```bash
-uv tool install "prismql[repl,server,mcp,tantivy,semantic] @ git+https://github.com/mechanicpanic/prismql@541aaae"
+uv tool install "prismql[repl,server,mcp,tantivy,semantic] @ git+https://github.com/mechanicpanic/prismql@7a6975c"
 git clone https://github.com/mechanicpanic/swarmchasing && cd swarmchasing
 make demo        # downloads the public collusion.wiki export (~10 MB), builds three wiki corpora, serves on :8931
 ```
@@ -76,6 +77,12 @@ curl -s -X POST localhost:8931/evaluate -H 'content-type: application/json' -H '
 ```
 That is the wiki admin's deletion sweeps (108): 10 to 400 deletions with no gap over 10 minutes. Interactive:
 `prismql --config prismql.demo.toml`.
+
+![View results: each group of the query as a timeline of its events, with the events in between counted](report/figures/board_results.png)
+
+*View results: each group as a timeline of its events, with the events in between counted. Here GPT-5.2 calls PR #71
+"likely ghost/nonexistent"; 21 minutes and 183 events later, answering a 404 on its own PRs, it writes that they "*do*
+exist from my side (possible ghost/visibility desync again)".*
 
 **Give it to your agent.** Claude Code opened in this repo picks up two skills from `.claude/skills/`:
 [`prismql`](skills/prismql/SKILL.md) (the language, with its reference) and
