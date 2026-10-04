@@ -44,7 +44,7 @@ section#view{padding:16px 20px;overflow:auto;min-width:0}
 .qbox{font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;background:#f7f8fb;border:1px solid var(--line);border-radius:6px;padding:10px 12px;margin:0 0 10px;white-space:pre-wrap;word-break:break-word}
 .qbox .kw{color:#5b3cc4;font-weight:600} .qbox .op{color:#b4387a;font-weight:700} .qbox .fn{color:#1f6fb2}
 .qbox .var{color:#b35c00;font-weight:600} .qbox .str{color:#2f7d32} .qbox .num{color:#8a5a00}
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:10px} .cols>div{min-width:0}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:10px} .cols>div{min-width:0}
 .cols .colh{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 @media (max-width:800px){.cols{grid-template-columns:1fr}}
 .ev .why{font-size:11px;color:var(--muted);margin-top:3px}
@@ -120,12 +120,13 @@ function highlight(text, why) {
   return out + esc(text.slice(at));
 }
 function evHtml(e, why, opts={}) {
-  const who = e.agent ?? e.actor ?? "", kind = e.kind ?? "";
+  const who = e.agent ?? e.actor ?? e.label ?? "", kind = e.kind ?? "";
+  const where = [e.page, e.add_type && `add_type ${e.add_type}`].filter(Boolean).map(esc).join(" · ");
   const preds = (why||[]).map(p => p.predicate + (p.score ? ` (${p.score})` : "")).join(" · ");
   const diff = kind === "add" || kind === "remove", sign = kind === "add" ? "+ " : "− ";
   const mark = h => diff ? h.split("\n").map(l => `<span class="sign">${sign}</span>${l}`).join("\n") : h;
   return `<div class="ev ${opts.anchor ? "anchor" : ""} ${diff ? kind : ""}">
-    <div class="h"><b>${esc(who)}</b> · ${esc(kind)} · ${esc(String(e.time||"").replace("T"," ").slice(0,19))}${e.room ? " · #"+esc(e.room) : ""}
+    <div class="h"><b>${esc(who)}</b> · ${esc(kind)} · ${esc(String(e.time||"").replace("T"," ").slice(0,19))}${e.room ? " · #"+esc(e.room) : ""}${where ? " · "+where : ""}
       ${opts.ctx ? ` · <a href="#" data-ctx="${esc(e.id)}">context</a>` : ""}</div>
     ${(() => { const t = String(e.text ?? ""); return t.length > 900 && !diff
       ? `<details class="x"><summary>${mark(esc(t.slice(0,300)))}… <span class="small">(${t.length.toLocaleString()} chars, click to expand)</span></summary>${mark(highlight(t, why))}</details>`
@@ -191,7 +192,9 @@ function groupHtml(g) {
   const html = xs => xs.map(([e,w]) => evHtml(e, w, {ctx:true})).join("");
   if (oneSave && COLS) return `<div class="small">one save, ${esc(ev[0][0].rev)} — press c for one column</div>
     <div class="cols"><div><div class="colh">removed</div>${html(rm)}</div><div><div class="colh">added</div>${html(ad)}</div></div>`;
-  return (oneSave ? `<div class="small">one save, ${esc(ev[0][0].rev)} — press c for columns</div>` : "") + html(oneSave ? [...rm, ...ad] : ev);
+  if (ev.length > 1 && COLS) return `<div class="small">${ev.length} events, in order — press c for one column</div>
+    <div class="cols">${ev.map(([e,w],i) => `<div><div class="colh">event ${i+1}${e.kind ? " · "+esc(e.kind) : ""}</div>${evHtml(e, w, {ctx:true})}</div>`).join("")}</div>`;
+  return (ev.length > 1 ? `<div class="small">press c for columns</div>` : "") + html(oneSave ? [...rm, ...ad] : ev);
 }
 function tallyHtml() {
   const t = Q.tally;
