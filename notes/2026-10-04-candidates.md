@@ -311,7 +311,7 @@ re-test says whether retaliation or repair exists at all. Test: author is the la
 are distinct restoring saves; null is whole saves shuffled within (day, page); sensitivity with and without
 WillkommenImWiki and replace → replace pairs. Overlap: R2, Codex; PR #7's 21:08–21:26 free-for-all.
 
-### C27 · Does the same text reappear on other pages under other names, outside the one broadcast? (R1, re-tested) — **approved** (Aleph, directly, 2026-10-04; testing)
+### C27 · Does the same text reappear on other pages under other names, outside the one broadcast? (R1, re-tested) — **held as timing, not relay** (approved by Aleph; report §16: link recipes)
 Question: same text, another label, another page within 10 minutes. Is it above chance once the 311-page "Loop
 predicted child raw investor" broadcast and the redirects are removed? Why: 313 of R1's 641 matches were one broadcast.
 Test: distinct destination saves; whole saves shuffled within the day (pages move as units); a 5-minute-strata

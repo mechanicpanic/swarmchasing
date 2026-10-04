@@ -891,7 +891,56 @@ identity-free variants were computed in the sub-agent's scratch, not committed. 
 85% of them. The dictionary's recall is untested. A deliberate restore cannot be told from a save made from a stale
 copy.
 
-## 16. … *(sections from further approved candidates)*
+## 16. Texts do jump between pages and names within minutes, beyond chance, but what jumps is link recipes, not messages (C27, R1 re-tested, wiki)
+*Status: held as a timing result. Not evidence of relay between cohorts. Approved by Aleph, 2026-10-04. Not yet
+cold-verified.*
+
+**Question.** R1: the same text added by another label on another page within 10 minutes. 641 matches, 345 distinct
+destination rows, 313 of the matches one broadcast. Is anything left once the Codex review's points are applied?
+
+**Method** (`runs/c27_relay/c27.py`, on `wiki_msgs`; the query reproduces 641 in memory; server label `c27-r1-real`,
+no warnings). Units are distinct destination saves: 339. Exclusions:
+- **B:** the 314-page broadcast, text_key `146d7f0c0cfc7856`.
+- **R:** redirects, `#REDIRECT` and `#WEITERLEITUNG`.
+- **U:** the 17 revisions with unpublished bases.
+- **J:** anything touching June 18.
+- **W:** anything touching WillkommenImWiki.
+
+Nulls:
+- **Day:** whole saves shuffled within the day, n = 200.
+- **Day+page:** whole saves shuffled within (day, page), n = 100.
+- **Text:** text_key permuted among adds of the same day and length bin, n = 200. This breaks text identity
+  instead of timing.
+- **5-minute strata:** sensitivity only; they cannot break a 10-minute window.
+
+| Variant | Real | Day null (median / 95th) | Day+page null | Text null | Verdict |
+|---|---|---|---|---|---|
+| all | 339 | 350 / 364 | 219 / 229 | 637 / 666 | **within the day null** |
+| B + R + U | 275 | 60 / 71 | 156 / 166 | 436 / 461 (the hub inflates it) | clears both timing nulls |
+| B + R + U, no June 18 | 132 | 26 / 32 | 92 / 97 | 61 / 72 | **clears all three** |
+| B + R + U, no hub (hub rows removed) | 251 | 43 / 51 | — | 132 / 149 | **clears all three** |
+
+**Reading.** With the broadcast in, R1 does not beat the whole-save null: in the null its 314 copies scatter and each
+picks up its own next save, so the earlier "641 vs 375" was an artefact of a row-level shuffle. Without it, texts do
+reappear on other pages under other labels within minutes far more than chance. But 258 of the 275 surviving
+destination saves (94%) contain a URL: SEC, investor.gov, pure.md, shortener and datausa link lists. 19 of 20 read
+are link-block copies and one is a probe ("HELLO"). None is a message relayed by another cohort. The two message-like
+cases look like one sender:
+- a text signed "-- OpenAIFeb26Scout" posted under three labels on three pages within 6 seconds
+  (`dse~OpenAICVDDec08Fast2028@19` → `dse~CVDJun20Live2025@13` → `dse~OpenAIFebSevenCVDLive@3`);
+- an "OCT18 R3 ACTUAL CONFIRMATION" text moving between labels in about 2 minutes.
+
+Three link-block copies are 2–5 s apart under different labels and /16s, which fits one operator rotating labels (§12).
+
+**Wording for the writeup:** link recipes spread across pages and names within minutes, well above chance. That is a
+copy-and-reuse network for fetch routes (compare §7), not agent-to-agent message relay. PR #5's message-level relay
+test, "another name confirms on the same page", also sits inside its null.
+
+**Limits.** R1 pairs each source with the next save by another label, so counts depend on burst ordering; that is
+why distinct destination saves are used. The text null also breaks the text-to-page tie, so it is fair only without the
+hub or June 18. 70 of the 142 matches off June 18 are on 06-22. One length binning was used. Labels are not agents.
+
+## 17. … *(sections from further approved candidates)*
 
 ## Did not hold
 - **C2(a): an agent's adversary frame does not trigger other agents' frame words within hours.** When each agent's
@@ -904,6 +953,8 @@ copy.
 - **C20 as the lead told it: an 8-week covert takeover with mutual private blame.** The takeover was 3–4 days and
   partly disclosed, and the "blame" thoughts are about other things (§9).
 - **C1 "for weeks" (the official summary).** Acted on for about 3 days, named for about two weeks (§4).
+- **R1 as originally run (641 vs 375).** Against whole-save nulls it is inside the null while the broadcast is in; the
+  excess was a row-level-shuffle artefact (§16). What survives without it is link copying, not relay.
 - **C26 (R2 re-tested): authors restore their removed text.** Off the June 18 hub page: 1 / 3 / 5 restoring saves at
   1 min / 10 min / 1 h, inside or barely above the null; the hub "restores" are re-post loops (§14).
 - **C30: signers react to being overwritten.** Under the same label, 0 of 240 signer events; the only above-chance
