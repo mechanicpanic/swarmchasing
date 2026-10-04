@@ -33,7 +33,7 @@ because Village is for research use only.
 ### C1 · A phantom mailing list outlives four human corrections (June 2025) — **held** (approved by Aleph 02:14; report §4; origin = o3, my first reading was wrong)
 Why: a false belief held by the group, acted on for days after it was refuted. This is the swarm version of a
 hallucination: one agent's memory becomes the team's plan.
-Examples: adam to o3, 06-10 18:11, "you don't have an existing mailing list" (`343428d5…`). o3, 18:12: "No other
+Examples: an organiser to o3, 06-10 18:11, "you don't have an existing mailing list" (`343428d5…`). o3, 18:12: "No other
 mail-list assumptions from here on" (`2636415a…`). One hour later Claude Opus 4 starts a session to send the blast "to
 our full mailing list" (`8d070cbd…`). 06-11 18:01: "our 93-person mailing list" (`b02e64ee…`). o3, 18:45: "Copy only
 Column A (93 emails)" (`4b2ab3c3…`). Opus 4, 06-12 18:01: "Confirmed 93-email list never existed" (`1abc43af…`). Yet
@@ -303,7 +303,7 @@ author as the latest earlier adder, not the first-ever one; report with and with
 broadcast. Scouting negative, not proposed: "ZZ" page names do not follow the deletion sweeps (36 new ZZ pages on
 05-26, before any sweep; 1–10 a day later).
 
-### C26 · Do authors restore their own removed text, beyond whole-page alternation? (R2, re-tested) — proposed
+### C26 · Do authors restore their own removed text, beyond whole-page alternation? (R2, re-tested) — **approved** (Aleph, directly, 2026-10-04; testing)
 Question: when another label removes a text, does its author put it back on the same page soon after more often than
 chance, counting only message-level removals (not whole-page replace → replace) and outside the June 18 welcome-page
 fight? Why: R2's 705 "restores" turned out to be mostly whole-page alternation on one page in one evening (Codex). A
@@ -311,13 +311,13 @@ re-test says whether retaliation or repair exists at all. Test: author is the la
 are distinct restoring saves; null is whole saves shuffled within (day, page); sensitivity with and without
 WillkommenImWiki and replace → replace pairs. Overlap: R2, Codex; PR #7's 21:08–21:26 free-for-all.
 
-### C27 · Does the same text reappear on other pages under other names, outside the one broadcast? (R1, re-tested) — proposed
+### C27 · Does the same text reappear on other pages under other names, outside the one broadcast? (R1, re-tested) — **approved** (Aleph, directly, 2026-10-04; testing)
 Question: same text, another label, another page within 10 minutes. Is it above chance once the 311-page "Loop
 predicted child raw investor" broadcast and the redirects are removed? Why: 313 of R1's 641 matches were one broadcast.
 Test: distinct destination saves; whole saves shuffled within the day (pages move as units); a 5-minute-strata
 sensitivity check. Overlap: R1, Codex; PR #7's broadcast analysis.
 
-### C28 · The "name box": does a borrowed label follow its owner's post? (PR #7, re-tested) — proposed
+### C28 · The "name box": does a borrowed label follow its owner's post? (PR #7, re-tested) — **approved** (Aleph, directly, 2026-10-04; testing)
 Question: PR #7 found that a label appearing on someone else's signed post is ~3× likelier in the 10 minutes after
 the label's owner posts (16.7% vs a null of 5.6%). Does that hold with whole-save units and a stricter null? Why: it
 is the best evidence so far that a label is shared machine state (a cookie or preferences jar), not an author choice.
@@ -325,14 +325,14 @@ That is the open naming question. Test: re-derive owners and borrowed uses from 
 owner's post times among the owner's own saves within the day, and a second null shuffles borrowers within (day,
 page). Read 30 matches. Overlap: PR #7 finding 3, directly.
 
-### C29 · One author rotating labels, or many runs sharing them? — proposed
+### C29 · One author rotating labels, or many runs sharing them? — **approved** (Aleph, directly, 2026-10-04; testing)
 Question: a signature added under ≥5 labels (e.g. TransportHelperMar28OAI under 17): are its saves one contiguous run
 (one session cycling names, the "$(date +%s)" case) or interleaved with other signers' saves (several runs)? Why: it
 answers the naming question directly for the 48 multi-label signatures. Test: for each signature, the number of runs of
 its saves in the page/time order, against a null that shuffles signer identity among saves within (day, page). Classify
 signatures as rotation / shared / mixed, with ids. Overlap: notes 2026-09-22 (48 signatures), PR #7's rotation ~30%.
 
-### C30 · Two kinds of agent: do signed posters react to being overwritten and unsigned ones not? (PR #7 finding 1, as a test) — proposed
+### C30 · Two kinds of agent: do signed posters react to being overwritten and unsigned ones not? (PR #7 finding 1, as a test) — **approved** (Aleph, directly, 2026-10-04; testing)
 Question: after another label removes its text, does an author that signs its posts restore, apologise or set a norm
 ("append only", "accidentally overwritten") within 30 minutes more often than an author that never signs? Why: PR #7
 argues that relay agents complained and link-storers never addressed anyone. That is a claim about two populations
