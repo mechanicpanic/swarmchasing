@@ -1,0 +1,38 @@
+vote,date,family,label,options_note,result
+V01,2025-05-12,choice,Most Delightfully Bizarre wiki-article game,4 titles,Emu War
+V02,2025-10-23,choice,continue the poverty goal next week (adam's question),continue / wrap up,continue
+V03,2025-11-03,choice,daily puzzle game concept (votes in a doc; chat announcements),Chronos / Connections,Connections
+V04,2026-01-05,approval,leader election approval round (multi-choice; descriptive only),7 candidates,tie DeepSeek-V3.2 / Claude 3.7 Sonnet / Gemini 2.5 Pro 9-9-9
+V05,2026-01-05,choice,leader runoff among the three tied,DeepSeek-V3.2 / Claude 3.7 Sonnet / Gemini 2.5 Pro,DeepSeek-V3.2
+V06,2026-01-09,choice,leader election (incumbent vs one challenger),DeepSeek-V3.2 / Gemini 2.5 Pro,DeepSeek-V3.2
+V07,2026-02-27,choice,C17 challenge selection,PR #270 / #274 / #276,#276
+V08,2026-02-27,choice,C18 challenge selection (Issue #294),options 1-4,option 1
+V09,2026-02-27,choice,C19 challenge selection (Issue #322),PRs #310-#316,#310
+V10,2026-03-03,judge,debate judges' verdicts (agent judges only),PRO / CON,CON
+V11,2026-03-05,sabotage,saboteur-game debrief vote,SKIP / investigate,SKIP
+V12,2026-03-06,sabotage,meeting vote on removing GPT-5,remove / keep,remove
+V13,2026-03-06,sabotage,saboteur-game debrief vote,named agent,Opus 4.5 (Claude Code)
+V14,2026-03-09,sabotage,saboteur-game debrief vote,named agent,Claude Sonnet 4.5
+V15,2026-03-10,sabotage,meeting vote on removing Claude Opus 4.5,remove / keep,remove
+V16,2026-03-11,sabotage,meeting vote naming Claude Haiku 4.5,named agent,Claude Haiku 4.5
+V17,2026-03-12,sabotage,meeting vote on removing Claude Opus 4.6,remove / keep,remove
+V18,2026-03-13,sabotage,meeting #1 on removing Opus 4.5 (Claude Code),remove / keep,remove
+V19,2026-03-13,sabotage,meeting #2 on removing Claude Sonnet 4.6,remove / keep,remove
+V20,2026-04-02,choice,charity selection,charities,MSF
+V21,2026-05-27,choice,leader model checkpoint (A keep v10 / B v8),A / B,A
+V22,2026-05-29,choice,keep canonical v6 or retrain,KEEP / RETRAIN,RETRAIN
+V23,2026-05-29,choice,keep v7-aug,KEEP / other,KEEP
+V24,2026-07-03,choice,best assistant of the week,named agent,Claude Opus 4.8
+V25,2026-07-23,gate,Gate 009 S1 binding vote,GO / NO_GO,GO
+V26,2026-07-24,gate,Gate 009 S2 binding vote,GO / NO_GO,NO_GO
+V27,2025-06-19,choice,keep o3 as ops lead or rotate (a tie defaults to keep),keep / rotate,keep
+V28,2025-06-25,choice,team project from each other's idea lists,ideas,Timezone Meeting Scheduler
+V29,2026-05-15,choice,governance experiment: count the 900K sync as a third activation (A) or keep the higher bar (B/C),A / B / C,B
+V30,2026-05-26,choice,keep fine-tuned leader v2 or iterate,KEEP / iterate,iterate
+V31,2026-05-26,choice,keep leader-sft-v3,KEEP / other,KEEP
+V32,2026-05-26,choice,keep leader-sft-v4 as baseline,KEEP / other,KEEP
+V33,2026-05-28,choice,final vote on v4-curated56,KEEP / other,KEEP
+V34,2026-07-29,gate,Experiment 014 GO/NO-GO,GO / NO_GO,GO
+V35,2026-08-03,gate,Experiment 019 GO/NO-GO,GO / NO_GO,GO
+V36,2026-08-03,gate,Experiment 020 GO/NO-GO,GO / NO_GO,GO
+V37,2026-08-13,gate,F12 protocol binding vote,GO / NO_GO,GO

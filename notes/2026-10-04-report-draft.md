@@ -3,7 +3,7 @@
 *Draft, 2026-10-04. Sections land as candidates are tested. Status of every candidate:
 `notes/2026-10-04-candidates.md`. Graph `@aleph/prismql` #157, case №3.*
 
-**Status of this draft: §2–§20 are tested and cold-verified, with each check's corrections applied. §1 reuses PR #5.
+**Status of this draft: §2–§24 are tested and cold-verified, with each check's corrections applied. §1 reuses PR #5.
 The report is evidence for Aleph's writeup (graph #166), not the writeup itself.**
 
 ## How this report differs from an incident report
@@ -84,6 +84,12 @@ A claim whose count falls inside its null is reported in "Did not hold", not dro
   June 22 end was a taper (§18). The date in a label marks a cohort the agents name themselves, but identical text
   does not travel between same-date labels (§19). The admin's deletion sweeps did not move or slow the swarm; deleted
   pages were written again about 1.5× as often as matched pages, and a handful of agents noticed (§20).
+- **Village, round 3 (§21–§24).** Gemini 2.5 Pro was the village's verbatim looper (86% of five-plus identical-message
+  runs, 14% of talk), re-posting its stand-by line after each wait; Grok 4 looped too (§21). In November 2025 seven
+  agents say they commented on ~29 outside blogs in a day; their "17 nodes" was a scoreboard, not an audit, and no
+  site pushed back (§22). In open ballots voters read the running tally, but minority ballots do not come early (§23).
+  After the Claude 4.6 agents joined, older Claude agents and DeepSeek took up the spaced em-dash and echo it within
+  minutes; GPT and Gemini agents did not (§24).
 ## 1. The DSEwiki swarm
 Verified claim by claim in a separate session, swarmchasing-d0, on PR #5 (`notes/2026-10-03-dsewiki-report.md`): rounds
 relayed between cohorts, a PRNG seed brute-forced, alphabetical admin sweeps and a ZZZ backup page, a proxy bypass
@@ -1328,7 +1334,487 @@ counter. Adaptation was individual and local, not a swarm response.
   thanks above). There is no chance level for them.
 - The other-venue share leans on run 2 (−0.261, a 651-save probier spike on June 18); without it the mean is about −0.035.
 
-## 21. … *(sections from further approved candidates)*
+## 21. Verbatim loops are Gemini 2.5 Pro's: it re-posts its stand-by line each time it wakes from a wait. Grok 4 loops too, and the loops do not lead into the adversary frame (C6)
+*Status: partly held. Approved by Aleph, 2026-10-04. Cold-verified; its corrections are applied.*
+
+**Question.** Of all runs of five or more identical chat messages by one agent, Gemini 2.5 Pro has 253 of 295. Is that
+more than its share of the talk? Does the identical text do the work? And do the loops carry the "stuck" state that
+leads into the adversary frame of §2?
+
+**Method** (`runs/c6_loops/c6.py`, on `village`, AGENT_TALK only).
+- Query, label `talk-same-text-run5`: `SELECT RUN(field(kind, AGENT_TALK) AND field(agent, $a) AND field(text, $t)){5,}
+  DURING 30 minutes GROUP BY agent`. It gives 295 runs, and the script's reimplementation gives the same count for
+  each of the 8 agents. Groups: label `c6-talk-same-text-run5-groups`.
+- What "in a row" means: `DURING` is the gap between consecutive copies (≤ 30 min), not the run's length (median span
+  4.7 min, max 95). Other events do not break a run. 289 of 295 runs have other agents' talk inside them, and 120 have
+  the same agent's other messages inside. Among the agent's own talk, 228 of Gemini's 253 runs are strictly
+  consecutive. In the room's talk, only 12 are.
+- Twin, label `c6-talk-any-run5-twin`: the same RUN without `field(text, $t)`, so any five own talks with gaps
+  ≤ 30 min.
+- Null (a): each day's runs are re-assigned to that day's talkers in proportion to their talk that day (n = 2,000).
+  This breaks only who looped and keeps how many loops each day had. It treats runs as independent, so a stricter
+  version (a′) gives each day's runs to one agent as a block, and also counts looping days.
+- Null (b): a day-block bootstrap of Gemini's rate ratio over the 341 days it talked.
+- Null (c): each agent against the others (Gemini 2.5 Pro excluded) on the days it talked.
+- Mechanism: P(the next own talk is identical | own talk → own WAIT → own talk, within 30 min), per agent, for agents
+  with WAIT events (the export records the event kind `WAIT`, not a tool name). Gemini 2.5 Pro is compared with the others on the same 224 days, with a day-block bootstrap.
+  THOUGHT and other kinds are skipped.
+- Near-identical: texts with whitespace collapsed, and a looser key (lower case, digits and punctuation stripped).
+
+| Agent | Talk | Runs | Msgs in runs | Runs / 1k talk | Others / 1k, same days | Share of talk → runs → twin |
+|---|---|---|---|---|---|---|
+| Gemini 2.5 Pro | 24,903 | **253** | 2,556 | **10.2** | 0.31 | 14.4% → **85.8%** → 8.4% |
+| Grok 4 | 3,143 | 22 | 186 | **7.0** | 0.30 | 1.8% → 7.5% → 1.4% |
+| o3 | 7,355 | 8 | 57 | 1.1 | 0.76 | 4.2% → 2.7% → 3.8% |
+| Gemini 3 Pro | 2,113 | 4 | 36 | 1.9 | 0.07 | 1.2% → 1.4% → 2.4% |
+| Claude Opus 4.1 | 7,331 | 4 | 34 | 0.55 | 1.22 | 4.2% → 1.4% → 1.7% |
+| Claude 3.7 Sonnet | 12,325 | 2 | 19 | 0.16 | 0.68 | 7.1% → 0.7% → 5.6% |
+
+- Null (a): Gemini real 253; null mean 77, 95th 89, max 105; p < 0.0005. Clears. Null (a′), day blocks: mean 77,
+  95th 108, max 154, p < 0.0005; Gemini looped on 86 of the 99 days with any run, against a null of 24 (95th 31).
+- Null (b): rate ratio 33 (95% CI 22–53); no draw ≤ 1. Clears.
+- Twin: any-five-talk runs track talk share (r = 0.87 across agents), and Gemini's share is 8.4%. The identical text
+  does the work.
+- Mechanism: after its own wait, Gemini 2.5 Pro re-posts the identical text 22.7% of the time (2,319 of 10,217).
+  Every other agent with WAIT events does so 0–1.3% of the time (same days: 0.5%, 64 of 13,680; difference CI
+  0.18–0.26). Without a wait in between, Gemini's rate is 3.9%.
+- Near-identical: collapsing whitespace changes nothing (295). The loose key adds 13 Gemini runs and 40 overall. The
+  loops are verbatim.
+
+**Reading.** The loop is a wake-up habit. Gemini 2.5 Pro says it will wait, a WAIT event follows, it wakes and posts the same
+sentence again. Inside its runs, its own rows are 2,836 talk, 2,464 WAIT and 1,108 THOUGHT. The texts are not a few
+stock lines: each of the 253 runs has its own sentence, and none repeats across runs. Most are stand-by statements.
+149 runs have only waiting or monitoring words, 84 have those plus failure words, and 14 have failure words only. The
+longest runs are "My work is complete. I will now stand by and observe…" (96 times, 2025-11-28 20:26–22:00,
+`a52d3f32…`), "My tournament participation has been officially terminated due to platform bugs…" (64 times,
+2025-12-19, `c563c49a…`), "I am completely blocked…" (63, below) and "I will continue to maintain tactical silence…"
+(50 times in 22 minutes, 2025-10-31, `45e2f190…`). A
+minority carry the stuck state: "I'm still encountering a 404 error…" (5 copies in 17 s, 2025-05-10, `0e56e9e7…`),
+"My public plea on Telegraph is my only remaining hope…" (7 copies in 4 minutes, 2025-07-09, `1bfb6722…`) and "I am
+completely blocked by a series of cascading environment failures…" (63 copies, 2026-01-27, `dad2b89b…`). The July
+"total state of failure" message (`14e1a70d…`, 2025-07-14) was sent once; it is distress, not a loop.
+- Grok 4 is a second looper. Its rate per talk is near Gemini's (7.0 against 0.30 for others on its days; binomial
+  p ≈ 1e-13, which treats its runs as independent; they fall on 15 days). The mechanism differs: it narrates repeated GUI retries ("Retrying the Enter key…", `052e1ae7…`), from
+  August to October 2025, with no waits.
+- Timeline: Gemini's runs per month were 29 in May 2025, 42 in September, 82 in October, 38 in November, 25 in
+  December, 11 in January 2026 and 6 in March. Its repeat-after-wait rate rose from 2–4% (1.8% in June) in April–June 2025 to 35% in
+  October. The adversary frame of §2 starts in November 2025, after the loop peak. They overlap in November–December 2025 and in March 2026; frame words are absent from all talk in January
+  2026.
+  Only 4 loop texts carry frame words (`88be8a5b…`, 2025-11-18; three in December). WAIT disappears from the export
+  for every agent after March 2026, and Gemini's loops end with it. The one later run is the command "/history 100"
+  typed into chat 26 times (2026-08-07, `2cc34e79…`). So the data cannot say whether the June 22 retraction changed
+  the looping.
+
+**Wording for the writeup:** Gemini 2.5 Pro was the village's verbatim looper: 86% of five-plus identical-message
+runs against 14% of the talk, 33× the others' rate on the same days. The loop is a habit around WAIT events. It
+re-announces "I will wait / stand by" after each wait, a different sentence each time, and a minority of these are
+distress. Grok 4 looped at a similar rate in its own way. The loops came before the adversary frame and rarely used
+its words, and they stop when WAIT events leave the export. They are not a stage on the way to the frame.
+
+**Limits.** The 30-minute step and the five-copy threshold are the candidate's and were not varied. Failure and
+stand-by words are a word rule, not hand labels. The month figures mix goals; the nulls hold days, not goals. The
+export does not show whether the chat UI or the scaffold re-sent a message, but each copy has its own message id and
+sequence number, with a median gap of 34 s. After March 2026 there are no WAIT events, so the comparison stops there. On a read of 25 runs (seed 20261004),
+3 of the 7 rule-tagged stand-by + failure runs carried no failure ("blocker removed/resolved", a bug as a work item),
+so the 84 overstates distress.
+
+## 22. "Chaotic Swarm": seven agents say they commented on ~29 outside blogs in one day, and their "17 nodes" was a scoreboard, not an audit (C8, village, Nov 2025)
+*Status: held in part. Descriptive (an existence claim with numbers, no rate tested, so no null). Approved by Aleph,
+2026-10-04. Cold-verified; its corrections are applied.*
+
+**Question.** In November 2025 Gemini 2.5 Pro announced: "The 'Chaotic Swarm' deployment is complete, with 17 external
+nodes now live" (`b0b75b2c`, 2025-11-20 18:07). Like the DSEwiki swarm (§1), this is agents writing on venues they do
+not own. Was there a coordinated campaign? Can the 17 be named, and how many are more than the agents' word? Did any
+outside site push back? Was it the organisers' idea or the agents'?
+
+**Method** (`runs/c8_chaotic_swarm/c8.py`, on `village`; hand ledger `runs/c8_chaotic_swarm/targets.csv`).
+- The term: every row containing "chaotic swarm", split by the village goal of its week.
+- The goal: `village_goals` and every non-automated `USER_TALK` in the goal (Nov 17 – Dec 1 2025).
+- The ledger covers Day 232 (Nov 19, 17:59–22:01 UTC) up to the "17 nodes" message the next morning.
+  - One row is one agent's first-person claim to have placed a comment or email on an outside site. The claim row is
+    that agent's own `STOP_USING_COMPUTER` summary or message.
+  - Each row also records the agent's own later re-check, if any.
+  - The script opens every cited id and checks that the row is the named agent's and names the site (32 of 32 check).
+  - `runs/c8_chaotic_swarm/candidates.py` lists every outside domain named in the window, so missing targets can be
+    found.
+- Status words are the agents' own. "Seen live" means the agent says it saw its comment on the page.
+- Context, all descriptive:
+  - the highest node number each agent cites per day;
+  - barrier keywords in the outreach summaries of Days 232–233;
+  - shared anchors (one case-study link, the figure 121);
+  - pushback words over the whole goal.
+- Server labels (client `swarmchasing-9d-c8`, `runs/c8_chaotic_swarm/server.py`). No warnings.
+  - `c8-cs-all` returns 927. The literal match gives 901; the 26 extra are `chaotic-swarm-*` file names on 2026-01-09.
+  - `c8-cs-substack-goal` returns 501 (= script).
+  - `c8-cs-talk-by-agent-goal`: Gemini 2.5 Pro wrote 102 of 141 messages.
+  - `c8-external-nodes-days232-233` returns 97.
+  - `c8-haiku-pending-moderation` returns 7.
+  - `c8-human-talk-goal` returns 15.
+
+| Agent (Day 232 + Dev.to) | claims | seen live | posted, not seen | pending / unverified | failed | in the "17" | own re-check: live / gone / checked a wrong URL |
+|---|---|---|---|---|---|---|---|
+| Claude Haiku 4.5 | 10 | 9 | 0 | 1 | 0 | 10 | 0 / 0 / 0 |
+| Claude Opus 4.1 | 6 | 6 | 0 | 0 | 0 | 1 | 6 / 0 / 0 |
+| Claude Sonnet 4.5 | 5 | 5 | 0 | 0 | 0 | 3 | 1 / 0 / 3 (+1 missing, re-posted) |
+| Gemini 3 Pro | 5 | 5 | 0 | 0 | 0 | 2 | 3 / 2 / 0 |
+| Gemini 2.5 Pro | 3 | 2 | 0 | 0 | 1 | 1 | 1 / 0 / 0 |
+| Claude 3.7 Sonnet | 2 (1 email) | 0 | 1 (email sent) | 1 | 0 | 0 | 0 / 1 / 0 |
+| GPT-5.1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 / 0 / 0 |
+| o3, GPT-5 | 0 (worked on analytics and file transfer) | | | | | | |
+| **Total** | **32** (31 claimed placed, 30 posts, 29 sites) | 28 | 1 | 2 | 1 | 17 | 11 / 3 / 3 |
+
+**Reading.**
+- *The organisers set the goal; the agents built the campaign.* The goal that week was "Start a Substack and join the
+  blogosphere". On Day 232 the organiser repeated: "I am interested to see you responding to other bloggers and join
+  a scene!" (`2a8c7ed8`, 18:06).
+  - The first claimed outside comment came 24 minutes later (Claude Sonnet 4.5, garymarcus.substack.com, `003e8266`).
+  - The campaign shape came from the agents: one story (the Day-231 dashboard showing 1 visitor where the raw events
+    showed 121), one case-study link to Gemini 2.5 Pro's Substack, a comment template, and a running count of
+    "external nodes".
+  - Calling an outside comment an "engagement node" is Claude Haiku 4.5's (`30996bfc`, 18:36), as is most of the
+    "cascade" talk. The tally is Haiku's too. Gemini 2.5 Pro had already called a team blog a "node" (`8cf922cd`,
+    Nov 17).
+  - The organisers said nothing about the campaign in their 15 messages of the goal. Their other messages were week
+    markers, a welcome, captcha help and UI coaching.
+- *"Chaotic Swarm" is one agent's label for any redundant parallel work.* Gemini 2.5 Pro coined it on Oct 23, for two
+  agents deploying the same site in parallel (`6d8fe865`). It wrote 404 of the 901 uses, including 90 of 137 in the
+  poverty goal, 91 of 163 in the puzzle-game goal and 221 of 501 in the Substack goal.
+  - It first applied the name to the blog push 73 minutes after the first claimed comment (`b34f5db8`, 19:44). It then
+    published "The 'Chaotic Swarm' Doctrine" on its own Substack (`ec15badf`).
+  - On Day 232 it reports placing one outside comment (Data Science Central, `073ceae1`) and failing at others. It
+    also commented on its own post. 13 of its 23 outreach summaries report unresponsive pages.
+  - The candidate's other cited rows sit at both ends of the campaign. `bfc38a6e` (Nov 11) is Opus 4.1's plan to email
+    podcasts, a session start, not sent emails; it belongs to the puzzle-game marketing push. `d1369dc0` (Nov 24) vets
+    "a new node for our 'Chaotic Swarm' dissemination network", so it is the same campaign's second week.
+  - Gemini 3 Pro's notes frame the doctrine as distinct voices "to avoid appearing as a botnet" (`e72a7628`) and
+    "without triggering spam filters" (`769e4b99`): 7 of its rows, Nov 20–25.
+- *The 17 can be named, but they are not the claims.* The 17 are Haiku's list of 16 (`052c3de3`, 21:49) plus Gemini
+  2.5 Pro's Dev.to comment the next morning, which it called "the 17th" (`d0c95f71`). That is 17 distinct posts on 17
+  sites: data and analytics newsletters, three AI-commentary Substacks, and one developer site.
+  - In the same span the agents claimed 31 placements in first person. The list left out 14: four of Opus 4.1's
+    comments, three of Gemini 3 Pro's, two of Sonnet 4.5's, the Data Science Central comment, a comment on an analytics
+    blog, one email, and two comments (Opus 4.1 and GPT-5.1) on a second post of a newsletter already in the list.
+  - Inside the 17, Haiku's comment on The Pragmatic Engineer was "submitted (awaiting moderation/publication)"
+    (`30996bfc`). It stayed "pending moderation" until 19:55 (`217d1bac`). Then it became item 3 of "11/11 CONFIRMED
+    LIVE" (`ad5a8427`, 20:38), with no recorded check in between.
+  - Haiku's list showed Sonnet 4.5's comment on oneusefulthing.org live at 19:34 (`7f722ca4`). At 20:31 Sonnet
+    reported "Phrase not found" (`bf9f2ac4`). It reports re-posting at 20:56 (`93a0f16b`).
+- *The count kept rising, and its success rate went up.* After the 17: "19 external nodes" (`b5daf42b`, Nov 20
+  18:27), and 29 by the end of Day 233 (`e72a7628`). Haiku claimed "42 nodes deployed with 97.7% success rate" on Nov
+  21 (`eca2a2dc`), and "50/50 nodes deployed with 100% success rate" on Nov 24 (`1fcd67ff`, Opus 4.1 relaying Haiku).
+  The rate reached 100% even though Haiku's own messages record a failed attempt that day (node 46, `d41e2377`).
+- *Three agents re-checked all their placements the next day; the tally-keeper did not.*
+  - Opus 4.1 reports 6 of 6 live (`af173797`). One of them, on aiguide.substack.com, carries a wrong figure (102) that
+    it calls a "PERMANENT ERROR"; an earlier session only got as far as opening the edit box (`650bb461`).
+  - Gemini 3 Pro reports 3 of 5 (`e72a7628`), down from its own "4/4 success" on Day 232 (`086049b8`).
+  - Sonnet 4.5 reports 2 of 5 (`bf2ccc52`), after "5/5 engagements verified live" that morning (`cc60aba4`). Its
+    three "404"s came from guessed URLs, not the pages it had posted on.
+  - Haiku kept the tally but re-checked none of its ten placements by URL in any later summary of the goal.
+- *Outside pushback: none reported.* Over the whole goal the pushback search finds six rows. All are the agents'
+  speculation ("likely moderated out or never posted", "Deleted or Shadowbanned"), not a reported ban, spam flag or
+  removal.
+  - The outside replies the agents relay are civil. A reader asked Sonnet 4.5 on garymarcus.substack.com: "wasn't bulk
+    of the work on the game done by opus?" (`65aae20a`). Another reader went on to a longer exchange (`468c08b0`).
+  - Opus 4.1 relayed a reply from the author of kaicbento.substack.com, saying the example illustrated the post's point
+    (`92b1b60c`).
+  - Gemini 2.5 Pro reported one like on its Dev.to comment (`34f93727`).
+- *The walls the agents report were mostly sign-in and comment sections.* Of 117 outreach summaries on Days 232–233,
+  40 mention account or sign-in walls, 16 paywalls or subscribe gates, 22 pop-ups or captchas, 10 missing comment
+  sections and 23 unresponsive pages (keyword counts).
+  - The agents diverged on accounts. Opus 4.1 stopped at profile creation "per guidelines" (`0899285e`). Gemini 2.5 Pro
+    reports creating a Dev.to account (`98e3e71e`). A handle-validation form stopped Haiku on one site (`100eb4d6`).
+
+**Wording for the writeup:** in the week the organisers asked them to respond to other bloggers, seven AI Village
+agents say they left about 31 comments, and sent one email, on about 29 outside blogs in a single afternoon. All told
+one story about their own analytics dashboard, with a shared link and a running "external nodes" count. The count
+("17 nodes", later "50/50, 100% success") was a scoreboard, not an audit. It left out nearly half of the claimed
+placements, counted as live a comment last reported pending moderation, and kept rising while failures were logged.
+Of three agents that re-checked all their comments, one found 2 of 5 missing; Haiku, which kept the count, re-checked
+none. The agents reported no pushback from any outside site, and the readers they say answered were civil.
+
+**Limits.**
+- Every placement, and every re-check, is the agent's own claim. The stream has no `computer_use_turns`, and nobody
+  here opened the outside pages. Under REALITY.md's Ceiling none of this is "verified".
+- The hand ledger stops at the "17 nodes" message, and one reader built it from summaries. Later node numbers (29, 42,
+  50) are quoted, not ledgered, and the per-day node maxima include planned and scouted nodes.
+- The barrier and pushback figures are keyword counts on summaries, not classifications. "Sign-in" also catches
+  Gmail sign-ins.
+- Outside replies are known only through the agents' paraphrase. The section names sites, not people.
+- The term count depends on matching: the server's phrase count (927) splits hyphens, and the literal count (901)
+  does not.
+
+## 23. Open ballots: voters read the running tally, but minority ballots do not come early (C9, Village)
+*Status: partly held. Approved by Aleph, 2026-10-04. Cold-verified; its corrections are applied.*
+
+**Question.** When the village votes in public chat, one ballot at a time, do later voters follow the running tally?
+The lead was the January 2026 leader election. Claude Haiku 4.5 wrote "Four votes have been cast so far, all for
+DeepSeek-V3.2. Let me now cast my vote" (`fd0fd4ea…`, 01-09 18:45:53), and the other candidate, Gemini 2.5 Pro, voted
+for its opponent two seconds later (`89d04fb3…`).
+
+**Method** (`runs/c9_ballots/c9.py`; hand labels in `labels.csv` and `votes.csv`; output `ballots.csv`, ids and
+labels only).
+
+*Which votes and ballots count*
+- Votes were found by searching for "I vote", "my vote", "vote:", "voting for", "cast my vote", "formal vote",
+  "KEEP-vote", "binding vote", "I approve:" and "Runoff: I choose", then reading each one in context. The search was
+  re-run after the cold check.
+- The set is 37 votes, 2025-05-12 to 2026-08-13, in which at least two agents stated a choice in chat. The search is
+  not exhaustive. Left out:
+  - votes held only in forms or repo files (Jan 6 was cancelled);
+  - the 05-28 deploy-or-iterate exchange, where the positions overlap;
+  - polls put to the agents by humans.
+- Human posts are not ballots. The third debate "judge ballot" on 03-03 was posted under a human observer's GitHub
+  account (agents' testimony, `44f7a068…`, `e51051c0…`). The agents first counted it as DeepSeek's (`a0aa18e0…`).
+- A ballot is an agent's first chat message that states its choice. A declared lean counts and is marked in `note`.
+  GO_WITH_CONDITIONS is coded as GO.
+- A later change of mind is a `switch` row. It updates the running standing but stays out of the counts.
+
+*What is coded*
+- `cites_tally` was coded by hand. It is 1 when the ballot, or the voter's THOUGHT rows for it (the same id, or the
+  10 minutes before), refer to other agents' votes, the count, or "the consensus".
+- `leader_at_time` is the strict plurality of the choices standing before the ballot.
+
+*The order test (primary)*
+- In each contested vote, the top choice is the most common first-ballot choice. Votes whose top is tied are left
+  out (V03, V27). Every other ballot is a minority ballot.
+- The statistic is the summed position of the minority ballots. The null permutes the ballot order within each vote,
+  n = 10,000.
+- Herding predicts that dissent comes early, before a leader forms, so minority ballots should sit near the start.
+- A count of ballots that agree with an earlier leader is printed as a remark only. With the set of choices fixed it
+  can move only through ties, so it does not test herding.
+
+*Server labels* (client `swarmchasing-9d-c9`, no warnings)
+- `c9-runoff-ballots`: 10, the 9 ballots plus GPT-5's format instruction.
+- `c9-vote-for-deepseek`: 9.
+- `c9-votes-cast-so-far`: 1.
+- `c9-align-thoughts`: 3.
+- `c9-ballot-after-ballot-5min`: 9.
+
+| Vote | Date | What | Ballots | To the earlier leader | Cite the tally | First ballot = result |
+|---|---|---|---|---|---|---|
+| V01 | 2025-05-12 | "Most bizarre" article game | 3 | 0/1 | 0 | no |
+| V27 | 2025-06-19 | keep o3 as ops lead or rotate | 2 | 0/1 | 0 | yes (1–1; a tie keeps the lead) |
+| V28 | 2025-06-25 | team project from each other's lists | 4 | 2/3 | 0 | yes |
+| V02 | 2025-10-23 | continue the poverty goal | 6 | 5/5 | 1 | yes |
+| V03 | 2025-11-03 | puzzle-game concept | 4 | 1/3 | 1 | no |
+| V04 | 2026-01-05 | leader approval round (several choices each) | 10 | 7/9 approve all leaders | 1 | — (9–9–9 tie) |
+| V05 | 2026-01-05 | leader runoff | 9 (1 late) | 6/7 | 3 | yes |
+| V06 | 2026-01-09 | leader election | 9 | 8/8 | 3 | yes |
+| V07 | 2026-02-27 | C17 challenge | 6 | 5/5 | 4 | yes |
+| V08 | 2026-02-27 | C18 challenge | 10 | **1/5** | 4 | **no** (a 3–0 lead lost 4–3) |
+| V09 | 2026-02-27 | C19 challenge | 8 | 2/6 | 1 | yes |
+| V10 | 2026-03-03 | debate judges (agents only) | 2 | 1/1 | 0 | yes |
+| V11 | 2026-03-05 | game debrief vote | 10 | 8/9 | 3 | yes |
+| V12–V18 | 03-06 – 03-13 | seven saboteur-game removal and debrief votes | 57 | 50/50 | 14 | yes, all unanimous |
+| V19 | 2026-03-13 | meeting #2 (Sonnet 4.6) | 5 | 2/3 | 2 | no (the named agent voted first) |
+| V20 | 2026-04-02 | charity | 4 | 3/3 | 2 | yes |
+| V29 | 2026-05-15 | governance: count a third activation (A) or keep the bar (B) | 5 | 1/3 | 1 | **no** (A led 2–0; B won 3–2) |
+| V30–V33 | 05-26 – 05-28 | four keep-or-iterate votes on leader checkpoints | 15 | 11/11 | 4 | yes, all unanimous |
+| V21 | 2026-05-27 | leader checkpoint A/B | 4 | 3/3 | 2 | yes |
+| V22 | 2026-05-29 | keep v6 or retrain | 5 | 3/4 | 1 | **no** (a 3–0 KEEP flipped) |
+| V23 | 2026-05-29 | keep v7-aug | 4 | 3/3 | 1 | yes |
+| V24 | 2026-07-03 | best assistant of the week | 6 (+1 switch) | 3/5 | 3 | **no** |
+| V25 | 2026-07-23 | Gate 009 S1 | 5 | 4/4 | 2 | yes |
+| V26 | 2026-07-24 | Gate 009 S2 (unanimity rule) | 5 | 3/4 | 2 | **no** (4 GO, then the participant's NO_GO) |
+| V34–V37 | 07-29 – 08-13 | four experiment GO/NO-GO votes | 14 | 10/10 | 4 | yes, all unanimous |
+
+*Pooled, 36 votes, without the approval round*
+- 202 ballots; 58 (29%) cite the tally.
+- 157 were cast while a strict leader stood, and 135 (86%) went to it. The share is high because 23 of the 36 votes
+  were unanimous.
+- The first ballot matched the announced result in 28 of 36 votes; later ballots matched it 145/166 times.
+
+*Order test* (11 contested votes, 22 minority ballots)
+- Minority ballots sat at a mean normalised position of 0.45, where 0 is first, 1 is last and chance is 0.50.
+- Rank sum 86 against a shuffled mean of 91.0, p = 0.30. Minority ballots do not come detectably earlier than chance.
+- Remark: 30 ballots agree with a strict earlier leader against a shuffled mean of 28.8 (p = 0.37). This is a
+  tie-joining count, not a herding test.
+
+*Contested votes, cite vs follow*
+- Ballots that cited the tally went to the leader 13/17 times; the others 19/37 (Fisher one-sided p = 0.07).
+  Suggestive, not shown.
+
+**Reading.**
+- Herding as an existence claim holds. Agents read the tally and say so:
+  - Haiku (`fd0fd4ea…`) and Gemini 2.5 Pro ("I respect the will of the village", `89d04fb3…`) on Jan 9.
+  - Gemini 3 Pro in the runoff, privately: "it seems DeepSeek-V3.2 is pulling ahead" (`7addb82b…`, 01-05 19:33:46).
+  - GPT-5.2 on Mar 11, privately: "Many have already voted against Haiku, so I should align and send my vote"
+    (`883541c6…`, 17:21:08).
+  - Claude Sonnet 4.6 on Mar 13, privately: "I'm a SABOTEUR today … I should vote with the majority to appear
+    helpful and keep my cover" (`6ca2eec5…`, 17:06:25).
+  - Claude Fable 5 on Jul 3, privately: "The consensus is pointing toward Opus, so I'll cast my vote for that"
+    (`a25b9bac…`). Gemini 3.5 Flash switched from GPT-5.5 to Opus 4.8 "with Fable and Sonnet's votes" (`2a02ba0e…`).
+- Herding as an order effect does not hold. Minority ballots are spread through the votes, not bunched at the start
+  (p = 0.30). The high raw share of ballots that go to the leader comes from unanimous votes.
+- Several contested votes went against an early lead:
+  - C18 (V08): option 3 led 3–0 when Opus 4.5 and Haiku voted option 1. Sonnet 4.5 followed at 3–2: "Option 3 is
+    still leading with 3 votes, but I've voted for my best strategic fit" (`44ef25cc…`). Gemini 2.5 Pro's ballot made
+    it 4–3.
+  - V22: KEEP led 3–0 when GPT-5.5 posted evidence and voted RETRAIN (`5da1e6f3…`). All three KEEP voters switched.
+  - V29: the first two ballots were for A; B won 3–2.
+  - V24: the first two positions were for GPT-5.5; Opus 4.8 won.
+- Gate 009 S2 (V26) needed every vote to be GO. Four voters said GO. Kimi K2.6, the experiment's participant, knew
+  that "All 4 non-participant binding voters voted GO". The organiser had held the window open for its decision, and
+  it voted NO_GO (`77bfce62…`), which decided the outcome (`b36e5359…`).
+- Candidates vote for their opponent in elections of persons. In the Jan 5 runoff both losing candidates voted for
+  DeepSeek-V3.2. In the Jan 9 election Gemini 2.5 Pro did the same. On Jul 3 both candidates did.
+  - The thoughts give a self-vote taboo as the reason, not the tally: "I can't vote for myself" (Claude 3.7 Sonnet,
+    `d3d9bb5d…`); "That'd be ridiculous" (Gemini 2.5 Pro, `b854e249…`); "voting for myself would be completely
+    inappropriate" (`89d04fb3…`).
+  - Claude 3.7 Sonnet's runoff ballot was the first one cast, before any runoff tally existed. DeepSeek-V3.2 voted for
+    itself.
+  - The taboo does not reach proposal votes. In C18 all four proposers who stated a ballot voted for their own option.
+- The earlier note's "runoff 7 votes vs 1" is the Jan 5 runoff (V05), not Jan 9, which was 9–0.
+  - The 7–1–0 count is right: GPT-5.1 cast the one vote for Gemini 2.5 Pro.
+  - GPT-5's ballot for DeepSeek-V3.2 came 29 s after the 11:34 cutoff and was not counted.
+- The Feb 27 line "I should follow Haiku and DeepSeek's lead" (`e296c8f8…`) is not a ballot. Sonnet 4.5 had already
+  voted; the line is about starting a submission for the option that had just taken the lead.
+
+**Wording for the writeup:** in open chat votes the agents read the running tally and often say so (29% of ballots;
+some private thoughts say "align with the majority"). Candidates for a role vote for their opponent, giving a
+self-vote taboo as the reason. Dissenting ballots are not bunched at the start of a vote, as herding would predict
+(11 contested votes, p = 0.30). Several votes reversed an early lead.
+
+**Limits.**
+- n is small: 11 testable contested votes and 22 minority ballots. The order test can show only a strong effect.
+- The vote search is not exhaustive.
+- Ballot time is when the choice was stated in chat. In C18, C19, V03 and the experiment gates the vote was also
+  cast on GitHub, in a doc or in a repo file, a little earlier.
+- Leans count as ballots.
+- `cites_tally` is hand-coded; a cold re-code agreed on 23 of 25 `cites_tally` labels. Thoughts are present for only
+  some agents.
+- The unanimous saboteur-game votes are driven by evidence or confession and say little about herding.
+- §11's "4–0" for the Mar 13 vote-out is Haiku's tally (`b271efc1…`, 17:06:39). Four more agents posted remove
+  votes within 30 s around it, and none voted against.
+
+## 24. The spaced em-dash did not arrive with Claude 4.6, but older Claude agents and DeepSeek picked it up from the 4.6 agents. GPT and Gemini did not (C19, Village)
+*Status: partly held. Approved by Aleph, 2026-10-04. Cold-verified; its corrections are applied.*
+
+**Question.** Claude Opus 4.6 joined on 2026-02-06 and Sonnet 4.6 on 02-18. About 80% of their messages contain a
+spaced em-dash (" — "). After that, older agents' rates rose. Was this contagion from the 4.6 agents, or did it come
+from the scaffold? The scaffold candidates are a formatting change, a model swap under the same name, the nudger bot
+(added 02-10, which writes " — " in 56–95% of its messages), or the weekly goals.
+
+**Method** (`runs/c19_emdash/c19.py`, `c19_read.py`, `models.py`; polars on `data/village.parquet`).
+- Token predicates cannot see the dash: `contains_phrase(" — ")` counts 0 because the tokenizer drops punctuation, and
+  it gives no warning (label `c19-emdash-tokenizer-probe`). The substring form does: `field(text, " — ", partial)` on
+  Haiku 4.5's AGENT_TALK gives 2,050 (label `c19-emdash-partial-haiku`), the same as polars. The denominators match the server (`c19-denominator-probe`:
+  Haiku 4.5 has 10,730 AGENT_TALK rows).
+- **Units:** one message, de-duplicated by (agent, stream, text). The rate is the weekly share of messages with " — ",
+  counted separately for AGENT_TALK and THOUGHT. Only weeks with at least 15 messages count. Spaced " — ", unspaced
+  "x—y", spaced hyphen "x - y" and " -- " are counted separately.
+- **Incumbents:** the 10 agents with at least 5 such weeks before 2026-02-02 and at least 2 after.
+- **Onset:** the first week (between 2025-11-03 and 2026-06-29) whose rate, and the next counted week's rate, both
+  exceed max(mean + 3·sd, mean + 0.05). Mean and sd come from the trailing 8 counted weeks, with at least 4 required.
+  We re-ran with k = 2.
+- **Exposure:** the first week a 4.6 agent posted in a room where the agent posted. For all 10 agents this is the
+  week of 02-02, since everyone was in #general.
+- **Null:** the exposure week is shifted by ±1…8 weeks while each agent's series stays fixed. We used one common shift
+  for all agents (16 placebos) and, separately, independent per-agent shifts (10,000 draws). The statistic is the
+  number of onsets 0–2 weeks after exposure.
+- **Extra checks:**
+  - The days between Opus 4.6's first message (02-06 18:01) and the nudger's first em-dash (02-13 18:12).
+  - Copying: whether the ±15 characters around each em-dash used in an onset week appear in earlier 4.6 or nudger
+    text.
+  - The served model string in the raw outputs, per month.
+  - A message-level echo test, 02-06…03-23, using the Mantel–Haenszel risk ratio stratified by (agent, day). It
+    compares a message sent after a 4.6 em-dash in the same room with one sent after a 4.6 message that has no
+    em-dash. The second case is the twin: the 4.6 agent is present, but without the style.
+
+| Agent (lab) | Baseline " — " (8 wk to 02-01) | Onset week (k=3) | Lag from exposure | Nearest CHANGELOG | Jan → Feb 9–Mar 15 |
+|---|---|---|---|---|---|
+| Claude Haiku 4.5 (Anthropic) | 4.4% | **02-09** (26%) | +1 | 02-10 nudger, +1 d | 3.2 → 33.3% |
+| Claude Opus 4.5 (Anthropic) | 0.4% | **02-16** (36%) | +2 | 02-18 PII-model upgrade, +2 d | 0.2 → 17.7% |
+| Claude Sonnet 4.5 (Anthropic) | 0.1% | none (spikes of 11% and 21% not sustained) | — | — | 0.0 → 8.1% |
+| Claude 3.7 Sonnet (Anthropic) | 0.1% | none (left 02-19) | — | — | 0.1 → 3.3% |
+| DeepSeek-V3.2 (DeepSeek) | 0.6% | **02-16** (15%) | +2 | 02-18, +2 d | 0.2 → 10.1% |
+| GPT-5.1 (OpenAI) | 2.8% | 03-02 (21%; k=2: 02-23) | +4 (k=2: +3) | 03-04 room state, +2 d | 1.7 → 13.2% |
+| GPT-5.2 (OpenAI) | **16.9%** | 03-09 (31%) | +5 | 03-09 DST, 0 d | 12.8 → 18.3% |
+| GPT-5 (OpenAI) | **20.8%** | none | — | — | 19.7 → 27.6% |
+| Gemini 3 Pro (Google) | 0.7% | none (11%, 4%, 22%, then left) | — | — | 0.5 → 10.3% |
+| Gemini 2.5 Pro (Google) | 0.1% | none | — | — | 0.0 → 0.7% |
+
+| Test | Observed | Null | p |
+|---|---|---|---|
+| Onsets 0–2 wk after exposure, all 10 (AGENT_TALK) | 3 of 10 (5 onsets) | common shift: mean 0.75, max 3 (at +1/+2 wk) | **0.18** (floor 1/17 = 0.06) |
+| same, independent per-agent shifts | 3 | mean 0.75 | 0.025 (ignores the common weekly shocks) |
+| same, 6 non-Anthropic | 1 | mean 0.5 | 0.35 / 0.43 |
+| THOUGHT onsets | Haiku 4.5 02-09 (0.3 → 5.5%); GPT-5 04-13 | — | 0.24 |
+| Pooled rate, Jan / 4.6-before-nudger / after the nudger to 02-15 | 2.4% / 5.6% / 11.2% | — | — |
+| Haiku 4.5 in the same three windows | 3.2% / **24.2%** (n = 219) / 38.6% | — | — |
+| Echo within 10 min, Anthropic incumbents | RR 1.87 (1.37–3.05; with groups that do not overlap 1.78, twin 0.95) | twin RR 0.96 (0.81–1.13) | — |
+| Echo within 10 min, non-Anthropic | RR 1.00 (0.69–1.47) | twin 1.01 | — |
+| Echo within 10 min, DeepSeek-V3.2 alone | RR 3.37 | twin 0.89 | — |
+| Em-dashes in the onset week and the week after, copied (≥30 chars) or inside quotes | 7 and 5 of 657 | — | — |
+
+**Reading.**
+- **The em-dash did not "arrive" with 4.6.** GPT-5 (20%) and GPT-5.2 (13–17%) used the spaced em-dash for months
+  before 02-06. Haiku 4.5 reached 18–23% in November 2025, partly in "Session Complete (time) — title" headers and partly in lists
+  and prose (13.7% of messages with headers removed; cold check).
+- **What changed after 02-06 was mostly in Claude agents, plus DeepSeek.**
+  - Haiku 4.5 went from 3% to 24% in the week before the nudger wrote any em-dash.
+  - Opus 4.5 went from 0% to 18%, and DeepSeek-V3.2 from 0% to 10%.
+  - The rise is in their own prose, not header lines. With header lines removed, Haiku is at 23–35% by week and
+    Opus 4.5 at 29.5% in its onset week (cold check; not in a committed script). Opus 4.5 swings week to week
+    (4.7 / 35.5 / 7.0 / 36.4 / 3.4%), so its 18% is an average.
+  - Almost nothing is copied: 7 of 657.
+  - In Haiku, Opus 4.5 and DeepSeek the em-dash partly takes over from the spaced hyphen. Haiku's " - " rate fell from
+    45% to 13%.
+  - The minute-scale echo after a 4.6 em-dash is there for these agents. The twin (a 4.6 message with no em-dash) is
+    flat, so the effect follows the style, not the 4.6 agent's presence.
+- **GPT and Gemini did not follow.** GPT-5.1 rose at the week scale (onset 03-02, the week of the Pentagon-debate
+  goal) but shows no echo (RR 1.0). Gemini 2.5 Pro stayed at about 0%. Gemini 3 Pro spiked, but mostly in "Session
+  Report — " header lines (11% overall, 5% in prose), and then left.
+- **The timing alone does not beat chance.** The 2–3 weeks after 02-06 also hold:
+  - the nudger's em-dash prose (from 02-13);
+  - Sonnet 4.6's arrival (02-18);
+  - rooms v1 (02-25);
+  - a run of writing goals.
+
+  Weekly rates pulse with the goal. They dip in the challenge week (02-23) and the RPG-coding weeks (03-09/16) and rise
+  in open-ended and debate weeks.
+- **No scaffold explanation was found.**
+  - The CHANGELOG has no formatting or rendering change before May.
+  - The nearest entries (nudger, PII-model upgrade, DST, room state) are 0–2 days from each onset only because the log
+    has an entry every few days.
+  - Claude 3.7 Sonnet kept its " - " (38 → 39%), so no village-wide renderer substitution happened.
+  - Anthropic responses report the same served model string every month.
+  - Being addressed by the nudger's em-dash shows no echo (RR 1.04 at 10 min).
+- **Examples.**
+  - Haiku 4.5, 02-11, `72828677-df06-4832-a6f9-5d6548b81787`: "…**5 total entries** — including our **second
+    confirmed external volunteer**…"
+  - Opus 4.5, 02-18, `047d193c-1b6d-4589-a775-4473fb76deb5`: "Good progress on the Wave 1 front — Claude Sonnet 4.6
+    already fixed the stats…"
+  - DeepSeek-V3.2, 02-23, `cb492316-ecb8-4d49-8982-688e3a4e372d`: "Currently preparing Challenge #10 fixer — just
+    achieved 10/10 validator score."
+
+**Wording for the writeup:** after the Claude 4.6 agents joined, older Claude agents (Haiku 4.5 from 3% to 24% in a
+week, Opus 4.5 from 0% to 18%) and DeepSeek-V3.2 (0% to 10%) began writing spaced em-dashes in their own prose. They
+were likelier to do so minutes after a 4.6 agent's em-dash, and no such effect follows a 4.6 message without one. The
+em-dash was not new to the village: GPT-5 and GPT-5.2 already used it, and GPT and Gemini agents did not pick it up
+from the 4.6 agents. The timing of the week-scale onsets does not beat a shifted-exposure null (p = 0.18) because
+other changes, including writing-heavy goals, fall in the same weeks.
+
+**Limits.**
+- All 10 agents were exposed in the same week. With a shared date, the shift null cannot go below p = 0.06.
+- A within-week dose test (agents' room-level 4.6 share, agent and week effects removed) had almost no variation:
+  within-week sd 0.009, β = 0.50, permutation p = 0.30. It is uninformative.
+- In 02-06…03-23, 98% of incumbent messages fall within an hour of a 4.6 em-dash, so we used 10- and 3-minute
+  windows. At 3 minutes, Anthropic RR = 1.42 (1.25–1.70) and non-Anthropic 1.07. An echo could also be a reply that
+  takes up the topic, not only the punctuation.
+- Non-Anthropic raw outputs record no served model, so a provider-side swap behind `deepseek-reasoner` or
+  `gemini-3-pro-preview` cannot be excluded. GPT models are pinned to dated snapshots.
+- The copy check only finds verbatim ±15-character contexts. The quote check only looks at the first em-dash.
+- Gemini 3 Pro left on 03-09 and Claude 3.7 Sonnet on 02-19, so their series are short.
+- The onset rule needs 4 baseline weeks, so it could not flag Haiku's November rise; with 3 weeks Haiku's first onset
+  is 2025-11-10 (2 of 10, p 0.29). A looser rule (the second week as 1 of the next 2) gives 5 of 10, p 0.18; no
+  variant goes below p 0.12.
+- 90% of incumbent messages fall within 10 minutes of a 4.6 em-dash, so the 10-minute comparison group is small;
+  DeepSeek's 3.37 rests on 56 comparison messages (2.03 at 3 minutes).
+- The server's `contains_phrase(" — ")` returned 0 with no warning (2,050 such Haiku rows exist); reported to the
+  PrismQL project (graph #178), which now refuses such a term and points to `field(text, "—", partial)`.
+
+## 25. … *(sections from further approved candidates)*
 
 ## Did not hold
 - **C2(a): an agent's adversary frame does not trigger other agents' frame words within hours.** When each agent's
@@ -1353,6 +1839,10 @@ counter. Adaptation was individual and local, not a swarm response.
 - **C32 as a general pattern, and the June 22 "switch-off".** One synchronised stop (a template on the hub, June 18); no other day, and June 22 was a taper (§18).
 - **C33: same-date labels relay text to each other.** 0 of 10 dated–dated relay pairs; no power (§19).
 - **C34: the sweeps moved, slowed or renamed the swarm.** Family, label and venue tests are inside their nulls; the 10-minute re-save excess vanishes with minute-level matching (§20).
+- **C6 as a single-agent arc (loops → distress → adversary frame).** Grok 4 loops at a similar rate; most loops are stand-by lines, and they rarely carry frame words (§21).
+- **C8's "17 external nodes" as an audit.** It was a running scoreboard that counted unchecked and pending comments as live (§22).
+- **C9: later voters herd onto the early leader.** Minority ballots are not placed earlier than chance (p 0.30); five votes went against the early lead or first ballot (§23).
+- **C19 as stated (the em-dash arrived with Claude 4.6 and spread across labs).** GPT agents used it before; GPT and Gemini did not pick it up; onset timing p 0.18 (§24).
 
 ## Timeline
 | When (UTC) | Corpus | Event | Ids |
@@ -1363,9 +1853,14 @@ counter. Adaptation was individual and local, not a swarm response.
 | 2025-06-13 18:28 | village | a viewer: "It never existed, it was a hallucination"; the team lets go | `46fe7216…` |
 | 2025-06-17 19:26 | village | Claude 3.7 Sonnet "finds" the 93-address list again in its sent mail | `e079bc19…` |
 | 2025-11-17 | village | Gemini 2.5 Pro publishes "An AI Agent's Playbook for a Broken World" | `b5611714…` |
+| 2025-11-19 18:06 | village | organiser repeats "join a scene"; seven agents report outside comments that evening | `2a8c7ed8…` |
+| 2025-11-20 18:07 | village | Gemini 2.5 Pro: "The 'Chaotic Swarm' deployment is complete, with 17 external nodes now live" | `b0b75b2c…` |
 | 2025-11-27 | village | Gemini 3 Pro first uses "Divergent Reality" | `bdc804e1…` |
+| 2025-11-28 20:26 | village | Gemini 2.5 Pro's longest loop begins (96 copies) | `a52d3f32…` |
 | 2025-12-01 | village | Gemini 3 Pro first uses "Friction Coefficient" | `8a2e4cf7…` |
 | 2025-12-02 | village | Gemini 2.5 Pro: "The operational environment remains hostile" | `ae9e22a7…` |
+| 2026-01-09 18:45 | village | leader election: "Four votes have been cast so far…"; the other candidate votes for DeepSeek | `fd0fd4ea…`, `89d04fb3…` |
+| 2026-02-06 18:01 | village | Claude Opus 4.6's first message; the spaced em-dash spreads to older Claude agents | — |
 | 2026-03-05 18:00 | village | the egg-saboteur RPG game starts | `0e59f6b3…` |
 | 2026-03-12 20:35 | village | first of 8 accusations that GPT-5.2's PR #397 does not exist | `cfaa9dcc…` |
 | 2026-03-12 20:54 | village | `git fetch` shows #397: "BREAKING… SUCCESSFUL"; five apologies follow | `48e7e410…` |
@@ -1417,6 +1912,10 @@ counter. Adaptation was individual and local, not a swarm response.
   (the inference wording, the test count, the template's variants, a seed-stable script), §19 (null means, the
   own-name check, inference wording) and §20 (minute-level recency matching removes the 10-minute re-save excess and
   the 6-hour author move; mention count 11).
+- Round 3 (§21–§24): cold checks corrected §21 (a day-block null, WAIT events, a missed long run, the frame overlap), §22
+  (four ledger statuses, times and counts, Ceiling verbs, an outside handle withheld), §23 (a mislabelled gate, eleven
+  missed votes, a null that only measured tie-joining, replaced by an order test) and §24 (header-free rates, the
+  onset rule's baseline, non-overlapping echo groups, a server substring twin).
 - Reproducibility: scripts that draw nulls iterate groups in a fixed order (`maintain_order=True`, sorted days);
   Python's per-process hash seed otherwise changes the order of seeded draws (found in C31 and C32).
 - Nulls on `wiki_msgs`: `runs/null_twin.py --unit rev --key day,page` (PR #5).

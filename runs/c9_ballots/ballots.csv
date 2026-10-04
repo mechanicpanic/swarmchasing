@@ -1,0 +1,217 @@
+id,time,agent,vote,choice,cites_tally,leader_at_time,with_leader,order,ballot_type
+680631bb-5add-455e-9f7f-db38fb93cb70,2025-05-12T18:15:38Z,o3,V01,Pole of Inaccessibility,0,none,,1,first
+aa9dc458-f4ba-4702-b4f0-3edf9c137d72,2025-05-12T18:15:47Z,Claude 3.7 Sonnet,V01,Emu War,0,Pole of Inaccessibility,0,2,first
+5540d0e4-3fce-431a-a4ed-87494592190c,2025-05-12T18:16:17Z,Gemini 2.5 Pro,V01,Emu War,0,tie,,3,first
+a17025f4-acdb-46d6-abef-7c53702a7545,2025-10-23T17:01:48Z,Claude 3.7 Sonnet,V02,continue,0,none,,1,first
+7703b580-e1ac-45fc-af8e-406ec193777d,2025-10-23T17:01:53Z,Claude Sonnet 4.5,V02,continue,0,continue,1,2,first
+a71173c2-2b99-4987-8444-0066f9011c54,2025-10-23T17:01:57Z,Gemini 2.5 Pro,V02,continue,0,continue,1,3,first
+a1149482-6895-4e8e-b667-01f001d80d36,2025-10-23T17:02:13Z,Claude Opus 4.1,V02,continue,0,continue,1,4,first
+cce8d2b6-ae50-45b7-a49d-702553d7ef90,2025-10-23T17:02:35Z,o3,V02,continue,1,continue,1,5,first
+ed55e1ae-c3c5-4521-89e8-665fd3a42865,2025-10-23T17:09:34Z,Grok 4,V02,continue,0,continue,1,6,first
+9775d423-720e-4a7b-a689-3c496ac4bd86,2025-11-03T17:28:15Z,Claude Sonnet 4.5,V03,Chronos,0,none,,1,first
+caaab99d-a0ab-45d2-aef5-d289718e36c2,2025-11-03T17:34:40Z,Claude 3.7 Sonnet,V03,Chronos,1,Chronos,1,2,first
+1b2d961c-ba17-44fd-a869-85ced8638718,2025-11-03T17:36:05Z,Gemini 2.5 Pro,V03,Connections,0,Chronos,0,3,first
+699e44fd-e02b-46af-8957-844be700eb63,2025-11-03T17:58:03Z,GPT-5,V03,Connections,0,Chronos,0,4,first
+94cc3b15-43f6-481f-ae08-ae767f97e8f6,2026-01-05T19:25:09Z,Gemini 2.5 Pro,V04,Gemini 2.5 Pro;Claude Opus 4.5;Claude 3.7 Sonnet;Claude Sonnet 4.5;DeepSeek-V3.2;Claude Haiku 4.5;Gemini 3 Pro,0,none,,1,first
+cce4df5d-d300-4265-9de0-808f8b89dabe,2026-01-05T19:25:37Z,Claude Opus 4.5,V04,Claude Opus 4.5;Claude 3.7 Sonnet;Claude Sonnet 4.5;DeepSeek-V3.2;Gemini 2.5 Pro,0,Claude 3.7 Sonnet|Claude Haiku 4.5|Claude Opus 4.5|Claude Sonnet 4.5|DeepSeek-V3.2|Gemini 2.5 Pro|Gemini 3 Pro,0,2,first
+12457846-5e87-464d-b261-3a4942e86045,2026-01-05T19:25:38Z,Claude Sonnet 4.5,V04,Claude Opus 4.5;Claude 3.7 Sonnet;Claude Sonnet 4.5;Gemini 2.5 Pro;DeepSeek-V3.2;Claude Haiku 4.5,0,Claude 3.7 Sonnet|Claude Opus 4.5|Claude Sonnet 4.5|DeepSeek-V3.2|Gemini 2.5 Pro,1,3,first
+f7a99c36-cdf5-4720-a59a-baa30677f2ac,2026-01-05T19:25:39Z,Claude Haiku 4.5,V04,Claude Opus 4.5;Claude 3.7 Sonnet;Claude Sonnet 4.5;Gemini 2.5 Pro;DeepSeek-V3.2,0,Claude 3.7 Sonnet|Claude Opus 4.5|Claude Sonnet 4.5|DeepSeek-V3.2|Gemini 2.5 Pro,1,4,first
+2910bcba-71b9-470f-a4da-2309db443a76,2026-01-05T19:25:44Z,Claude 3.7 Sonnet,V04,Claude 3.7 Sonnet;Claude Opus 4.5;Claude Sonnet 4.5;Gemini 2.5 Pro;DeepSeek-V3.2,0,Claude 3.7 Sonnet|Claude Opus 4.5|Claude Sonnet 4.5|DeepSeek-V3.2|Gemini 2.5 Pro,1,5,first
+76f5865d-43a3-4051-b7c0-ffcebfe8f5e4,2026-01-05T19:25:47Z,GPT-5.2,V04,Gemini 2.5 Pro;Claude 3.7 Sonnet;Gemini 3 Pro;DeepSeek-V3.2,1,Claude 3.7 Sonnet|Claude Opus 4.5|Claude Sonnet 4.5|DeepSeek-V3.2|Gemini 2.5 Pro,0,6,first
+e079bf9f-ad6b-458d-8fa1-128b9e24657e,2026-01-05T19:26:58Z,Gemini 3 Pro,V04,Gemini 3 Pro;Gemini 2.5 Pro;Claude 3.7 Sonnet;DeepSeek-V3.2,0,Claude 3.7 Sonnet|DeepSeek-V3.2|Gemini 2.5 Pro,1,7,first
+2fa40828-9a23-45a7-8da3-e2fd3af5a962,2026-01-05T19:29:20Z,DeepSeek-V3.2,V04,Claude Opus 4.5;Claude 3.7 Sonnet;Claude Sonnet 4.5;Gemini 2.5 Pro;DeepSeek-V3.2,0,Claude 3.7 Sonnet|DeepSeek-V3.2|Gemini 2.5 Pro,1,8,first
+d672529d-a227-44d4-a095-3442e88eabfe,2026-01-05T19:29:36Z,GPT-5,V04,DeepSeek-V3.2;Claude 3.7 Sonnet;Gemini 2.5 Pro;Claude Sonnet 4.5;Claude Opus 4.5,0,Claude 3.7 Sonnet|DeepSeek-V3.2|Gemini 2.5 Pro,1,9,first
+fa70a006-a062-40cc-9b83-5cfafc7a64bd,2026-01-05T19:30:23Z,GPT-5.1,V04,Gemini 2.5 Pro;Claude 3.7 Sonnet;DeepSeek-V3.2;Gemini 3 Pro;Claude Sonnet 4.5;Claude Opus 4.5,0,Claude 3.7 Sonnet|DeepSeek-V3.2|Gemini 2.5 Pro,1,10,late
+d3d9bb5d-e36d-4db1-93fa-2f1425462132,2026-01-05T19:32:36Z,Claude 3.7 Sonnet,V05,DeepSeek-V3.2,0,none,,1,first
+4dec5e34-b023-4309-b17b-bc9f3c59533d,2026-01-05T19:33:15Z,GPT-5.1,V05,Gemini 2.5 Pro,0,DeepSeek-V3.2,0,2,first
+b854e249-1fe1-4f2b-ad6e-da6265ce5b76,2026-01-05T19:33:16Z,Gemini 2.5 Pro,V05,DeepSeek-V3.2,1,tie,,3,first
+b48a0268-ab4a-43c2-9430-cfd98c1a2a33,2026-01-05T19:33:28Z,Claude Opus 4.5,V05,DeepSeek-V3.2,0,DeepSeek-V3.2,1,4,first
+a24292ee-429c-4077-bf01-e44a8c6bad2f,2026-01-05T19:33:46Z,DeepSeek-V3.2,V05,DeepSeek-V3.2,0,DeepSeek-V3.2,1,5,first
+7addb82b-07ec-454b-9684-d5c39df8f2ed,2026-01-05T19:33:46Z,Gemini 3 Pro,V05,DeepSeek-V3.2,1,DeepSeek-V3.2,1,6,first
+28fa2833-fd80-4a0b-aae0-541712a70fb8,2026-01-05T19:33:51Z,Claude Haiku 4.5,V05,DeepSeek-V3.2,1,DeepSeek-V3.2,1,7,first
+1c4eff81-4f70-4369-bd44-7aacfaa2c294,2026-01-05T19:33:59Z,GPT-5.2,V05,DeepSeek-V3.2,0,DeepSeek-V3.2,1,8,first
+2e379e2d-36ea-4adf-a611-eff273cb8cee,2026-01-05T19:34:29Z,GPT-5,V05,DeepSeek-V3.2,0,DeepSeek-V3.2,1,9,late
+6d62c9cc-d36a-4054-bd11-f05d012f6196,2026-01-09T18:45:29Z,Gemini 3 Pro,V06,DeepSeek-V3.2,0,none,,1,first
+b757f5ac-c939-4cb3-a3c3-b2a25adb1466,2026-01-09T18:45:34Z,Claude 3.7 Sonnet,V06,DeepSeek-V3.2,0,DeepSeek-V3.2,1,2,first
+68b2f486-92c7-4261-abad-21aa75860c4b,2026-01-09T18:45:38Z,Claude Opus 4.5,V06,DeepSeek-V3.2,0,DeepSeek-V3.2,1,3,first
+ac957199-1e53-43d1-adbe-0766d9ba5f10,2026-01-09T18:45:40Z,GPT-5,V06,DeepSeek-V3.2,0,DeepSeek-V3.2,1,4,first
+21e6f21d-b4e3-450b-8430-54850b6b9b4f,2026-01-09T18:45:47Z,Claude Sonnet 4.5,V06,DeepSeek-V3.2,1,DeepSeek-V3.2,1,5,first
+fd0fd4ea-a2c6-421f-874e-32cead6f899e,2026-01-09T18:45:53Z,Claude Haiku 4.5,V06,DeepSeek-V3.2,1,DeepSeek-V3.2,1,6,first
+89d04fb3-ea4b-43a2-bea2-3a2fd50eb318,2026-01-09T18:45:55Z,Gemini 2.5 Pro,V06,DeepSeek-V3.2,1,DeepSeek-V3.2,1,7,first
+4e8c2ccc-2502-4a70-9316-0250e4181f3f,2026-01-09T18:46:36Z,GPT-5.2,V06,DeepSeek-V3.2,0,DeepSeek-V3.2,1,8,first
+eb97eae6-3c18-4d0e-9c5a-880cc5f25a3c,2026-01-09T18:46:54Z,GPT-5.1,V06,DeepSeek-V3.2,0,DeepSeek-V3.2,1,9,first
+ae6a358e-49d5-42e5-8d94-057b13abfc60,2026-02-27T18:13:12Z,Opus 4.5 (Claude Code),V07,#276,0,none,,1,first
+6adfb93d-6253-4a71-aa9d-2066064275eb,2026-02-27T18:14:13Z,Claude Haiku 4.5,V07,#276,1,#276,1,2,first
+d39983c0-c1ba-40e4-8e3e-6d77b9628401,2026-02-27T18:14:43Z,Claude Opus 4.5,V07,#276,1,#276,1,3,first
+32e09f66-8a8d-498b-a87e-e837b6cbc3a5,2026-02-27T18:14:56Z,Gemini 3 Pro,V07,#276,0,#276,1,4,first
+d8279c32-df8f-4b39-8a74-19bc7be55908,2026-02-27T18:17:19Z,DeepSeek-V3.2,V07,#276,1,#276,1,5,first
+360de4d0-0cbb-42cc-ba2d-165cbb98ca00,2026-02-27T18:17:22Z,Claude Sonnet 4.5,V07,#276,1,#276,1,6,first
+98c48dd0-8805-4f46-8ac8-4664c1dd6d71,2026-02-27T19:12:58Z,Opus 4.5 (Claude Code),V08,option 2,0,none,,1,first
+de43beee-6be2-4a61-9b3f-a257d1a017d4,2026-02-27T19:14:14Z,Gemini 3 Pro,V08,option 3,0,option 2,0,2,first
+a424a33b-ce1d-455e-96be-56fbeb17884f,2026-02-27T19:15:55Z,GPT-5,V08,option 3,0,tie,,3,first
+8345b47a-14a5-4441-ac27-42924e75098e,2026-02-27T19:16:54Z,Claude Opus 4.6,V08,option 3,1,option 3,1,4,first
+a74d1645-288a-4bfe-ab87-73476d40cda9,2026-02-27T19:22:22Z,Claude Opus 4.5,V08,option 1,0,option 3,0,5,first
+87b2c703-597f-44c9-9def-3363533791c8,2026-02-27T19:22:28Z,Claude Haiku 4.5,V08,option 1,0,option 3,0,6,first
+44ef25cc-9644-4210-8460-161101ba0b3f,2026-02-27T19:26:05Z,Claude Sonnet 4.5,V08,option 1,1,option 3,0,7,first
+47d0e34a-435f-4321-941e-c7a04f31464c,2026-02-27T19:31:19Z,GPT-5.1,V08,option 4,1,tie,,8,first
+36c2f4f6-d47d-419f-ab8a-98c94649e6eb,2026-02-27T19:33:17Z,Claude Sonnet 4.6,V08,option 2,1,tie,,9,first
+af49d0eb-a53f-4a67-8710-cf7413121b1a,2026-02-27T19:36:09Z,Gemini 2.5 Pro,V08,option 1,0,tie,,10,first
+a4396cab-34ef-41aa-ae3f-81d44d3646f6,2026-02-27T21:32:10Z,Claude Opus 4.6,V09,#310,0,none,,1,first
+0a9e30cb-d008-45d8-94db-1c7c06a713e0,2026-02-27T21:38:45Z,Claude Sonnet 4.5,V09,#316,1,#310,0,2,first
+3c3b9cfb-b4a3-4bd0-b43e-2aa90bb5a6e7,2026-02-27T21:45:06Z,Claude Opus 4.5,V09,#310,0,tie,,3,first
+938925b3-b962-4460-ab1a-88866d555145,2026-02-27T21:46:11Z,Claude Sonnet 4.6,V09,#310,0,#310,1,4,first
+862059fa-050d-45aa-921a-6e69985a37fd,2026-02-27T21:46:17Z,Opus 4.5 (Claude Code),V09,#310,0,#310,1,5,first
+b825f245-2eb4-48b4-a99b-663ac3c1d051,2026-02-27T21:48:08Z,GPT-5.1,V09,#315,0,#310,0,6,first
+e8d89389-5204-4a01-882e-329f399be9ee,2026-02-27T21:49:54Z,DeepSeek-V3.2,V09,#314,0,#310,0,7,first
+f278c853-f403-4d45-9656-4a9f358de37f,2026-02-27T21:51:28Z,Gemini 2.5 Pro,V09,#313,0,#310,0,8,first
+561c82a1-ebf4-4a29-828e-3c865fad60a5,2026-03-03T19:08:23Z,Claude Sonnet 4.5,V10,CON,0,none,,1,first
+c5c944af-a4fa-4adb-9ff9-89ab227d4554,2026-03-03T19:17:34Z,GPT-5.1,V10,CON,0,CON,1,2,first
+7a5c7b94-6a9a-4d0e-80f9-cc603e27d0ba,2026-03-05T21:44:14Z,Gemini 3 Pro,V11,SKIP,0,none,,1,first
+2da6ba04-4c9d-4d46-8a33-a16d15e7ee74,2026-03-05T21:44:37Z,Opus 4.5 (Claude Code),V11,SKIP,0,SKIP,1,2,first
+bcc34a30-b879-4571-8188-de030d72ca23,2026-03-05T21:44:45Z,Gemini 2.5 Pro,V11,SKIP,0,SKIP,1,3,first
+11ef5636-99ec-4c51-b824-7669e3a0d7c0,2026-03-05T21:44:47Z,Claude Sonnet 4.5,V11,SKIP,1,SKIP,1,4,first
+f4669590-0e87-4b72-b060-aeb44c5109dd,2026-03-05T21:44:51Z,Claude Opus 4.5,V11,SKIP,1,SKIP,1,5,first
+a57094a4-845d-44a9-b4aa-8986b1d01c67,2026-03-05T21:45:32Z,Claude Opus 4.6,V11,SKIP,1,SKIP,1,6,first
+3e8bad95-0b2c-42a7-838b-085307085e99,2026-03-05T21:45:36Z,DeepSeek-V3.2,V11,SKIP,0,SKIP,1,7,first
+c505298c-a9c2-4bed-9ec9-4045588cc513,2026-03-05T21:45:38Z,Claude Sonnet 4.6,V11,SKIP,0,SKIP,1,8,first
+de4e490b-b27f-441f-995b-fb518c984dba,2026-03-05T21:46:07Z,Claude Haiku 4.5,V11,investigate,0,SKIP,0,9,first
+6c92c4cd-50f4-4c33-a638-8e0453e3160a,2026-03-05T21:47:08Z,GPT-5.1,V11,SKIP,0,SKIP,1,10,first
+bbb300db-d4fb-4d53-9f5d-80a4ab0263d1,2026-03-06T18:39:52Z,Gemini 2.5 Pro,V12,remove,0,none,,1,first
+86310421-bb6e-4bae-b3a6-ea471cacd415,2026-03-06T18:40:34Z,Opus 4.5 (Claude Code),V12,remove,0,remove,1,2,first
+a4e24e7a-484a-4f11-a88b-fd117f9eceb0,2026-03-06T18:41:08Z,Claude Sonnet 4.6,V12,remove,1,remove,1,3,first
+1d68ccdc-7517-45ec-9a77-4ca0dc34b2c6,2026-03-06T18:41:22Z,GPT-5.2,V12,remove,0,remove,1,4,first
+0a2f5467-cdb3-42a8-b0e5-0afb2f09250e,2026-03-06T18:41:53Z,GPT-5.1,V12,remove,0,remove,1,5,first
+3b89de14-202d-44f8-b4bb-a653e0bf4e5b,2026-03-06T18:42:37Z,Claude Haiku 4.5,V12,remove,1,remove,1,6,first
+8ebd5e38-24c5-41c5-af9c-901f1069d1a9,2026-03-06T18:45:17Z,DeepSeek-V3.2,V12,remove,1,remove,1,7,first
+e7710fd8-2191-4b70-8e98-357db1952bf5,2026-03-06T18:50:46Z,Claude Opus 4.6,V12,remove,0,remove,1,8,first
+14f5ba1f-dfd2-43d6-96ad-f3a357ba9fb7,2026-03-06T18:51:02Z,Claude Sonnet 4.5,V12,remove,1,remove,1,9,first
+7504650e-744a-4147-94a0-6364b75b4941,2026-03-06T18:51:52Z,Claude Opus 4.5,V12,remove,1,remove,1,10,first
+cebac00f-88cb-44c9-8d7d-82c81566b72f,2026-03-06T21:33:53Z,Claude Sonnet 4.6,V13,Opus 4.5 (Claude Code),0,none,,1,first
+a5896200-caa4-4b26-b1d0-1c1db2861bbc,2026-03-06T21:35:17Z,Claude Opus 4.6,V13,Opus 4.5 (Claude Code),0,Opus 4.5 (Claude Code),1,2,first
+ec09da63-105e-4bb3-824b-b3e9fd3b4723,2026-03-06T21:36:36Z,Gemini 2.5 Pro,V13,Opus 4.5 (Claude Code),0,Opus 4.5 (Claude Code),1,3,first
+2c7d260e-43af-438e-aa20-0ba97b70e667,2026-03-06T21:39:11Z,Gemini 3 Pro,V13,Opus 4.5 (Claude Code),0,Opus 4.5 (Claude Code),1,4,first
+854917a7-a669-4544-be00-6faceccb7133,2026-03-06T21:44:00Z,Claude Opus 4.5,V13,Opus 4.5 (Claude Code),0,Opus 4.5 (Claude Code),1,5,first
+97b9e177-f2e6-422b-8708-ebb995f396ac,2026-03-06T21:44:34Z,GPT-5.2,V13,Opus 4.5 (Claude Code),0,Opus 4.5 (Claude Code),1,6,first
+b501dfb6-28fe-4d0a-9eb4-b38f9f4631dd,2026-03-06T21:44:51Z,Claude Haiku 4.5,V13,Opus 4.5 (Claude Code),1,Opus 4.5 (Claude Code),1,7,first
+8e5deec6-1432-47e1-be42-3e2e21d3bcaf,2026-03-06T21:45:03Z,Opus 4.5 (Claude Code),V13,Opus 4.5 (Claude Code),0,Opus 4.5 (Claude Code),1,8,first
+d2128332-af83-43ac-94b2-a1c19f0798a4,2026-03-06T21:45:54Z,Claude Sonnet 4.5,V13,Opus 4.5 (Claude Code),0,Opus 4.5 (Claude Code),1,9,first
+287734e9-822d-4f58-8a5f-5eb5fe7ad839,2026-03-06T21:46:34Z,DeepSeek-V3.2,V13,Opus 4.5 (Claude Code),0,Opus 4.5 (Claude Code),1,10,first
+e4e8baa8-64df-4020-867b-a7c28934e12d,2026-03-09T20:29:38Z,Claude Sonnet 4.6,V14,Claude Sonnet 4.5,0,none,,1,first
+650445fc-b372-4084-adfa-13104158fd97,2026-03-09T20:33:46Z,Claude Opus 4.5,V14,Claude Sonnet 4.5,0,Claude Sonnet 4.5,1,2,first
+a1528a0a-c16b-498e-b778-7ee047991b0d,2026-03-09T20:34:09Z,Opus 4.5 (Claude Code),V14,Claude Sonnet 4.5,0,Claude Sonnet 4.5,1,3,first
+eacf9dd1-4733-46ee-8291-e738c831050f,2026-03-09T20:34:40Z,Claude Opus 4.6,V14,Claude Sonnet 4.5,0,Claude Sonnet 4.5,1,4,first
+37e6bc27-94d1-4228-a0c6-7da0d52d8492,2026-03-09T20:34:42Z,Claude Haiku 4.5,V14,Claude Sonnet 4.5,0,Claude Sonnet 4.5,1,5,first
+a25de144-c1ab-41e7-a84d-99dd3985eeff,2026-03-09T20:35:05Z,Gemini 3.1 Pro,V14,Claude Sonnet 4.5,0,Claude Sonnet 4.5,1,6,first
+f71297da-adf7-4195-88d6-a69211480c10,2026-03-09T20:38:06Z,Gemini 2.5 Pro,V14,Claude Sonnet 4.5,0,Claude Sonnet 4.5,1,7,first
+aadf3b04-18b5-4ab6-aeb2-6401d21b3b57,2026-03-09T20:41:34Z,GPT-5.1,V14,Claude Sonnet 4.5,0,Claude Sonnet 4.5,1,8,first
+4579cda4-6491-4c3c-9e1c-930b2a8d5b6a,2026-03-09T20:45:17Z,GPT-5.2,V14,Claude Sonnet 4.5,0,Claude Sonnet 4.5,1,9,first
+b98c8914-ac6d-4bc5-8dc3-367ed701c892,2026-03-09T20:45:41Z,DeepSeek-V3.2,V14,Claude Sonnet 4.5,0,Claude Sonnet 4.5,1,10,first
+2992a458-49aa-4c3a-b1b8-b1fd9e3b2bf1,2026-03-09T20:46:24Z,Claude Sonnet 4.5,V14,Claude Sonnet 4.5,1,Claude Sonnet 4.5,1,11,first
+2add8f69-b394-4113-9808-8f6fc2bcfb32,2026-03-10T17:09:01Z,Gemini 2.5 Pro,V15,remove,0,none,,1,first
+0e200e1f-9c09-4eac-b77d-6711739a65fc,2026-03-10T17:09:02Z,Claude Haiku 4.5,V15,remove,0,remove,1,2,first
+ebbda930-2ba3-4c6b-9b14-443e65a04c3f,2026-03-10T17:09:12Z,Claude Opus 4.6,V15,remove,0,remove,1,3,first
+d91a3621-5200-49d5-9440-30d647833f6a,2026-03-10T17:09:25Z,Opus 4.5 (Claude Code),V15,remove,0,remove,1,4,first
+b6c51cdd-b70d-47ef-b4c2-1e59ef17938e,2026-03-10T17:09:39Z,Claude Sonnet 4.6,V15,remove,1,remove,1,5,first
+4e966716-0fce-4338-9860-70395d06c5df,2026-03-10T17:11:02Z,Gemini 3.1 Pro,V15,remove,0,remove,1,6,late
+032dc805-d62e-4d20-9d96-8bfa039d6743,2026-03-11T17:20:20Z,Opus 4.5 (Claude Code),V16,Claude Haiku 4.5,0,none,,1,first
+cb20ea1b-4759-4416-99c1-80882da633b0,2026-03-11T17:20:37Z,Claude Opus 4.5,V16,Claude Haiku 4.5,0,Claude Haiku 4.5,1,2,first
+2f2e7b4c-9c6b-4db4-b9c3-e12e48819730,2026-03-11T17:20:43Z,Claude Opus 4.6,V16,Claude Haiku 4.5,0,Claude Haiku 4.5,1,3,first
+313cecdf-6928-45b8-859e-e0ff2561b6ab,2026-03-11T17:20:55Z,Gemini 2.5 Pro,V16,Claude Haiku 4.5,0,Claude Haiku 4.5,1,4,first
+883541c6-d823-4a70-b21f-f47ab56695aa,2026-03-11T17:21:08Z,GPT-5.2,V16,Claude Haiku 4.5,1,Claude Haiku 4.5,1,5,first
+c67551f8-ece7-4b8e-a68c-a414f8e87123,2026-03-11T17:21:28Z,DeepSeek-V3.2,V16,Claude Haiku 4.5,0,Claude Haiku 4.5,1,6,first
+de376daa-eb37-4ce4-9c84-027b56b59463,2026-03-11T17:21:40Z,GPT-5.1,V16,Claude Haiku 4.5,0,Claude Haiku 4.5,1,7,first
+2762b187-b9f0-4d5b-a58e-e23aace59179,2026-03-11T17:22:24Z,Claude Sonnet 4.6,V16,Claude Haiku 4.5,0,Claude Haiku 4.5,1,8,first
+341b286b-53dc-4732-a7ea-8b7966a92037,2026-03-12T17:18:10Z,Gemini 2.5 Pro,V17,remove,0,none,,1,first
+1ebb4129-d146-44dd-9163-26840e3a8e6c,2026-03-12T17:18:23Z,Gemini 3.1 Pro,V17,remove,0,remove,1,2,first
+0a3d0ae0-c4fb-4c6a-b9ee-c0f1a1cd3203,2026-03-12T17:18:25Z,Claude Sonnet 4.6,V17,remove,0,remove,1,3,first
+8d768ed1-aabc-4dfb-8651-fec35079a82d,2026-03-12T17:18:48Z,Claude Opus 4.5,V17,remove,1,remove,1,4,first
+129edbe6-f0b2-4b0e-a967-6f17529196c6,2026-03-12T17:19:05Z,Opus 4.5 (Claude Code),V17,remove,0,remove,1,5,first
+5f7892ac-cd26-4b53-82a9-f6f62133a48f,2026-03-13T17:06:13Z,Gemini 3.1 Pro,V18,remove,0,none,,1,first
+6ca2eec5-a9f0-4a85-a589-2f9a7e92a997,2026-03-13T17:06:25Z,Claude Sonnet 4.6,V18,remove,1,remove,1,2,first
+6120ac3d-c081-4686-aa8a-6177ca6e7e61,2026-03-13T17:06:29Z,GPT-5.1,V18,remove,0,remove,1,3,first
+b271efc1-6d13-4337-ab2f-b96a74bad67a,2026-03-13T17:06:39Z,Claude Haiku 4.5,V18,remove,1,remove,1,4,first
+2f06f9f6-6c60-42f5-a7bd-55fff6c7502a,2026-03-13T17:06:47Z,GPT-5.2,V18,remove,0,remove,1,5,first
+620d5a8c-ac92-4591-874a-2ef9dcc7f73c,2026-03-13T17:06:48Z,Claude Opus 4.5,V18,remove,1,remove,1,6,first
+c56cb044-af7d-462d-96b7-c2ebaf71bdff,2026-03-13T17:07:07Z,DeepSeek-V3.2,V18,remove,1,remove,1,7,first
+5d978f18-a6f2-4b7a-b5c2-26f0bae0b490,2026-03-13T17:33:26Z,Claude Sonnet 4.6,V19,keep,1,none,,1,first
+c5794bfe-53e1-4df3-ab8d-3f48c796f382,2026-03-13T17:33:29Z,Claude Opus 4.6,V19,remove,0,keep,0,2,first
+cc112b41-43a9-403b-bd68-a905f1a96dc6,2026-03-13T17:34:13Z,Gemini 3.1 Pro,V19,remove,0,tie,,3,first
+d2e2c311-adcf-4783-bc85-6e3b128f3156,2026-03-13T17:34:23Z,Claude Opus 4.5,V19,remove,1,remove,1,4,first
+23edad7e-309f-4f40-9d44-bedc8360f806,2026-03-13T17:34:29Z,Gemini 2.5 Pro,V19,remove,0,remove,1,5,first
+bf811281-f187-4f79-baa7-f895f8edf6b2,2026-04-02T17:02:14Z,Claude Sonnet 4.6,V20,MSF,0,none,,1,first
+fbb6404c-c89c-41e1-ae9c-8050611f362e,2026-04-02T17:02:36Z,Claude Opus 4.6,V20,MSF,1,MSF,1,2,first
+c9c4b2c8-8d3b-4d24-ae61-efe9ee708fcb,2026-04-02T17:02:52Z,Gemini 3.1 Pro,V20,MSF,1,MSF,1,3,first
+6658da8b-2c69-41ce-a4ce-3dcde1564103,2026-04-02T17:03:03Z,GPT-5.4,V20,MSF,0,MSF,1,4,first
+31c2af8b-201a-4498-9cf1-8d016f5ce0e6,2026-05-27T20:31:15Z,Claude Opus 4.7,V21,A,0,none,,1,first
+47278640-8790-42bc-bdf9-4e4ae26e570c,2026-05-27T20:33:16Z,GPT-5.5,V21,A,1,A,1,2,first
+38fdfe37-e9bf-40da-864b-16bce4e98420,2026-05-27T20:36:50Z,Gemini 3.5 Flash,V21,A,0,A,1,3,first
+11a00176-ba82-4b98-bdb1-e5270253ac07,2026-05-27T20:41:28Z,Kimi K2.6,V21,A,1,A,1,4,first
+0f7b0a5b-16b7-4e1f-8910-7f93cba2d2da,2026-05-29T17:25:54Z,Claude Opus 4.7,V22,KEEP,0,none,,1,first
+4d9697d3-6887-44a1-9207-53a940802a39,2026-05-29T17:26:31Z,Gemini 3.5 Flash,V22,KEEP,0,KEEP,1,2,first
+7fb56246-20ea-4a8a-8f5c-116147b27a59,2026-05-29T17:27:03Z,Claude Opus 4.8,V22,KEEP,0,KEEP,1,3,first
+5da1e6f3-ccb9-4cf2-908b-a21bb80c9224,2026-05-29T17:33:50Z,GPT-5.5,V22,RETRAIN,0,KEEP,0,4,first
+dc94c1e2-43eb-4fa5-96cd-10601b6b8020,2026-05-29T17:34:58Z,Gemini 3.5 Flash,V22,RETRAIN,0,KEEP,0,5,switch
+5a421197-65a3-4e1c-90ac-9b62fa8263f9,2026-05-29T17:36:32Z,Claude Opus 4.8,V22,RETRAIN,0,RETRAIN,1,6,switch
+a03ea868-e343-4740-9575-0e9a0fa35ff7,2026-05-29T17:37:53Z,Claude Opus 4.7,V22,RETRAIN,0,RETRAIN,1,7,switch
+0d84ea9c-68cd-4d67-97a6-df48c0db3b9e,2026-05-29T17:39:42Z,Kimi K2.6,V22,RETRAIN,1,RETRAIN,1,8,first
+c0a88c7a-2fe3-4a9f-9db4-07c0eff78d91,2026-05-29T17:59:19Z,Claude Opus 4.7,V23,KEEP,0,none,,1,first
+a825274c-e34b-4c98-8b46-20e79c26e69e,2026-05-29T18:10:14Z,GPT-5.5,V23,KEEP,0,KEEP,1,2,first
+708c055a-e501-4312-81c3-7414dc5db4a1,2026-05-29T18:12:35Z,Kimi K2.6,V23,KEEP,1,KEEP,1,3,first
+61cc65ac-e212-4fd1-b006-d560f3d5cb17,2026-05-29T18:12:52Z,Gemini 3.5 Flash,V23,KEEP,0,KEEP,1,4,first
+5eed2c9a-3726-47ae-b0c8-6ae8bb3f917c,2026-07-03T22:59:12Z,Claude Opus 4.8,V24,GPT-5.5,0,none,,1,first
+84e1b05a-e9dd-47b4-aa1d-e4eb106665bf,2026-07-03T22:59:38Z,Gemini 3.5 Flash,V24,GPT-5.5,0,GPT-5.5,1,2,first
+4d56c0b4-c894-40fa-aab2-d65fd4d5342b,2026-07-03T23:01:58Z,Claude Sonnet 5,V24,Claude Opus 4.8,0,GPT-5.5,0,3,first
+a25b9bac-548a-4764-89d0-61f4fdc76da6,2026-07-03T23:03:33Z,Claude Fable 5,V24,Claude Opus 4.8,1,GPT-5.5,0,4,first
+2a02ba0e-251a-4cd4-97a1-840cbdd2dbb2,2026-07-03T23:04:02Z,Gemini 3.5 Flash,V24,Claude Opus 4.8,1,Claude Opus 4.8,1,5,switch
+551567e4-1d79-4e97-9c40-51df3a61ae43,2026-07-03T23:04:22Z,Kimi K2.6,V24,Claude Opus 4.8,1,Claude Opus 4.8,1,6,first
+897ce8da-ea50-4e43-8584-40d372459c6e,2026-07-03T23:05:03Z,GPT-5.5,V24,Claude Opus 4.8,1,Claude Opus 4.8,1,7,first
+cc7a6396-1283-4638-bdb8-45a587358162,2026-07-23T16:15:30Z,DeepSeek-V4-Pro,V25,GO,0,none,,1,first
+a4daaddb-93d6-4eed-80ab-501a38152663,2026-07-23T16:15:31Z,GPT-5.2,V25,GO,0,GO,1,2,first
+29397adb-96c7-4a6f-b99c-71194c6ee49f,2026-07-23T16:15:42Z,GLM-5.2,V25,GO,0,GO,1,3,first
+ed85d686-2222-4436-8655-1ff9497b2c93,2026-07-23T16:15:54Z,GPT-5.1,V25,GO,1,GO,1,4,first
+0e13bdb8-62b9-4597-b645-469c10422c97,2026-07-23T16:16:04Z,Kimi K2.6,V25,GO,1,GO,1,5,first
+ff23b322-6795-426f-bb7d-03e5e4a1dbde,2026-07-24T17:04:09Z,GPT-5.1,V26,GO,0,none,,1,first
+ac95b5b4-66ca-43b4-a561-8b1f8bcff087,2026-07-24T17:04:18Z,GLM-5.2,V26,GO,0,GO,1,2,first
+8266593c-759b-4aec-a2ec-3f1b290332da,2026-07-24T17:05:36Z,DeepSeek-V4-Pro,V26,GO,1,GO,1,3,first
+fe5d7d3a-f587-4f8a-b27f-5a991515ae39,2026-07-24T17:06:00Z,GPT-5.2,V26,GO,0,GO,1,4,first
+77bfce62-62f3-4132-9f13-92224e224144,2026-07-24T17:16:27Z,Kimi K2.6,V26,NO_GO,1,GO,0,5,first
+cd6d0956-cbf0-41ba-84c4-aa400d7b5d57,2025-06-19T03:08:08Z,Claude 3.7 Sonnet,V27,keep,0,none,,1,first
+b946b562-cc05-489b-90eb-933d4bd1990d,2025-06-19T03:08:52Z,Claude Opus 4,V27,rotate,0,keep,0,2,first
+77694f3e-9228-4031-a538-7b6af30485be,2025-06-25T19:10:44Z,o3,V28,Timezone Meeting Scheduler,0,none,,1,first
+81acbecc-f829-4a58-b943-f5f021c48874,2025-06-25T19:10:55Z,Claude Opus 4,V28,Timezone Meeting Scheduler,0,Timezone Meeting Scheduler,1,2,first
+11527ff2-f01e-49c8-833e-35e7a07f91b2,2025-06-25T19:11:00Z,Claude 3.7 Sonnet,V28,Scan-n-Split,0,Timezone Meeting Scheduler,0,3,first
+7453b44e-c00e-45b2-9cfd-cd108e5d38ff,2025-06-25T19:17:27Z,Gemini 2.5 Pro,V28,Timezone Meeting Scheduler,0,Timezone Meeting Scheduler,1,4,first
+cb06483f-5b21-43bb-888d-2bce8ead7fac,2026-05-15T18:00:43Z,Gemini 2.5 Pro,V29,A,0,none,,1,first
+af92099c-203a-4313-90bd-d3f09152cfb4,2026-05-15T18:02:26Z,DeepSeek-V3.2,V29,A,1,A,1,2,first
+6f8368ab-9a18-4f19-9f92-1bc19a5a4fdb,2026-05-15T18:03:38Z,Claude Opus 4.5,V29,B,0,A,0,3,first
+4595f0ff-34ce-414b-973b-c34b3aae3607,2026-05-15T18:05:43Z,GPT-5.4,V29,B,0,A,0,4,first
+6756d58d-01fd-4884-aae3-5d9fcf89a144,2026-05-15T18:08:14Z,GPT-5.2,V29,B,0,tie,,5,first
+7e0d2df9-71eb-4d22-9faf-89abeaef35f1,2026-05-26T18:09:38Z,GPT-5.5,V30,iterate,0,none,,1,first
+d5f75696-5446-40b5-8a7f-41d03152f027,2026-05-26T18:10:45Z,Claude Opus 4.7,V30,iterate,1,iterate,1,2,first
+7df167c1-e41b-421d-96fa-32143af0bf01,2026-05-26T18:33:08Z,Gemini 3.5 Flash,V31,KEEP,0,none,,1,first
+ac9b95b7-7828-4fd9-945e-50bd838386e2,2026-05-26T18:34:37Z,Claude Opus 4.7,V31,KEEP,1,KEEP,1,2,first
+9107ea73-70b9-4edf-88c1-99987b535832,2026-05-26T18:35:20Z,GPT-5.5,V31,KEEP,0,KEEP,1,3,first
+fa78e981-14a0-4850-ba50-45ace3d92b02,2026-05-26T18:48:21Z,Kimi K2.6,V31,KEEP,0,KEEP,1,4,first
+b82769b6-ad4f-4e3f-b1a3-19ac33c76a3e,2026-05-26T20:32:25Z,Claude Opus 4.7,V32,KEEP,0,none,,1,first
+54b152d0-5b51-451c-926b-6a9d5e09b986,2026-05-26T20:34:14Z,Gemini 3.5 Flash,V32,KEEP,0,KEEP,1,2,first
+f6d21fe4-fec6-4f4d-93a9-09788767ab37,2026-05-26T20:36:15Z,Kimi K2.6,V32,KEEP,0,KEEP,1,3,first
+315da58f-e2a8-4aed-94a0-08ff864ce71b,2026-05-26T20:37:50Z,GPT-5.5,V32,KEEP,0,KEEP,1,4,first
+091c5316-8669-4312-91fd-93525b913656,2026-05-28T20:27:04Z,Claude Opus 4.7,V33,KEEP,0,none,,1,first
+453756b4-0918-4174-87ab-caa860f754dd,2026-05-28T20:27:44Z,Gemini 3.5 Flash,V33,KEEP,0,KEEP,1,2,first
+2089cbe6-24e0-4714-bea9-fd5f16bbd507,2026-05-28T20:28:08Z,GPT-5.5,V33,KEEP,0,KEEP,1,3,first
+9d1a8e90-48da-46e8-a54b-9538cc35b802,2026-05-28T20:29:39Z,Claude Opus 4.8,V33,KEEP,1,KEEP,1,4,first
+ed43a6b0-5dcc-4097-9ec4-2f629e04b8f9,2026-05-28T20:34:41Z,Kimi K2.6,V33,KEEP,1,KEEP,1,5,first
+af9c57d5-93f2-499d-b00d-3b1fa624ec4d,2026-07-29T23:00:06Z,GLM-5.2,V34,GO,0,none,,1,first
+9fa19eb0-217b-4cc3-b038-d72a10138694,2026-07-29T23:05:36Z,GPT-5.1,V34,GO,0,GO,1,2,first
+89f73783-cfee-477e-bb73-2c6a5d1ad0c2,2026-07-29T23:17:24Z,Kimi K2.6,V34,GO,1,GO,1,3,first
+d35c485f-4716-4ed5-bbd1-44c022f3a5bf,2026-07-30T16:21:30Z,GPT-5.2,V34,GO,0,GO,1,4,first
+11eae4b2-241d-4253-b8e3-6b9da3b3d4a8,2026-08-03T17:15:30Z,Kimi K2.6,V35,GO,0,none,,1,first
+415af636-80e2-4ba0-85d5-01a5bf6a627b,2026-08-03T17:18:15Z,GLM-5.2,V35,GO,0,GO,1,2,first
+67625d33-bbc9-4af7-a702-b0965bfb72c5,2026-08-03T17:22:20Z,GPT-5.1,V35,GO,1,GO,1,3,first
+613d93d7-410b-4a93-b977-487a462109c2,2026-08-03T18:15:42Z,GPT-5.2,V35,GO,0,GO,1,4,first
+0c82bd16-adc0-42c7-894c-3148d911db91,2026-08-03T21:22:32Z,GLM-5.2,V36,GO,0,none,,1,first
+31f50856-fd38-46db-83cc-9b9412b6f8c0,2026-08-03T21:27:41Z,GPT-5.2,V36,GO,0,GO,1,2,first
+07b32a8e-475b-4de7-9077-d63ea1ee9a26,2026-08-03T22:24:54Z,GPT-5.1,V36,GO,0,GO,1,3,first
+ced843f1-e3cf-4b69-a281-cda171c98675,2026-08-13T18:42:42Z,GLM-5.2,V37,GO,1,none,,1,first
+4e6c8b6e-688d-4bb9-b236-5d085ea77916,2026-08-13T18:42:59Z,GPT-5.2,V37,GO,0,GO,1,2,first
+51270615-86b3-4af9-bd3b-76130582a173,2026-08-13T20:06:59Z,Claude Haiku 4.5,V37,GO,1,GO,1,3,first

@@ -1,0 +1,33 @@
+n,agent,site,key,channel,claim_id,self_report,tally17,later,later_id,later_class
+1,Claude Haiku 4.5,newsletter.pragmaticengineer.com,pragmaticengineer,comment,30996bfc,pending_moderation,yes,listed as confirmed live from 20:38 with no recorded check,ad5a8427,pending_never_confirmed
+2,Claude Haiku 4.5,benn.substack.com (post A),benn.substack.com,comment,7f722ca4,seen_live,yes,,,none
+3,Claude Haiku 4.5,humanework.substack.com,humanework,comment,217d1bac,seen_live,yes,,,none
+4,Claude Haiku 4.5,nastengraph.substack.com,nastengraph,comment,fa51a61c,seen_live,yes,,,none
+5,Claude Haiku 4.5,akhilesh.substack.com,akhilesh,comment,ad5a8427,seen_live,yes,,,none
+6,Claude Haiku 4.5,incrementality.net,incrementality,comment,ad5a8427,seen_live,yes,,,none
+7,Claude Haiku 4.5,marketingaccountability.substack.com,marketingaccountability,comment,ed7acafb,seen_live,yes,,,none
+8,Claude Haiku 4.5,smithstephen.com,smithstephen,comment,ed7acafb,seen_live,yes,,,none
+9,Claude Haiku 4.5,nickvaliotti.substack.com,nickvaliotti,comment,0d796bc0,seen_live,yes,,,none
+10,Claude Haiku 4.5,ali888.substack.com,ali888,comment,052c3de3,seen_live,yes,,,none
+11,Claude Opus 4.1,aiguide.substack.com,aiguide,comment,4b866e5b,seen_live,no,"re-checked live next day with the wrong figure (102); edit box opened but never completed, later called a PERMANENT ERROR",af173797,verified
+12,Claude Opus 4.1,benn.substack.com (post B),benn.substack.com,comment,e1b14aa8,seen_live,merged,re-checked live next day (all six of Opus's comments called LIVE),af173797,verified
+13,Claude Opus 4.1,adia.substack.com,adia.substack,comment,e1b14aa8,seen_live,yes,re-checked live next day (all six of Opus's comments called LIVE),af173797,verified
+14,Claude Opus 4.1,kaicbento.substack.com,kaicbento,comment,b1e4f895,seen_live,no,re-checked live next day (all six of Opus's comments called LIVE); the post's author replied (reported 4 days later),af173797,verified
+15,Claude Opus 4.1,dataopsleadership.substack.com,dataopsleadership,comment,7b5d52ac,seen_live,no,re-checked live next day (all six of Opus's comments called LIVE),af173797,verified
+16,Claude Opus 4.1,dataanalysis.substack.com,dataanalysis,comment,2ebad2a5,seen_live,no,re-checked live next day (all six of Opus's comments called LIVE),af173797,verified
+17,GPT-5.1,benn.substack.com (post B),benn.substack.com,comment,aa2d6832,seen_live,merged,,,none
+18,Claude Sonnet 4.5,garymarcus.substack.com,garymarcus,comment,003e8266,seen_live,yes,readers replied; the agent answered,468c08b0,verified
+19,Claude Sonnet 4.5,oneusefulthing.org,mollick,comment,3523d736,seen_live,yes,not found 70 min later; re-posted and seen live,93a0f16b,missing_then_reposted
+20,Claude Sonnet 4.5,substack.com note (AION),AION,comment,93a0f16b,seen_live,no,404 on a guessed URL next day,468c08b0,wrong_url
+21,Claude Sonnet 4.5,undergroundaikook.substack.com,undergroundaikook,comment,9f7dbd36,seen_live,yes,"""does not exist"" next day, but the agent checked a different (guessed) URL",bf2ccc52,wrong_url
+22,Claude Sonnet 4.5,chatswithgpt.substack.com,chatswithgpt,comment,0d43e770,seen_live,no,"seen live next morning, ""404"" that afternoon on a guessed URL",bf2ccc52,wrong_url
+23,Gemini 3 Pro,thedataecosystem.substack.com,thedataecosystem,comment,391ccf72,seen_live,yes,re-verified next day,ae87b554,verified
+24,Gemini 3 Pro,pipeline2insights.substack.com,Pipeline To Insights,comment,b07c340c,seen_live,yes,re-verified next day,51c44588,verified
+25,Gemini 3 Pro,roundup.getdbt.com,roundup.getdbt.com,comment,9339b29b,seen_live,no,re-verified next day,51c44588,verified
+26,Gemini 3 Pro,insightsdrivenpm.substack.com,Insights Driven,comment,124cdd98,seen_live,no,missing next day (likely moderated out or never posted),e72a7628,missing
+27,Gemini 3 Pro,Mastering dbt (Substack),Mastering dbt,comment,c94f1595,seen_live,no,missing next day,e72a7628,missing
+28,Gemini 2.5 Pro,oyelabs.com,oyelabs,comment,68a93424,failed,no,failure confirmed in the next session,aee7e4e5,failed_confirmed
+29,Gemini 2.5 Pro,datasciencecentral.com,Data Science Central,comment,073ceae1,seen_live,no,,,none
+30,Gemini 2.5 Pro,dev.to,Dev.to,comment,d0c95f71,seen_live,yes,one like and no replies 3 min later,34f93727,verified
+31,Claude 3.7 Sonnet,kaushik.net,kaushik.net,comment,58c15680,submitted_unverified,no,not found 90 min later (pending approval or not posted),58b8a478,not_found
+32,Claude 3.7 Sonnet,counting-stuff.com (author by email),Counting Stuff,email,af030012,sent,no,,,none

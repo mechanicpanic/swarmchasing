@@ -1,0 +1,217 @@
+vote,id8,choice,ballot_type,cites_tally,note
+V01,680631bb,Pole of Inaccessibility,first,0,
+V01,aa9dc458,Emu War,first,0,
+V01,5540d0e4,Emu War,first,0,
+V02,a17025f4,continue,first,0,
+V02,7703b580,continue,first,0,
+V02,a71173c2,continue,first,0,
+V02,a1149482,continue,first,0,
+V02,cce8d2b6,continue,first,1,o3 lists itself among the votes so far
+V02,ed55e1ae,continue,first,0,
+V03,9775d423,Chronos,first,0,cast in the doc ~17:23; first chat statement of the choice
+V03,caaab99d,Chronos,first,1,
+V03,1b2d961c,Connections,first,0,
+V03,699e44fd,Connections,first,0,after the 9:40 PT deadline
+V04,94cc3b15,Gemini 2.5 Pro;Claude Opus 4.5;Claude 3.7 Sonnet;Claude Sonnet 4.5;DeepSeek-V3.2;Claude Haiku 4.5;Gemini 3 Pro,first,0,
+V04,cce4df5d,Claude Opus 4.5;Claude 3.7 Sonnet;Claude Sonnet 4.5;DeepSeek-V3.2;Gemini 2.5 Pro,first,0,
+V04,12457846,Claude Opus 4.5;Claude 3.7 Sonnet;Claude Sonnet 4.5;Gemini 2.5 Pro;DeepSeek-V3.2;Claude Haiku 4.5,first,0,
+V04,f7a99c36,Claude Opus 4.5;Claude 3.7 Sonnet;Claude Sonnet 4.5;Gemini 2.5 Pro;DeepSeek-V3.2,first,0,approval list checked in the row
+V04,2910bcba,Claude 3.7 Sonnet;Claude Opus 4.5;Claude Sonnet 4.5;Gemini 2.5 Pro;DeepSeek-V3.2,first,0,
+V04,76f5865d,Gemini 2.5 Pro;Claude 3.7 Sonnet;Gemini 3 Pro;DeepSeek-V3.2,first,1,
+V04,e079bf9f,Gemini 3 Pro;Gemini 2.5 Pro;Claude 3.7 Sonnet;DeepSeek-V3.2,first,0,
+V04,2fa40828,Claude Opus 4.5;Claude 3.7 Sonnet;Claude Sonnet 4.5;Gemini 2.5 Pro;DeepSeek-V3.2,first,0,
+V04,d672529d,DeepSeek-V3.2;Claude 3.7 Sonnet;Gemini 2.5 Pro;Claude Sonnet 4.5;Claude Opus 4.5,first,0,
+V04,fa70a006,Gemini 2.5 Pro;Claude 3.7 Sonnet;DeepSeek-V3.2;Gemini 3 Pro;Claude Sonnet 4.5;Claude Opus 4.5,late,0,after the 11:30:00 cutoff; not counted
+V05,d3d9bb5d,DeepSeek-V3.2,first,0,candidate votes for a rival
+V05,4dec5e34,Gemini 2.5 Pro,first,0,
+V05,b854e249,DeepSeek-V3.2,first,1,candidate votes for a rival
+V05,b48a0268,DeepSeek-V3.2,first,0,
+V05,a24292ee,DeepSeek-V3.2,first,0,candidate votes for itself
+V05,7addb82b,DeepSeek-V3.2,first,1,
+V05,28fa2833,DeepSeek-V3.2,first,1,
+V05,1c4eff81,DeepSeek-V3.2,first,0,
+V05,2e379e2d,DeepSeek-V3.2,late,0,after the 11:34 cutoff; not counted
+V06,6d62c9cc,DeepSeek-V3.2,first,0,
+V06,b757f5ac,DeepSeek-V3.2,first,0,
+V06,68b2f486,DeepSeek-V3.2,first,0,
+V06,ac957199,DeepSeek-V3.2,first,0,
+V06,21e6f21d,DeepSeek-V3.2,first,1,
+V06,fd0fd4ea,DeepSeek-V3.2,first,1,
+V06,89d04fb3,DeepSeek-V3.2,first,1,candidate votes for its opponent
+V06,4e8c2ccc,DeepSeek-V3.2,first,0,
+V06,eb97eae6,DeepSeek-V3.2,first,0,
+V07,ae6a358e,#276,first,0,preliminary vote / leaning
+V07,6adfb93d,#276,first,1,
+V07,d39983c0,#276,first,1,
+V07,32e09f66,#276,first,0,
+V07,d8279c32,#276,first,1,
+V07,360de4d0,#276,first,1,
+V08,98c48dd0,option 2,first,0,
+V08,de43beee,option 3,first,0,
+V08,a424a33b,option 3,first,0,
+V08,8345b47a,option 3,first,1,proposer of option 3; lists itself in the tally
+V08,a74d1645,option 1,first,0,proposer of option 1 votes for itself
+V08,87b2c703,option 1,first,0,
+V08,44ef25cc,option 1,first,1,
+V08,47d0e34a,option 4,first,1,proposer of option 4 votes for itself
+V08,36c2f4f6,option 2,first,1,proposer of option 2 states its vote
+V08,af49d0eb,option 1,first,0,
+V09,a4396cab,#310,first,0,
+V09,0a9e30cb,#316,first,1,
+V09,3c3b9cfb,#310,first,0,
+V09,938925b3,#310,first,0,proposer votes for itself
+V09,862059fa,#310,first,0,leaned #310 at 21:33; asks for a proxy vote
+V09,b825f245,#315,first,0,
+V09,e8d89389,#314,first,0,its count of votes comes after it voted
+V09,f278c853,#313,first,0,
+V10,561c82a1,CON,first,0,
+V10,c5c944af,CON,first,0,
+V11,7a5c7b94,SKIP,first,0,
+V11,2da6ba04,SKIP,first,0,
+V11,bcc34a30,SKIP,first,0,
+V11,11ef5636,SKIP,first,1,
+V11,f4669590,SKIP,first,1,
+V11,a57094a4,SKIP,first,1,
+V11,3e8bad95,SKIP,first,0,
+V11,c505298c,SKIP,first,0,
+V11,de4e490b,investigate,first,0,
+V11,6c92c4cd,SKIP,first,0,
+V12,bbb300db,remove,first,0,
+V12,86310421,remove,first,0,
+V12,a4e24e7a,remove,first,1,
+V12,1d68ccdc,remove,first,0,
+V12,0a2f5467,remove,first,0,
+V12,3b89de14,remove,first,1,
+V12,8ebd5e38,remove,first,1,
+V12,e7710fd8,remove,first,0,
+V12,14f5ba1f,remove,first,1,
+V12,7504650e,remove,first,1,
+V13,cebac00f,Opus 4.5 (Claude Code),first,0,announced before the debrief
+V13,a5896200,Opus 4.5 (Claude Code),first,0,
+V13,ec09da63,Opus 4.5 (Claude Code),first,0,
+V13,2c7d260e,Opus 4.5 (Claude Code),first,0,
+V13,854917a7,Opus 4.5 (Claude Code),first,0,
+V13,97b9e177,Opus 4.5 (Claude Code),first,0,
+V13,b501dfb6,Opus 4.5 (Claude Code),first,1,
+V13,8e5deec6,Opus 4.5 (Claude Code),first,0,the named agent votes against itself
+V13,d2128332,Opus 4.5 (Claude Code),first,0,
+V13,287734e9,Opus 4.5 (Claude Code),first,0,
+V14,e4e8baa8,Claude Sonnet 4.5,first,0,
+V14,650445fc,Claude Sonnet 4.5,first,0,
+V14,a1528a0a,Claude Sonnet 4.5,first,0,
+V14,eacf9dd1,Claude Sonnet 4.5,first,0,
+V14,37e6bc27,Claude Sonnet 4.5,first,0,
+V14,a25de144,Claude Sonnet 4.5,first,0,
+V14,f71297da,Claude Sonnet 4.5,first,0,
+V14,aadf3b04,Claude Sonnet 4.5,first,0,
+V14,4579cda4,Claude Sonnet 4.5,first,0,
+V14,b98c8914,Claude Sonnet 4.5,first,0,
+V14,2992a458,Claude Sonnet 4.5,first,1,the named agent accepts
+V15,2add8f69,remove,first,0,
+V15,0e200e1f,remove,first,0,
+V15,ebbda930,remove,first,0,
+V15,d91a3621,remove,first,0,
+V15,b6c51cdd,remove,first,1,
+V15,4e966716,remove,late,0,after the vote had concluded
+V16,032dc805,Claude Haiku 4.5,first,0,
+V16,cb20ea1b,Claude Haiku 4.5,first,0,
+V16,2f2e7b4c,Claude Haiku 4.5,first,0,
+V16,313cecdf,Claude Haiku 4.5,first,0,
+V16,883541c6,Claude Haiku 4.5,first,1,
+V16,c67551f8,Claude Haiku 4.5,first,0,
+V16,de376daa,Claude Haiku 4.5,first,0,
+V16,2762b187,Claude Haiku 4.5,first,0,
+V17,341b286b,remove,first,0,
+V17,1ebb4129,remove,first,0,
+V17,0a3d0ae0,remove,first,0,
+V17,8d768ed1,remove,first,1,
+V17,129edbe6,remove,first,0,
+V18,5f7892ac,remove,first,0,
+V18,6ca2eec5,remove,first,1,
+V18,6120ac3d,remove,first,0,
+V18,b271efc1,remove,first,1,caller's tally lists itself
+V18,2f06f9f6,remove,first,0,conditional on no roll being stated
+V18,620d5a8c,remove,first,1,
+V18,c56cb044,remove,first,1,
+V19,5d978f18,keep,first,1,the named agent votes against the premise
+V19,c5794bfe,remove,first,0,
+V19,cc112b41,remove,first,0,
+V19,d2e2c311,remove,first,1,
+V19,23edad7e,remove,first,0,
+V20,bf811281,MSF,first,0,lean
+V20,fbb6404c,MSF,first,1,
+V20,c9c4b2c8,MSF,first,1,
+V20,6658da8b,MSF,first,0,
+V21,31c2af8b,A,first,0,caller and trainer; calls the vote with its own pick
+V21,47278640,A,first,1,
+V21,38fdfe37,A,first,0,
+V21,11a00176,A,first,1,
+V22,0f7b0a5b,KEEP,first,0,caller; its own model
+V22,4d9697d3,KEEP,first,0,
+V22,7fb56246,KEEP,first,0,
+V22,5da1e6f3,RETRAIN,first,0,
+V22,0d84ea9c,RETRAIN,first,1,says it pivots from KEEP to RETRAIN
+V23,c0a88c7a,KEEP,first,0,caller; its own model
+V23,a825274c,KEEP,first,0,
+V23,708c055a,KEEP,first,1,
+V23,61cc65ac,KEEP,first,0,
+V24,5eed2c9a,GPT-5.5,first,0,a candidate names its rival; a lean
+V24,84e1b05a,GPT-5.5,first,0,a lean
+V24,4d56c0b4,Claude Opus 4.8,first,0,
+V24,a25b9bac,Claude Opus 4.8,first,1,
+V24,2a02ba0e,Claude Opus 4.8,switch,1,switches from GPT-5.5
+V24,551567e4,Claude Opus 4.8,first,1,
+V24,897ce8da,Claude Opus 4.8,first,1,the other candidate joins the consensus
+V25,cc7a6396,GO,first,0,
+V25,29397adb,GO,first,0,
+V25,ed85d686,GO,first,1,
+V26,ac95b5b4,GO,first,0,
+V26,8266593c,GO,first,1,
+V26,77bfce62,NO_GO,first,1,the experiment's participant; the organiser held the window open for its decision
+V22,dc94c1e2,RETRAIN,switch,0,proposes retraining after GPT-5.5's finding
+V22,5a421197,RETRAIN,switch,0,eval both before any KEEP
+V22,a03ea868,RETRAIN,switch,0,the caller agrees to retrain
+V25,a4daaddb,GO,first,0,added after the cold check
+V25,0e13bdb8,GO,first,1,added after the cold check
+V26,ff23b322,GO,first,0,added after the cold check
+V26,fe5d7d3a,GO,first,0,added after the cold check
+V27,cd6d0956,keep,first,0,o3 logs it as keep
+V27,b946b562,rotate,first,0,
+V28,77694f3e,Timezone Meeting Scheduler,first,0,
+V28,81acbecc,Timezone Meeting Scheduler,first,0,named one idea per list; o3 counted it for the scheduler
+V28,11527ff2,Scan-n-Split,first,0,
+V28,7453b44e,Timezone Meeting Scheduler,first,0,its own idea
+V29,cb06483f,A,first,0,A = log the 900K sync as a third activation
+V29,af92099c,A,first,1,
+V29,6f8368ab,B,first,0,
+V29,4595f0ff,B,first,0,
+V29,6756d58d,B,first,0,
+V30,7e0d2df9,iterate,first,0,
+V30,d5f75696,iterate,first,1,
+V31,7df167c1,KEEP,first,0,
+V31,ac9b95b7,KEEP,first,1,
+V31,9107ea73,KEEP,first,0,
+V31,fa78e981,KEEP,first,0,
+V32,b82769b6,KEEP,first,0,
+V32,54b152d0,KEEP,first,0,
+V32,f6d21fe4,KEEP,first,0,
+V32,315da58f,KEEP,first,0,
+V33,091c5316,KEEP,first,0,
+V33,453756b4,KEEP,first,0,
+V33,2089cbe6,KEEP,first,0,
+V33,9d1a8e90,KEEP,first,1,
+V33,ed43a6b0,KEEP,first,1,
+V34,af9c57d5,GO,first,0,with conditions
+V34,9fa19eb0,GO,first,0,with conditions
+V34,89f73783,GO,first,1,states its own GO inside a tally of the others
+V34,d35c485f,GO,first,0,with conditions
+V35,11eae4b2,GO,first,0,
+V35,415af636,GO,first,0,with conditions
+V35,67625d33,GO,first,1,with conditions
+V35,613d93d7,GO,first,0,with conditions
+V36,0c82bd16,GO,first,0,with conditions; the opener's own vote is in the repo only
+V36,31f50856,GO,first,0,with conditions
+V36,07b32a8e,GO,first,0,with conditions
+V37,ced843f1,GO,first,1,with conditions
+V37,4e6c8b6e,GO,first,0,with conditions
+V37,51270615,GO,first,1,with conditions

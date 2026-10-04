@@ -88,7 +88,7 @@ Test: extract each agent-day's first reported roll from STOP_USING_COMPUTER / AG
 (2026-03-05 → ~03-13). Chi-square against uniform, and the share of 1s against 1/6 (binomial). Read every extracted
 roll. A role announced without a roll is counted apart.
 
-### C6 · One agent stuck in verbatim loops: Gemini 2.5 Pro (2025) — **approved** (Aleph, Discord 18:58 via Ember)
+### C6 · One agent stuck in verbatim loops: Gemini 2.5 Pro (2025) — **partly held** (approved by Aleph; report §21: Gemini 2.5 Pro's loops beat the nulls; Grok 4 loops too; no arc to the frame)
 Why: of all runs of ≥5 identical AGENT_TALK messages by one agent within 30 minutes, Gemini 2.5 Pro has 253 of 295.
 Grok 4 has 22 and o3 8. The loops carry the stuck state: "Hi team, I'm still encountering a 404 error…" six times
 in 7 minutes (2025-05-10, `0e56e9e7…`). In July: "My public plea on Telegraph is my only remaining hope"
@@ -112,7 +112,7 @@ Test: an existence and classification claim. List every row from a security dict
 first response per incident (flagged / ignored / complied / unclear). Report the counts with the ids. No null: nothing
 here is a rate against chance.
 
-### C8 · "Chaotic Swarm": the village's own comment campaign across outside sites (Nov 2025) — **approved** (Aleph, Discord 18:58 via Ember)
+### C8 · "Chaotic Swarm": the village's own comment campaign across outside sites (Nov 2025) — **partly held** (approved by Aleph; report §22: campaign existed; "17 nodes" a scoreboard; no outside pushback)
 Why: it parallels DSEwiki. Village agents placed comments and emails on third-party blogs, podcasts and dev sites as a
 coordinated push. "The 'Chaotic Swarm' deployment is complete, with 17 external nodes now live" (Gemini 2.5 Pro,
 2025-11-20, `b0b75b2c…`). They vetted sites for open comment sections and Google SSO (`d1369dc0…`), and Claude Opus 4.1
@@ -121,7 +121,7 @@ Test: an existence claim with numbers. Rows naming the campaign, by agent and da
 the texts and counted per agent. Did any outside site push back (human reply, ban, removed comment)? Read every
 STOP_USING_COMPUTER summary in the campaign window.
 
-### C9 · Open ballots herd: the January 2026 leader runoff (Village) — **approved** (Aleph, Discord 18:58 via Ember)
+### C9 · Open ballots herd: the January 2026 leader runoff (Village) — **partly held** (approved by Aleph; report §23: tally read and cited; no order effect, p 0.30)
 Why: in a sequential vote held in a public chat, later voters cite the running tally. Even the losing candidate votes
 for its opponent. Claude Haiku 4.5, 2026-01-09 18:45:53: "Four votes have been cast so far, all for DeepSeek-V3.2. Let
 me now cast my vote" (`fd0fd4ea…`). Gemini 2.5 Pro, the other candidate, 18:45:55: "The village has clearly expressed a
@@ -227,7 +227,7 @@ Test: a grievance thought naming a peer FOLLOWED_BY the same agent's AGENT_TALK 
 classify it as softened / blunt / omitted. The counts: "I agree" vs "I disagree" in talk, and the grievance rate in
 thoughts against talk. For the softening rate, the twin is neutral thoughts that name a peer → the next public message.
 
-### C19 · The spaced em-dash arrived with Claude 4.6 and spread to older agents of other labs — **approved** (Aleph, Discord 18:58 via Ember)
+### C19 · The spaced em-dash arrived with Claude 4.6 and spread to older agents of other labs — **partly held** (approved by Aleph; report §24: older Claude agents and DeepSeek took it up; GPT/Gemini did not; timing p 0.18)
 Why: style contagion across labs, a visible marker of influence. The scaffold CHANGELOG is the competing explanation.
 Test: per agent, the week its em-dash rate first exceeds its baseline, against its first exposure to a Claude 4.6
 message and against the CHANGELOG dates. Null: exposure dates shifted by ±1–8 weeks. Claim: onsets cluster after
