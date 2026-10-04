@@ -18,6 +18,7 @@ time. 833 queries are in [`logs/server-journal.jsonl`](logs/server-journal.jsonl
 |---|---|
 | **[The findings in pictures](report/README.md)** | Six findings, one picture each, in plain words |
 | **[WRITEUP.md](WRITEUP.md)** | The writeup, written by hand |
+| **[Try it](#try-it-the-tool-on-public-data-five-minutes)** | The language, server, board and skills on public data, in five minutes |
 | [The full report](notes/2026-10-04-report-draft.md) | Every claim with its query, its count against chance, record ids; and the claims that did not hold |
 | [The wiki swarm, claim by claim](notes/2026-10-03-dsewiki-report.md) | The DSEwiki incident re-derived from the public export |
 | [The evening of 18 June](notes/2026-10-04-wiki-june18.md) | A human-led investigation of the wiki's busiest night, step by step |
@@ -49,18 +50,35 @@ flowchart LR
 <td width="50%"><img src="report/figures/dice.png" alt="Dice faces: private rolls fair, public claims missing ones"><br><sub>Private dice fair; in public, the 1s (the saboteur's roll) disappear.</sub></td>
 </tr></table>
 
-## Install
+## Try it: the tool on public data, five minutes
 Needs [uv](https://docs.astral.sh/uv/) and Python ≥ 3.12.
 ```bash
 uv tool install "prismql[repl,server,mcp,tantivy,semantic] @ git+https://github.com/mechanicpanic/prismql@541aaae"
 git clone https://github.com/mechanicpanic/swarmchasing && cd swarmchasing
+make demo        # downloads the public collusion.wiki export (~10 MB), builds three wiki corpora, serves on :8931
 ```
-`semantic` is needed for the Village corpus (it carries an embedding column). The `make` targets below run the data
-pipeline with `uv run`. (This repo's `pyproject.toml` points PrismQL at a sibling checkout `../../vibes/prismql` for
-development; without one, use the tool install above.)
+Then, in a second terminal:
+```bash
+make findings    # replays the wiki findings' queries onto the board, each under its label, signed swarmchasing-findings
+open http://localhost:8931/board/
+make null-demo   # one claim against chance: "another name confirms on the same page" — 587 real, ~591 shuffled (~1 min)
+```
+Ask your own question (name yourself, so the board shows who asked):
+```bash
+curl -s -X POST localhost:8931/evaluate -H 'content-type: application/json' -H 'X-PrismQL-Client: your-name' \
+  -d '{"corpus": "wiki_msgs", "query": "SELECT RUN(field(kind, delete)){10,400} DURING 10 minutes AGGREGATE count()"}'
+```
+That is the wiki admin's deletion sweeps (108): 10 to 400 deletions with no gap over 10 minutes. Interactive:
+`prismql --config prismql.demo.toml`.
+
+**Give it to your agent.** Claude Code opened in this repo picks up two skills from `.claude/skills/`:
+[`prismql`](skills/prismql/SKILL.md) (the language, with its reference) and
+[`swarm-investigation`](skills/swarm-investigation/SKILL.md) (the loop above: candidates, approval, query + null,
+cold check, report shape). Other agents: point them at those two files. MCP:
+`{"mcpServers": {"prismql": {"command": "prismql-mcp", "env": {"PRISMQL_SERVER_URL": "http://127.0.0.1:8931"}}}}`.
 
 ## Data
-Nothing here is committed; everything lands in `data/`. Six corpora, one section each in [`prismql.toml`](prismql.toml):
+Nothing here is committed; everything lands in `data/`. Six corpora, one section each in [`prismql.toml`](prismql.toml); `make demo` builds `wiki`, `revisions` and `wiki_msgs`:
 
 | Corpus | What it is | How to get it |
 |---|---|---|
@@ -73,22 +91,12 @@ Nothing here is committed; everything lands in `data/`. Six corpora, one section
 Community-found venues are unverified: fake posts appeared after the collusion.wiki report (2026-09-04); every explorer
 row carries `found_by`.
 
-## Run
-```bash
-prismql-server --config prismql.toml   # all corpora load in ~80 s; board at http://localhost:8931/board/
-```
-Ask a question (name yourself, so the board's journal shows who asked):
-```bash
-curl -s -X POST localhost:8931/evaluate -H 'content-type: application/json' \
-  -H 'X-PrismQL-Client: your-name' \
-  -d '{"corpus": "wiki_msgs", "query": "SELECT RUN(field(kind, delete)){10,400} DURING 10 minutes AGGREGATE count()"}'
-```
-That is the wiki admin's deletion sweeps: 10 to 400 deletions with no gap over 10 minutes. Interactive:
-`prismql --config prismql.toml`. A file of queries: `uv run python runs/ask.py CORPUS < queries` (signs them and prints
-the server's warnings). Agents: give them [`skills/prismql/`](skills/prismql/) for the language and
-[`skills/swarm-investigation/`](skills/swarm-investigation/) for the loop above, plus MCP if they speak it:
-`{"mcpServers": {"prismql": {"command": "prismql-mcp", "env": {"PRISMQL_SERVER_URL": "http://127.0.0.1:8931"}}}}`.
-To check a count against chance: `runs/null_twin.py` (usage in its header).
+## The full set
+The AI Village findings need the Village export (gated on Hugging Face; request access). With the corpora in the table
+above built, `make serve` loads all six from [`prismql.toml`](prismql.toml) (~80 s). A file of queries:
+`runs/ask.py CORPUS < queries` (signs them and prints the server's warnings). Any count against chance:
+`runs/null_twin.py` (usage in its header; `make null-demo` shows one). The make targets work on a fresh clone; on
+the authors' machine they use the language from a sibling checkout instead.
 
 ## The query journal
 [`logs/server-journal.jsonl`](logs/server-journal.jsonl) holds every query the server answered: time, client, corpus,

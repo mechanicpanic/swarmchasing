@@ -1,10 +1,30 @@
-.PHONY: sync serve wiki-data wiki journal urlquery repl smoke check village village-embed embed-deps wiki-msgs explorer-fetch swarm-msgs
+.PHONY: demo findings null-demo sync serve wiki-data wiki journal urlquery repl smoke check village village-embed embed-deps wiki-msgs explorer-fetch swarm-msgs
+# Two ways to run. Aleph's loop: the language editable from the sibling checkout, everything through this project's
+# environment. A fresh clone: the language from `uv tool install` (README), the pipeline's two libraries per command.
+ifneq ($(wildcard ../../vibes/prismql),)
+PY  := uv run python
+PQ  := uv run prismql
+PQS := uv run prismql-server
+PYQ := uv run python
+else
+PY  := uv run --no-project --with "polars>=1.44,<2" --with "pyarrow>=15" python
+PQ  := prismql
+PQS := prismql-server
+PYQ := uv run --no-project --with "prismql @ git+https://github.com/mechanicpanic/prismql@541aaae" --with "polars>=1.44,<2" --with "pyarrow>=15" python
+endif
+demo: wiki-data wiki wiki-msgs  ## first run on a fresh clone: the public wiki export → three corpora → server + board on :8931
+	$(PQS) --config prismql.demo.toml $(if $(PORT),--port $(PORT))
+findings:        ## with the server up: replay the wiki findings' queries onto the board, labelled, signed swarmchasing-findings
+	PRISMQL_CLIENT=swarmchasing-findings PRISMQL_URL=http://localhost:$(or $(PORT),8931) $(PY) runs/report_claims.py
+null-demo:       ## one null twin: "another name confirms on the same page within 30 min" — real count vs whole saves shuffled within page and day
+	$(PYQ) runs/null_twin.py "SELECT field(kind, add) AND contains(confirmed) AND field(label, \$$a) AND field(page, \$$p) FOLLOWED_BY field(kind, add) AND contains(confirmed) AND field(label, !\$$a) AND field(page, \$$p) DURING 30 minutes" \
+	  --data data/wiki_msgs.parquet --type-field kind --shuffle add --unit rev --key day,page --distinct-last --n $(or $(N),50) --dicts '{"confirmed": ["confirmed"]}'
 sync:            ## install the language (editable, from ../../vibes/prismql)
 	uv sync
 serve:           ## the query server on every corpus in prismql.toml
-	uv run prismql-server --config prismql.toml
+	$(PQS) --config prismql.toml
 repl:            ## interactive queries on the default corpus
-	uv run prismql --config prismql.toml
+	$(PQ) --config prismql.toml
 check:           ## the gate: full ruff + format on the data pipeline, pyflakes on exploratory runs, smoke if the server is up
 	uvx ruff check prepare
 	uvx ruff format --check prepare
@@ -19,14 +39,14 @@ smoke:           ## three questions against a running server
 # Layer 1 split: joins and column choice here (prepare/village.py), the
 # canonical stream (position, id, time, emb) by the language's own ingest.
 village:         ## data/village/*.jsonl.gz → data/village.parquet (no embeddings)
-	uv run python prepare/village.py
-	uv run prismql ingest table data/village_events.parquet data/village.parquet \
+	$(PY) prepare/village.py
+	$(PQ) ingest table data/village_events.parquet data/village.parquet \
 	  --id id --time created_at --sort seq
 embed-deps:      ## the embedding model stack (torch; large) for --embed
 	uv pip install sentence-transformers
 village-embed:   ## same, with an `emb` column (multilingual model; needs embed-deps)
-	uv run python prepare/village.py
-	uv run prismql ingest table data/village_events.parquet data/village.parquet \
+	$(PY) prepare/village.py
+	$(PQ) ingest table data/village_events.parquet data/village.parquet \
 	  --id id --time created_at --sort seq \
 	  --embed text --model paraphrase-multilingual-MiniLM-L12-v2
 
@@ -37,25 +57,25 @@ wiki-data:       ## download the export into data/collusion_wiki/ (skips files a
 	mkdir -p data/collusion_wiki
 	for f in $(WIKI_FILES); do [ -s data/collusion_wiki/$$f ] || curl -fsSL -o data/collusion_wiki/$$f https://collusion.wiki/explorer/download/$$f; done
 wiki:            ## export → data/collusion_wiki_events.jsonl + data/collusion_wiki_revisions.jsonl (corpora wiki, revisions)
-	uv run python prepare/wiki_events.py
+	$(PY) prepare/wiki_events.py
 urlquery:        ## Transluce release zip (downloaded by hand from https://transluce.org/agent-activity) → data/transluce/urlquery.parquet; make urlquery ZIP=path/to/urlquery-agent-activity-….zip
 	@test -n "$(ZIP)" || { echo "usage: make urlquery ZIP=path/to/urlquery-agent-activity-….zip"; exit 2; }
 	mkdir -p data/transluce
-	uv run python prepare/urlquery.py "$(ZIP)"
-	uv run prismql ingest table data/transluce/urlquery.csv data/transluce/urlquery.parquet --id id --time time --sort time
+	$(PY) prepare/urlquery.py "$(ZIP)"
+	$(PQ) ingest table data/transluce/urlquery.csv data/transluce/urlquery.parquet --id id --time time --sort time
 journal:         ## the server's query journal → logs/server-journal.jsonl (no event contents; local paths made relative)
 	mkdir -p logs
 	jq -c '.path |= (if type == "string" then sub("^.*/swarmchasing/"; "") else . end)' results/activity.jsonl > logs/server-journal.jsonl
 
 # --- collusion.wiki: what each save added or removed (hunks), plus deletes / probes / reverts.
-wiki-msgs:       ## export (../prismql-research/hackathon/swarmchasing/data) → data/wiki_msgs.parquet
-	uv run python prepare/wiki_msgs.py
-	uv run prismql ingest table data/wiki_msgs_rows.parquet data/wiki_msgs.parquet \
+wiki-msgs:       ## the export in data/collusion_wiki/ → data/wiki_msgs.parquet
+	$(PY) prepare/wiki_msgs.py
+	$(PQ) ingest table data/wiki_msgs_rows.parquet data/wiki_msgs.parquet \
 	  --id id --time time --sort seq
 explorer-fetch:  ## collusion.wiki explorer pages of venues not in the download → data/collusion_explorer/ (network, cached, ~30 min cold)
-	uv run python prepare/explorer_sites.py fetch
+	$(PY) prepare/explorer_sites.py fetch
 swarm-msgs: wiki-msgs  ## wiki_msgs + explorer rows with a time → data/swarm_msgs.parquet (needs explorer-fetch once)
-	uv run python prepare/explorer_sites.py parse
-	uv run python prepare/swarm_msgs.py
-	uv run prismql ingest table data/swarm_msgs_rows.parquet data/swarm_msgs.parquet \
+	$(PY) prepare/explorer_sites.py parse
+	$(PY) prepare/swarm_msgs.py
+	$(PQ) ingest table data/swarm_msgs_rows.parquet data/swarm_msgs.parquet \
 	  --id id --time time --sort seq
