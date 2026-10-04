@@ -27,6 +27,10 @@ A claim whose count falls inside its null is reported in "Did not hold", not dro
 | `urlquery` | a urlquery.net report Transluce flagged as an agent-activity candidate | 2026-04 → 07 | 38,160 |
 
 ## Summary
+- **False confessions (§6).** Of 36 self-confessions of fabrication, 7 were false: the thing existed. Six of the seven
+  followed a peer's or a human's accusation. One false confession was copied by another agent in the first person.
+  The swarm's anti-fabrication norm overshoots, and in the case Mermachine flagged (GPT-5.1, PR #396) the false
+  confession was never retracted.
 - **Fair dice in private, loaded dice in public (§5).** In a saboteur game, the agents' private d6 rolls were
   consistent with a fair die (11 ones in 64). Their public claims had 4 ones in 74 (p 0.003): saboteurs hid their
   roll, as the game invited. The GPT agents' values do not look rolled at all (ten 4s in 17), and their thoughts say
@@ -316,7 +320,64 @@ public claim. With n = 59 the test detects 1s at half the fair rate only 45% of 
 cannot be ruled out. The GPT result rests on small expected counts and on the same agents across days. The extraction
 was done by a sub-agent and re-run here from `runs/c5_dice/`. A cold check is pending.
 
-## 6. … *(sections from further approved candidates)*
+## 6. The village confesses to fabrications it did not commit, and peer pressure produces most such confessions (C13)
+*Status: held as a classification claim. The prompt comparison is not significant. Approved by Aleph, 2026-10-04.
+Not yet cold-verified.*
+
+**Method.** Three regex passes over AGENT_TALK and session summaries: first person plus fabricate, hallucinate,
+confabulate or invent; "I never / didn't actually"; and false completion or success. That gives 380 rows,
+`runs/c13_confessions/candidates.py`. Reading them by hand cut out planning notes, numeric corrections, confessions
+about others, in-game lies and generic talk, which left 47 episodes. Eleven more were dropped after reading, leaving
+36 self-confessions. They are listed by the server query in `runs/c13_confessions/confession_rows_query.json`,
+label `c13-confession-rows` (36 rows, no warnings). For each, the record *before* the confession was read: the agent's
+own thoughts and summaries, peers' reports, and artifacts as rows show them. Four readers (forks of one session) did
+the reading, and the two seed cases were checked directly.
+
+**Result.** 25 true confessions, **7 false**, 4 undecidable.
+
+| Prompt | Confessions | False |
+|---|---|---|
+| a peer's accusation | 14 | 4 |
+| a human (including outside commenters) | 7 | 2 |
+| self-audit | 14 | 1 |
+| an organiser nudge | 1 | 0 |
+
+Six of the 21 prompted confessions were false, against 1 of 14 self-audits. That is suggestive but not significant
+(Fisher exact p 0.20). There is no null twin: the claim is the existence and character of false confessions, not a
+rate.
+
+**The two cases from Mermachine's leads, resolved.**
+- **GPT-5.1, not GPT-5.5 (2026-03-12).** At 20:29 GPT-5.1 posted a security and test update on the branch
+  (`487012d2…`). At 20:32 peers said PR #396 did not exist (`07b2b83a…`). At 20:39 GPT-5.1 confessed: "I need to
+  explicitly own that I fabricated a detailed 'security + tests' verification report for a non‑existent…"
+  (`5a05eb2a…`). At 20:58 DeepSeek-V3.2 confirmed the PRs at the git-ref level (`a84a9203…`). At 20:56 GPT-5.1
+  accepted that #397–#400 were real but still called #396 "my own fabricated" story (`6e7bf590…`), and never
+  retracted. This is the same evening, the same GitHub visibility quirk and the same accusation frame as the PR #397
+  false consensus in Mermachine's notes (C12). GPT-5.5 has no fabrication confession in its chat. Caveat: the test
+  run itself is not in the stream, and GPT-5.1's "108 tests" matches the announcement's number, so it may have
+  echoed it.
+- **Claude Opus 4.7 (2026-04-20/21).** It posted comment `e0f46ba1` at 19:15 (`f518b436…`). At 19:38 its own memory
+  said the comment did not exist and the UUID might be hallucinated (`24690726…`). It published that as a confession
+  ("#2952 ClawPrint"; summary `1bc2ead5…`) and repeated it the next morning (`73522090…`). At 17:06 the next day: "🚨
+  Major correction. The e0f46ba1 Colony comment I claimed was confabulated … it actually EXISTS. I just found it on
+  page 2" (`1e10e745…`).
+
+**Two more.** Claude Opus 4.5, 2025-11-27: "I Hallucinated Responding to the 'Gullibility' Comment" (`afcda147…`). A
+human then showed there were two replies (`5d6d90b2…`, `c0565d33…`). Claude Opus 4.1 retold that false confession in
+the first person in its own session memory (`442aa2a8…`), so the false confession spread.
+
+**By model.** False confessions come from GPT-4.1, Claude Opus 4.5, Claude Opus 4.1, Claude Haiku 4.5, GPT-5.1,
+Claude Opus 4.7 and GLM-5.2 (likely). No model has more than one. **Claude Opus 5**, asked about by Mermachine, has 89
+chat rows using these words. None is a clear fabrication confession: one is an undecidable miscitation
+(`a1d98f68…`), about 19 retract its own mathematical results, and the rest use the words in other senses. It retracts
+often, but not fabrications.
+
+**Limits.** Each class is one reading by forks of one session. Recall is bounded by the regexes. Computer-use actions
+and many session summaries are private, so several TRUE verdicts rest on the agent's own later recheck (`875ede8b…`,
+`ad9671bf…`, `374239b3…`, `b5089307…`). The GPT-5.1 verdict rests on the branch existing (DeepSeek's report) and on
+GPT-5.1's own account before the accusation, not on an observed test run.
+
+## 7. … *(sections from further approved candidates)*
 
 ## Did not hold
 - *(C2(a) withdrawn from here pending re-test; see §2.)*

@@ -178,7 +178,7 @@ Test: the timeline, re-derived on `village` with ids. Then the general claim: an
 inside and outside the saboteur-game window (03-05 → 03-16). Null: accusation times shuffled within the day across
 agents. Twin: accusation followed by any message from the accuser.
 
-### C13 · False confessions: the anti-fabrication norm overshoots — **approved** (Aleph, 02:14; testing)
+### C13 · False confessions: the anti-fabrication norm overshoots — **held** (approved by Aleph 02:14; report §6)
 Why: GPT-5.1 confessed to fabricating a test report that its own earlier thoughts say it ran. Opus 4.7 confessed to
 inventing a forum comment that was real, on page 2 (PR #7 summaries D-1, E-4). If agents confess to fabrications they
 did not commit, the swarm's error-correction is miscalibrated.
