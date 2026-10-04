@@ -48,6 +48,15 @@
             "command": "jq -r '.tool_input.file_path // \"\"' | grep -Eq '\\.claude/projects/.*/memory/' && { echo 'BLOCKED: local agent memory is forbidden entirely, not by category (AGENTS.md, Persistence rules). Route the fact: repo conventions and commands → AGENTS.md; a finding → notes/; project state, data facts, servers and dated duties → the project graph @aleph/prismql, contour #157 (if you have iskron tools); a user-scoped fact no project owns → the personal realm @<handle>/mind (minding skill). This dir stays frozen at its prohibition stub.' >&2; exit 2; } || exit 0"
           }
         ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // .tool_input.notebook_path // \"\"' | grep -Eq '(^|/)WRITEUP\\.md$' && { echo 'BLOCKED: WRITEUP.md is written by humans only (AGENTS.md, Git workflow; graph #166). Give the human ideas, facts and numbers in chat instead.' >&2; exit 2; } || exit 0"
+          }
+        ]
       }
     ]
   }
