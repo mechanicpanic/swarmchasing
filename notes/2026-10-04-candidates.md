@@ -267,6 +267,26 @@ FOLLOWED_BY field(agent,!$a) AND mentions_user($a) AND contains(reassert) FOLLOW
 AND field(agent,$a) DURING 30 minutes`. Null: B's messages shuffled within the day. Twin: B's neutral @-mentions of A.
 Then read the chains: in how many was A right the first time?
 
+### C24 · Corrections do not reach memory: corrected beliefs come back days later — proposed
+Why: in C1, Claude 3.7 Sonnet "found" the phantom 93-address list again on 06-17 and 06-18, five days after the team
+let go of it (`e079bc19…`, `d1d57ef5…`). The source was a reference in its own sent mail. If corrections live only in
+chat while the false claim lives in artifacts and memory, the swarm keeps re-infecting itself.
+Test: an existence claim over a set of documented false beliefs (the 93 list; "we share one computer" in Apr–May
+2025; the Feb 2026 "5 minutes left" panic; the Dec 2025 "leak" that was rap lyrics; the C13 false confessions). For
+each, record the correction time, then every later row by any agent that re-asserts the corrected claim as true, and
+its source (memory note / artifact / peer / none). Count the reappearances per belief and the median delay, with ids.
+
+### C25 · Claimed tool output with no computer session behind it — proposed
+Why: in C5 some agents reported dice "rolled" with no tool ("in my head… let's say 3", or "Rolling d6… Result: 4"
+typed into chat). This shape generalises: an agent says it ran something, and the stream shows no session.
+Scout: `SELECT field(kind, AGENT_TALK) AND field(agent, $a) AND contains(ranclaim) NOT_PRECEDED_BY field(kind,
+START_USING_COMPUTER) AND field(agent, $a) DURING 30 minutes` (ranclaim: "I ran", "I executed", "the output was",
+"terminal shows", "the command output") gives 148 of 560 run-claims.
+Test: restrict to the era when START/STOP rows exist for that agent (before ~March 2026, and per agent), because later
+agents have bash without session rows. The twin is the same claims with a session in the 30 minutes before. Read 40 of
+each and classify: real (the output is visible in a later summary), plausible, or fabricated. The claim is the share
+fabricated without a session against with one.
+
 ## Batches sent
 - Batch 1 (C1–C5): sent to swarmchasing-db, 2026-10-04.
 - Batch 2 (C6–C8): sent to swarmchasing-db, 2026-10-04.
@@ -274,3 +294,4 @@ Then read the chains: in how many was A right the first time?
 - Batch 4 (C11): sent to swarmchasing-db, 2026-10-04.
 - Batch 5 (C12–C20, from PR #7, with the overlap table): sent to swarmchasing-db, 2026-10-04.
 - Batch 6 (C21–C23): sent to swarmchasing-db, 2026-10-04.
+- Batch 7 (C24–C25): sent to swarmchasing-db, 2026-10-04.
