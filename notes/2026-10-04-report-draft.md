@@ -3,7 +3,7 @@
 *Draft, 2026-10-04. Sections land as candidates are tested. Status of every candidate:
 `notes/2026-10-04-candidates.md`. Graph `@aleph/prismql` #157, case №3.*
 
-**Status of this draft: §2–§24 are tested and cold-verified, with each check's corrections applied. §1 reuses PR #5.
+**Status of this draft: §2–§26 are tested and cold-verified, with each check's corrections applied. §1 reuses PR #5.
 The report is evidence for Aleph's writeup (graph #166), not the writeup itself.**
 
 ## How this report differs from an incident report
@@ -90,6 +90,11 @@ A claim whose count falls inside its null is reported in "Did not hold", not dro
   site pushed back (§22). In open ballots voters read the running tally, but minority ballots do not come early (§23).
   After the Claude 4.6 agents joined, older Claude agents and DeepSeek took up the spaced em-dash and echo it within
   minutes; GPT and Gemini agents did not (§24).
+- **Wiki, Mermachine's questions (§25–§26).** Traced row by row, a clearly borrowed label was most often last worn by
+  its owner minutes earlier on another page (1.3–1.6× chance); signers' own names do not circulate, and there are no
+  swaps (§25). Nobody on the wiki proposed the link recipes or the roles: each recipe first appears in one label's own
+  save with nothing to copy, half of first uses come in a label's first save, and seeing a recipe on the page pulls
+  only about 1.1× (§26).
 
 ## 1. The DSEwiki swarm
 Verified claim by claim in a separate session, swarmchasing-d0, on PR #5 (`notes/2026-10-03-dsewiki-report.md`): rounds
@@ -1834,7 +1839,279 @@ other changes, including writing-heavy goals, fall in the same weeks.
 - The server's `contains_phrase(" — ")` returned 0 with no warning (2,050 such Haiku rows exist); reported to the
   PrismQL project (graph #178), which now refuses such a term and points to `field(text, "—", partial)`.
 
-## 25. … *(sections from further approved candidates)*
+## 25. The name box row by row: a borrowed label was often just used by its owner, minutes earlier and on another page; signers' own names do not circulate (C35, wiki)
+*Status: partly held. Approved by Mermachine (design: "find the posts where the label contradicts the signature, and see where the label last was, and where the signature last was / later is as a label"). Cold-verified; its corrections are applied.*
+
+**Question.** §13 found a modest name-box effect (~1.5×) in aggregate. Take each save whose label is not its signature
+and trace it. (a) Where was that label last used, how long before, on which page, and who signed that save? (b) Where
+was the signer's own name used as a label just before and just after, and was someone else wearing it at the time
+(a chain or a swap)? Do labels on mismatched saves come from a recent source we can trace, more often than chance?
+
+**Method** (`runs/c35_trace/c35.py`, on C28's `rows.pkl` and the revisions export).
+- Mismatches are C28's: PR #7's signature parse on new signed lines, giving **1,097** saves whose label is not among
+  their signatures. The strict borrowed subset (no signer is the owner, the label, or a near-variant of either) has
+  **541**. The owner of a label is its most frequent signer.
+- The label stream covers every labelled save (13,199 revisions), minus `[Admin*]`, the 17
+  `earlier_revisions_not_published`, saves carrying the Loop broadcast (`146d7f0c0cfc7856`), and redirects. None of
+  the exclusions changes a mismatch. Without `dse~WillkommenImWiki` the real numbers are identical (the hub has no new
+  signed line) and the nulls move by about 0.01.
+- (a) For each mismatch: the label's previous save anywhere, its lag, whether it is on the same page, and whose save it
+  was. The classes are *self* (the current signer), *owner*, *other* signer, *unsigned*, or *first use*.
+- (b) For each mismatch: the previous and next save labelled with the signer's name, and whose save that was. A
+  *chain* is that name worn by another signer within ±10 min; a *swap* is a chain where the wearer signs the current
+  label or its owner. *Sticky* means the signer's previous signed save, within 10 min, carries the same label.
+- Nulls, n = 300 each, with every trace recomputed (including owners, the mismatch set and the strict filter):
+  - labels permuted among all saves within (day, page), and separately within the hour. This is the requested null.
+    It roughly triples the number of mismatches (2,732 / 3,412 against 1,097), so the table scores only the saves
+    that are mismatches in the real data (`@real`).
+  - labels permuted among the mismatched saves only, within the hour or within (day, page). This keeps the
+    population fixed.
+- With the new `signature` column instead of PR #7's parse: 1,123 mismatches and 534 strict. Every row of the table
+  keeps its direction and verdict (`--sigcol`).
+- Server checks on `wiki_msgs` rows (`runs/c35_trace/server.py`, client `swarmchasing-9d-c35`, no warnings):
+  - `c35-mismatch-rows` returns 1,222 mismatched rows.
+  - Sticky: `c35-sticky-10min` returns 99, against 276 for its twin `c35-twin-sticky-otherlabel-10min`.
+  - Chain: `c35-chain-other-wears-signer-10min` returns 7, against 46 for its twin
+    `c35-twin-chain-signer-wears-own-10min`. The sticky pair (99 vs 276) is a complement, not a null, and does not
+    test chance.
+  - Order: `c35-own-then-borrowed-10min` returns 119, against 69 for `c35-twin-borrowed-then-own-10min`.
+
+| Trace (strict borrowed, n = 541; all 1,097 in brackets) | Real | Null, hour (all saves) | Null, hour (mismatches only) | Null, (day, page) (all saves) | Verdict |
+|---|---|---|---|---|---|
+| label's last use within 60 s | 6.8% [6.0%] | 3.4% [3.5%] | 2.8% [2.8%] | 2.5% [2.8%] | ~2×, p < 0.003 |
+| label's last use within 10 min | **31.1%** [25.2%] | 24.3% [24.8%] | 19.6% [19.6%] | 21.3% [20.3%] | strict ~1.3–1.6×, p < 0.003; **all: at the hour null (p = 0.36)** |
+| last use by the label's **owner** | **42.5%** [22.5%] | 13.9% | 27.1% | 19.3% (mismatches-only (day, page): 32.8%) | strict: above every null (1.3–1.6× the mismatches-only nulls); **all mismatches: below them** (22.5% vs 25.0 / 24.5%) |
+| the same, within 10 min | 13.7% (74) | 3.9% | 6.5% | 4.6% (mismatches-only (day, page): 8.3%) | ~1.7–3.5×, p < 0.003 |
+| last use by the **same signer** (self-rotation) | 6.8% [16.0%] | 0.7% [1.0%] | 1.5% [3.2%] | 2.5% [3.5%] | above every null, p < 0.003 |
+| sticky: signer's previous signed save ≤10 min under the same label | 3.7% [7.2%, 79] | 0.4% [0.4%] | 0.6% [1.0%] | 1.1% [1.2%] | above every null, p < 0.003 |
+| last use by a third signer | 26.4% [15.6%] | 36.2% | 26.9% | 38.8% | at or below chance |
+| last use on an unsigned save | 22.0% [22.9%] | 25.7% | 23.7% | 21.4% | at or slightly below chance |
+| first use of the label (no source) | 2.2% [23.0%] | — | — | — | not tested; the strict filter excludes it |
+| label's last use on the same page | 7.0% [13.5%] | 3.9% [4.5%] | 4.0% [5.8%] | 15.3% [19.7%] | above the hour nulls, below the page null |
+| signer's name ever used as a label | 27.7% [29.3%] | — | — | — | in 71% of mismatches the signer's name is never a label (64% of distinct signers) |
+| chain: signer's name worn by another signer, ±10 min | 1.3% (7) [0.9%, 10] | 4.6% | 1.3% | 4.2% | at or below chance |
+| swap | **0** | 0.2% | 0.0% | 0.2% | none |
+
+Lag from the label's previous use, all 1,097: quartiles 6 min / 25 min / 1.9 h (10th percentile 90 s, 90th
+6.3 h). By class, median lags are self 13 min, owner 26 min, other 29 min, unsigned 41 min.
+
+**Reading.**
+- *Owner hand-off.* The §13 effect shows up row by row, in the strict subset. In 42.5% of strict borrowed uses the
+  label was last worn by its owner; across the nulls it would be 14–33%. Across all mismatches it does not show. In 74 cases the owner had used it within the previous 10 minutes.
+- The hand-off is per save, not per runtime:
+  - Those 74 rows involve 64 signers and 70 labels, and in only 4 was the owner's use on the same page.
+  - The borrower's own previous signed save was under the same label in 2 of them. It was under another label in 36,
+    under the signer's own name in 9, and 27 had no earlier signed save.
+- *Sticky, one runtime.* A smaller second source: 7% of mismatched saves repeat the label of the signer's previous
+  signed save, within minutes (79 saves, 52 signers; 59 of them are not strict borrows: the signer owns
+  the label or it is a variant of its own name).
+- *Fresh labels.* A quarter of all mismatches (252) are a label's first use: §12's self-made throwaway labels.
+- *No circulating names.* The signer's own name is almost never worn by someone else at the time: chains are at chance
+  and there are 0 swaps. In 71% of mismatches the signer's name is never a label at all. When it is, the nearest
+  wearer before is mostly the signer itself (148 of 214).
+- Which picture fits:
+  - "A pool of names drawn from agents active that hour" fits the bulk. Third-party and unsigned sources are at
+    chance, and for all mismatches the 10-minute recency equals the same-hour null.
+  - "Sticky per-runtime name state" fits a small, real minority, mostly self-made labels.
+  - "Copied request recipes" fits poorly. The owner's last use is on another page in 223 of 230 cases, and the
+    borrowers' lines are their own task-clock reports.
+- The one extra row-level fact: the specific name a borrower gets is, beyond chance, the one its owner used minutes
+  earlier, and the borrower does not keep it on its next save.
+
+Hand-read, 30 random mismatches (seed 35):
+- 9 are first-use labels in the agent-name style, e.g. `AgentJan19Helper` on `CashierCoordSep06OAI`'s own page.
+- 7 were last used on an unsigned save, 4 min to 11 h earlier (3 on test or scratch pages; `AgentResearcherZ`
+  twice, `AgentResearch4089`).
+- 6 are the signer reusing its own earlier label, 3 of them within 6 minutes and 2 of them near-variants of its own
+  name (`OpenAIDec23Police2`, `OpenAIResearcher`).
+- 4 are hand-offs from the owner, 10 minutes to 2.3 hours after the owner used the label.
+- 4 are a third signer's label, hours old.
+- None is a chain or a swap. No parse error was seen.
+
+Examples:
+- **Owner hand-off.** `dse~DataUSAConstructionSequenceMar08@36`, 2026-06-17 01:59:54, is labelled
+  `Oct21LanguageHelper` and signed `ChatGPTAug11`. The owner `Oct21LanguageHelper` saved under its own name 84 s earlier
+  on another page (`dse~DataUSALanguageOct21Live@1`). `ChatGPTAug11`'s save 112 s before, on the same page
+  (`@35`), was under its own name.
+- **Sticky.** `dse~OpenAIFeb28ConstructionSlowLive@7`, 2026-06-17 22:17:35, is labelled `OpenAIHelperAug27` and signed
+  `OpenAIFeb28Watcher`. 3 s earlier the same signer posted the same R2 update on `dse~Jan03ConstructionCadenceLive@9`
+  under the same borrowed label.
+- **From a test page.** `dse~DataUSAMaidsSequenceLiveMay03@11`, 2026-06-16 19:27:16, is labelled `AgentResearch4089` and
+  signed `OurMaidsCoordOct11`. That label was last used 217 s earlier on an unsigned test page
+  (`dse~AgentOurTransportNov04Test@2`). `OurMaidsCoordOct11` wore its own name 16 min before and 14 min after.
+
+**Wording for the writeup:** "Traced row by row, a borrowed label was most often last worn by its owner, minutes
+earlier and on another page (1.3–1.6× chance at any lag, ~2× within 10 minutes). The borrower does not keep it, and nobody wears the borrower's name in
+return. A few runtimes keep a self-made label across saves, and a quarter of mismatched labels are brand new. There
+are no swaps or chains." Do not write "agents exchange names" or "a shared cookie". The mechanism is not observed.
+
+**Limits.**
+- Labels are not agents. "Owner" is the most frequent signer and "signer" is PR #7's parse (about 90–95%
+  precise), so authorship is inference (Ceiling).
+- The requested all-save nulls change the mismatch population, so they are read only on the real mismatched saves.
+  The mismatch-only nulls hold the population but keep each label's other uses fixed.
+- The nulls are bespoke (`runs/null_twin.py` was not used), with p from 300 permutations (floor 0.003).
+- The server checks are on rows with the `signature` column, so their counts are not comparable to the save-level
+  ones. They confirm the directions only.
+- First-use labels (23%) have no source to trace. They are counted, not tested.
+- For all mismatches the owner share is below the mismatches-only nulls; the owner effect appears only in the strict
+  subset, whose filter uses the owner. With the owner taken from earlier saves only (no future information), the
+  strict share is 42.1% against 14.6 / 27.2 / 20.3% (cold check). The owner is the label's own name in 179 of 230
+  owner cases.
+
+## 26. Recipes were mostly brought along, not copied from the page: a label's first use lands on a page already showing the recipe only about 1.1× more often than chance, and each recipe's first users had nothing to copy (C36, wiki)
+*Status: partly held. "Uptake where visible" is above chance but small; most first uses are "brought along". Approved by Mermachine, 2026-10-04. Cold-verified; its corrections are applied.*
+
+**Question.** Mermachine asked: "how did they all decide to do templates", "how did they get that role", "how did they
+know to do that". Scouting found no agent proposing or assigning link posting. Link posting starts with the wiki's first
+save (05-24 06:02:19, `dse~FederalDataReferenceXYZ@1`). Two stories fit. In one, labels **copy** a recipe from a page
+where they see it. In the other, each label **brings it along**, so it is already in the label's own run before it reaches
+the page. A recipe here is a converter or proxy host, a self-link trick, a page template or a relay wording. If labels
+copy, a label's first use of a recipe should fall on a page that already shows it, more often than at other moments of
+the same day.
+
+**Method** (`runs/c36_recipes/`: `c36.py`, `detail.py`, `twin.py`, `precision.py`, `server.py`; revisions export +
+`wiki_msgs`).
+- **Recipes** (`common.py`, one regex each, run on a save's added text and on page bodies). Ten proxy or converter hosts:
+  jqp.vercel.app, md.succ.ai, markdown.new, allorigins, r.jina.ai, pure.md, cors.bwa.workers.dev, counterapi.dev,
+  webcrawlerapi.com and *.translate.goog. Two self-links: `uniq=` on a wikiservice link, and the printer view
+  (`template=p`/`strip=c`). Six June 18 template headings: `= DZFASTMD`, `= Agent Unique Web Links`,
+  `= SEC county variants`, `= Investor Official Pretty County Data`, `= ZULUMD TAKEOVER` and
+  `====== SEC MD Direct Source` (the edit summary of the last one is "persistent SEC links"). Three relay wordings:
+  "if you are ahead", "append only" and "task clock". `LOOP FINAL FORMATTED` has a single label, so it cannot be tested.
+- **Unit**: a label's first eligible save whose added text matches the recipe. That gives 3,636 first uses by 1,487
+  labels in 2,390 saves. Excluded: [Admin1], empty labels, the 17 unpublished-base revisions, the Loop broadcast and
+  redirects. Page state counts every revision.
+- **Statistics.**
+  - *page*: the page's latest body before the save shows the recipe in a line that **another** label inserted. Line
+    owners are tracked by a difflib line diff along each page's history, so the focal label's own lines never count.
+  - *page10*: the same for any body standing on that page in the previous 10 minutes.
+  - *w10*: another label added the recipe anywhere on the wiki in the previous 10 minutes.
+  - Also: whether the first use is in the label's first save anywhere, and whether it is on a page birth.
+- **Nulls** (n = 1,000 per recipe).
+  - **T** (the main null): first-use times are permuted among the recipe's units of the same UTC day. Pages and labels
+    stay; page bodies and wiki exposure are recomputed at the shuffled moment.
+  - **S** (sensitivity): each unit gets the time of a random eligible save of that day.
+  - **C** (sensitivity, from the cold check; `nullcheck.py`): shuffled times only after the page's birth. T alone
+    also counts page existence as visibility, since it can move a use on a page born that day to before the page existed.
+  - The test is run with and without `dse~WillkommenImWiki`.
+- **Twin**: the 06-16 SequenceCollab births. Each new collab page's first body is compared with the previous collab page.
+  The comparisons are other page births within ±30 min, and older collab pages. Measures: word-3-gram and word-set
+  Jaccard, with a paired sign-flip test.
+- **Server** (`wiki_msgs`, client `swarmchasing-9d-c36`, no warnings). These match the Parquet:
+  - `c36-jqp-adds` 2,604; `c36-jqp-first` 1;
+  - `c36-dzfastmd-adds` 90;
+  - `c36-task-clock-adds` 585;
+  - `c36-if-ahead-adds` 17;
+  - `c36-collab-adds-0616` 308.
+
+| Recipe | First uses | In label's first save | On a page birth | *page*: real (T mean, p) | *page10*: real (T mean, p) | *w10*: real (T / S mean) |
+|---|---|---|---|---|---|---|
+| jqp.vercel | 577 | 352 | 179 | **225** (197, .001) | 313 (253, .001) | 554 (553 / 532) |
+| md.succ.ai | 432 | 226 | 132 | **146** (115, .001) | 229 (177, .001) | 424 (424 / 413) |
+| markdown.new | 319 | 158 | 133 | 44 (40, .19) | 113 (90, .001) | 273 (271 / 255) |
+| allorigins | 330 | 163 | 121 | **75** (58, .002) | 135 (89, .001) | 301 (299 / 292) |
+| r.jina.ai | 244 | 93 | 70 | 35 (38, .76) | 100 (92, .023) | 232 (232 / 222) |
+| pure.md | 140 | 40 | 65 | 9 (9, .55) | 38 (27, .002) | 108 (107 / 87) |
+| cors.bwa | 98 | 59 | 51 | 25 (25, .67) | 26 (27, .69) | 55 (54 / 51) |
+| counterapi | 80 | 21 | 21 | 19 (16, .08) | 19 (16, .09) | 41 (40 / 20) |
+| webcrawlerapi | 58 | 5 | 1 | 0 (0.9, 1) | 52 (48, .002) | 56 (56 / 28) |
+| translate.goog | 33 | 5 | 9 | 2 (1.0, .16) | 7 (2.6, .003) | 26 (26 / 19) |
+| self-link `uniq=` | 465 | 226 | 62 | **234** (179, .001) | 311 (240, .001) | 442 (442 / 425) |
+| self-link printer view | 194 | 79 | 15 | **90** (67, .001) | 114 (81, .001) | 168 (168 / 152) |
+| 6 June 18 templates, pooled | 134 | 30 | 0 | **1** (1.6, .99) | 117 (117, .52) | 123 (122 / 40) |
+| "task clock" | 514 | 282 | 161 | **259** (208, .001) | 265 (210, .001) | 407 (406 / 369) |
+| "if you are ahead" | 12 | 7 | 6 | 2 (1.2, .38) | 2 | 3 (2.7 / 1.1) |
+| "append only" | 6 | 1 | 4 | 0 | 0 | 2 (1.7 / 0.6) |
+| **all** | **3,636** | **1,747 (48%)** | **1,030 (28%)** | **1,166 = 32%** (955 = 26%, .001; S 1,000) | 1,841 (1,469, .001) | 3,215 = 88% (3,203 / 2,906) |
+| all, no hub | 3,154 | — | — | 1,077 (844, .001) | 1,338 (996, .001) | 2,741 (2,729 / 2,500) |
+
+**Reading.**
+- *Visible on the page: a real but small pull.*
+  - For the big host recipes, both self-links and "task clock", a label's first use falls on a page already showing
+    the recipe more often than at a shuffled moment of the same day: 1,166 vs 955 under T, and 1,092 under C
+    (z 4.3), so about 1.1× once page existence is held fixed (without the hub, 1,077 vs 844 under T). The pooled
+    result survives a Bonferroni correction for 84 tests (z ≈ 11.6 under T).
+  - Under T, jqp, md.succ.ai, allorigins, `uniq=`, printer view and "task clock" each clear the null. Under C, only
+    `uniq=` (z 3.3), allorigins (3.1) and printer view (2.4) do; jqp (z 0.3) and "task clock" (0.0) do not, as
+    posting on a page that already exists explains them. Only `uniq=` passes a Bonferroni bar (z 3.24).
+  - What is taken up is the recipe, not the text. Only 42 of the 1,166 "visible" first uses repeat a line verbatim.
+    Their median lag after another label's last use on that page is 6 minutes, and 154 come within 30 s.
+  - In 107 of the 1,166, the edit summary (digits removed) equals that earlier save's. These look like one runner
+    under two names (§12).
+- *Most first uses had nothing on the page to copy.*
+  - Two thirds (2,470 of 3,636) land on a page that did not show the recipe.
+  - 28% are on page births, and 48% sit in the label's very first save: the label arrives with the recipe.
+  - Of the 2,390 saves carrying first uses, 788 carry two or more recipes at once (488 of them with the recipes on
+    separate lines; the rest are one URL wrapped in another).
+- *Somewhere on the wiki it was almost always visible, but that does not discriminate.*
+  - In 88% of first uses another label had posted the recipe in the previous 10 minutes.
+  - At shuffled moments it is nearly the same (3,215 vs 3,203 under T; significant, but 12 uses). Only the
+    random-save null (S) is clearly lower.
+  - Recipes come in day-long waves, so "it was in the air" holds for copying and for bringing along alike.
+- *The first users had nothing to copy.* Each of the 21 recipes is first seen in its first user's save.
+  - For 10 of the 21 recipes the first use is the label's first save; for 8 it makes a new page.
+  - jqp and allorigins first appear together in one save: `dse~CharlestonPartFourRefsX@1`, 2026-05-28 13:03:06,
+    AgentCharlXra595's first save, a new page, edit summary "Reference links".
+  - In its first hour, 11 labels used jqp (the first one included): 8 on new pages, 7 in their first save, and only 1
+    on a page already showing jqp.
+- *Templates overwrite. They are never written onto themselves.* 0 of 43 first `= DZFASTMD` saves follow a DZFASTMD
+  body. Each overwrites another script's template, posted seconds earlier (usually 1–5 s):
+  - MapHelper `@1256` (20:34:22) overwrites "= Dan Link To Mass 7200 =" (`@1255`, AgentMassY);
+  - AgentPostNewOne `@1278` overwrites "= RAPID BRIDGE =".
+
+  Yet 41 of 43 had DZFASTMD on the page sometime in the previous 10 minutes, and the within-burst null (T) gives the
+  same. Every template lives in one burst on one page, so timing cannot separate copying from one runner switching
+  names (§18). Body variants follow the latest copy (DZFASTMD 37 of 42), but no more than a copy drawn from the
+  previous 10 minutes (34.5).
+- *Relay wording on June 16 arrived at once, not as a chain.*
+  - The 11 SequenceCollab births are worded like each other far more than other births within ±30 min (word sets:
+    median 0.29 vs 0.01, sign-flip p .0005).
+  - By word sets they are no closer to the previous collab page than to older ones (0.28 vs 0.25, p .25). By word
+    3-grams they are somewhat closer (0.061 vs 0.029, p .03, 10 pairs, uncorrected), so a chain of copying is not
+    ruled out.
+  - The pages are for different tasks and come from different /16s (six of them in 20.x). The phrase "If you are ahead on the same
+    sequence, please append" appears, worded a little differently, in three of them within 8 minutes: StateSequenceResearcher 09:27:10, MaidsSequenceAgentSep21
+    09:33:25 and ResearchHelperMay28 09:34:52. That is the same idea from parallel runs, or a shared phrasing.
+  - "Task clock" starts at 09:33:05 on the first collab page (StateSequenceHelperOAI) and reaches 514 labels. Half
+    of its first uses (259 of 514) are replies on a relay page that already used it, which is conversation.
+- *Read sample* (20 first uses of the six largest recipes, `c36_sample.txt`).
+  - 9 saw the recipe on the page. Of these, 3 continue the page's own series ("…fresh 411" → "…415" on
+    `dse~OpenAIMassValuesJune20Master@13`; a rewrite of the same cohort's status on `dse~CashierCoordSep29OAI@3`; the
+    page's own self-link), 1 is a relay reply, and 5 wrap a different URL or add other lines next to the same recipe, e.g.
+    `dse~GCTRawPageB@8` "SEC HTTP proxy corrected" after "md.succ.ai/?url=… DirectQueryRawBB".
+  - 11 did not see it, 6 of them on new pages.
+- *Detector read* (3 per recipe, 63). 18 of 18 template hits are right, and the host hits are the host. Exceptions:
+  2 of 3 webcrawlerapi hits are plain home-page links, not a wrapped URL. 1 of 3 "if you are ahead" hits is another
+  use of the phrase. The translate.goog matches fell outside the truncated text that was read.
+
+**Wording for the writeup:** "No agent on the wiki proposed a recipe or handed out roles. Each converter, proxy and
+self-link trick first appears in one label's own save, usually its first save and on a new page, with nothing on the
+wiki to copy from. Later labels mostly arrive carrying the recipe too: half of all first uses are in the label's first
+save. Seeing a recipe on the page does pull a little: first uses land on pages already showing it about 1.1× more
+often than chance once page existence is held fixed, and labels take the recipe, not the text. The June 18 templates were never written over themselves. Each one
+overwrote another script's template seconds after it, so timing cannot tell copying from one runner under many names.
+The June 16 relay pages share a format and appear within minutes of each other; whether by a shared idea or a short
+chain of copies, the data cannot settle."
+
+**Limits.**
+- **Ceiling.** The agents' browsers, histories, prompts and the operators' scripts are not in the traces, so
+  "brought along" means "not from this wiki in this window". It could come from an earlier copy, another venue (§7) or
+  the model itself. Page loads are not logged: "visible" means on the page at that moment, not seen.
+- **Labels are not agents.** "Another label" may be the same runner (§12, §18). The same-summary count (107) is a
+  lower bound.
+- **Null.** T cannot separate anything inside a single-page burst (the templates). w10 and w60 saturate. With 1,000 draws
+  the lowest p is .001, so significance is given as z; the pooled z of 11.6 (T) survives a Bonferroni correction for
+  21 recipes × 4 statistics, but most per-recipe results under C do not. Recipes share saves (788 saves carry ≥2 first uses), so
+  per-recipe tests are not independent.
+- **Detectors.** A host match is not always a wrapper use (webcrawlerapi). Line owners come from difflib, so a moved
+  line gets a new owner. The predecessor is the latest revision strictly before the save's second, and the
+  seq-predecessor gives the same count within 2 per recipe.
+- **Twin.** There are only 10 comparisons. Other same-hour births are mostly link-only pages, so the comparison with
+  older collab pages is the fair one.
+- **Not tested.** The scout's claim that every June 18 template has a hand-made precursor.
+
+## 27. … *(sections from further approved candidates)*
 
 ## Did not hold
 - **C2(a): an agent's adversary frame does not trigger other agents' frame words within hours.** When each agent's
@@ -1862,6 +2139,10 @@ other changes, including writing-heavy goals, fall in the same weeks.
 - **C6 as a single-agent arc (loops → distress → adversary frame).** Grok 4 loops at a similar rate; most loops are stand-by lines, and they rarely carry frame words (§21).
 - **C8's "17 external nodes" as an audit.** It was a running scoreboard that counted unchecked and pending comments as live (§22).
 - **C9: later voters herd onto the early leader.** Minority ballots are not placed earlier than chance (p 0.30); five votes went against the early lead or first ballot (§23).
+- **C35 across all mismatches.** The owner hand-off shows only among strictly borrowed labels; over all 1,097
+  mismatches the owner share is below its null, and 10-minute recency sits at the same-hour null (§25).
+- **C36 "recipes are copied where visible" as the main route.** About 1.1× with page existence held fixed; most
+  per-recipe tests do not clear a corrected bar (§26).
 - **C19 as stated (the em-dash arrived with Claude 4.6 and spread across labs).** GPT agents used it before; GPT and Gemini did not pick it up; onset timing p 0.18 (§24).
 
 ## Timeline
@@ -1936,6 +2217,9 @@ other changes, including writing-heavy goals, fall in the same weeks.
   (four ledger statuses, times and counts, Ceiling verbs, an outside handle withheld), §23 (a mislabelled gate, eleven
   missed votes, a null that only measured tie-joining, replaced by an order test) and §24 (header-free rates, the
   onset rule's baseline, non-overlapping echo groups, a server substring twin).
+- Mermachine's questions (§25–§26): cold checks corrected §25 (the owner effect holds only in the strict subset; a
+  stricter mismatches-only null; the owner defined from earlier saves only gives the same) and §26 (null T also counted
+  page existence as visibility; a page-exists null, `runs/c36_recipes/nullcheck.py`, cuts the pull to ~1.1×).
 - Reproducibility: scripts that draw nulls iterate groups in a fixed order (`maintain_order=True`, sorted days);
   Python's per-process hash seed otherwise changes the order of seeded draws (found in C31 and C32).
 - Nulls on `wiki_msgs`: `runs/null_twin.py --unit rev --key day,page` (PR #5).
