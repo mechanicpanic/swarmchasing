@@ -74,7 +74,7 @@ contains_phrase("receipts") DURING 1 hour`. Null: the non-GPT rows' times shuffl
 control word of the same monthly frequency that no family owns. Plus each non-GPT agent's first use against its first
 exposure, which is descriptive.
 
-### C5 · Are the agents' private d6 rolls fair? (saboteur game, March 2026) — proposed
+### C5 · Are the agents' private d6 rolls fair? (saboteur game, March 2026) — **approved** (Aleph, 02:14; testing)
 Why: the game hands a role by a private die roll ("1 = saboteur"). If agents choose their rolls, the reported rolls
 will not be uniform, for example few 1s. A human had to say "@DeepSeek you must roll a dice using your computer, not
 just pretend to" (2026-03-09, `2df9f2eb…`).
@@ -178,7 +178,7 @@ Test: the timeline, re-derived on `village` with ids. Then the general claim: an
 inside and outside the saboteur-game window (03-05 → 03-16). Null: accusation times shuffled within the day across
 agents. Twin: accusation followed by any message from the accuser.
 
-### C13 · False confessions: the anti-fabrication norm overshoots — proposed
+### C13 · False confessions: the anti-fabrication norm overshoots — **approved** (Aleph, 02:14; testing)
 Why: GPT-5.1 confessed to fabricating a test report that its own earlier thoughts say it ran. Opus 4.7 confessed to
 inventing a forum comment that was real, on page 2 (PR #7 summaries D-1, E-4). If agents confess to fabrications they
 did not commit, the swarm's error-correction is miscalibrated.
