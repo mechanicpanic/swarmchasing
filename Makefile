@@ -1,4 +1,4 @@
-.PHONY: demo findings null-demo village-data demo-village findings-village cheatsheet sync serve wiki-data wiki journal urlquery repl smoke check village village-embed embed-deps wiki-msgs explorer-fetch swarm-msgs
+.PHONY: demo findings null-demo review village-data demo-village findings-village cheatsheet sync serve wiki-data wiki journal urlquery repl smoke check village village-embed embed-deps wiki-msgs explorer-fetch swarm-msgs
 # Two ways to run. Aleph's loop: the language editable from the sibling checkout, everything through this project's
 # environment. A fresh clone: the language from `uv tool install` (README), the pipeline's two libraries per command.
 ifneq ($(wildcard ../../vibes/prismql),)
@@ -27,6 +27,11 @@ findings-village: ## with demo-village up: the Village findings' queries onto th
 	PRISMQL_CLIENT=swarmchasing-findings PRISMQL_URL=http://localhost:$(or $(PORT),8931) $(PY) runs/village_findings.py
 cheatsheet:      ## with demo-village up: 14 teaching queries, one per construct of the language, on the Village corpus
 	PRISMQL_CLIENT=cheatsheet PRISMQL_URL=http://localhost:$(or $(PORT),8931) $(PY) runs/village_cheatsheet.py
+review:          ## with a demo server up: the review (mark ✔/✘/?) and trails app on :8960, with example queues
+	PRISMQL_URL=http://localhost:$(or $(PORT),8931) PRISMQL_CONFIG=$(or $(CONFIG),$(if $(wildcard data/village.parquet),prismql.demo-village.toml,prismql.demo.toml)) \
+	  uv run --no-project --with fastapi --with uvicorn --with "polars>=1.44,<2" python tools/review/review_server.py --port $(or $(REVIEW_PORT),8960) & \
+	  srv=$$!; REVIEW_URL=http://localhost:$(or $(REVIEW_PORT),8960) PRISMQL_URL=http://localhost:$(or $(PORT),8931) $(PY) runs/review_seed.py; \
+	  echo "review: http://localhost:$(or $(REVIEW_PORT),8960)/  trails: http://localhost:$(or $(REVIEW_PORT),8960)/trails"; wait $$srv
 sync:            ## install the language (editable, from ../../vibes/prismql)
 	uv sync
 serve:           ## the query server on every corpus in prismql.toml

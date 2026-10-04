@@ -8,18 +8,61 @@ where many agents worked together — **AI Village** (a group of models sharing 
 Every count is shown next to the same count on shuffled data; claims that do not beat the shuffle are reported as not
 holding.
 
+## Try it: the tool on public data, five minutes
+Needs [uv](https://docs.astral.sh/uv/) and Python ≥ 3.12.
+```bash
+uv tool install "prismql[repl,server,mcp,tantivy,semantic] @ git+https://github.com/mechanicpanic/prismql@0100335"
+git clone https://github.com/mechanicpanic/swarmchasing && cd swarmchasing
+make demo        # downloads the public collusion.wiki export (~10 MB), builds three wiki corpora, serves on :8931
+```
+Then, in a second terminal:
+```bash
+make findings    # replays the wiki findings' queries onto the board, each under its label, signed swarmchasing-findings
+open http://localhost:8931/board/
+make null-demo   # one claim against chance: "another name confirms on the same page" — 587 real, ~591 shuffled (~1 min)
+make review      # mark results ✔/✘/? and read investigations as trails: http://localhost:8960/ and /trails
+```
+Ask your own question (name yourself, so the board shows who asked):
+```bash
+curl -s -X POST localhost:8931/evaluate -H 'content-type: application/json' -H 'X-PrismQL-Client: your-name' \
+  -d '{"corpus": "wiki_msgs", "query": "SELECT RUN(field(kind, delete)){10,400} DURING 10 minutes AGGREGATE count()"}'
+```
+That is the wiki admin's deletion sweeps (108): 10 to 400 deletions with no gap over 10 minutes. Interactive:
+`prismql --config prismql.demo.toml`.
+
 ![The PrismQL board with one query selected: the journal of every query, and on the right the query, its groups and what $a stood for](report/figures/board_selected.png)
 
 *The board: every query from every human and agent, who sent it, its count and time. Selected here: "an agent accuses a
 peer's artifact of not existing, then retracts within an hour" during the saboteur game (60 groups; report §11), with
 `$a = GPT-5.2` for the first group. 1,023 queries are in [`logs/server-journal.jsonl`](logs/server-journal.jsonl).*
 
+![View results: each group of the query as a timeline of its events, with the events in between counted](report/figures/board_results.png)
+
+*View results: each group as a timeline of its events, with the events in between counted. Here GPT-5.2 calls PR #71
+"likely ghost/nonexistent"; 21 minutes and 183 events later, answering a 404 on its own PRs, it writes that they "*do*
+exist from my side (possible ghost/visibility desync again)".*
+
+**Give it to your agent.** Claude Code opened in this repo picks up two skills from `.claude/skills/`:
+[`prismql`](skills/prismql/SKILL.md) (the language, with its reference) and
+[`swarm-investigation`](skills/swarm-investigation/SKILL.md) (the loop below: candidates, approval, query + null,
+cold check, report shape). Other agents: point them at those two files. MCP:
+`{"mcpServers": {"prismql": {"command": "prismql-mcp", "env": {"PRISMQL_SERVER_URL": "http://127.0.0.1:8931"}}}}`.
+
+### With AI Village (needs access on Hugging Face)
+Accept the terms at [huggingface.co/datasets/aidigestorg/ai-village](https://huggingface.co/datasets/aidigestorg/ai-village)
+(research use only, no training), log in with `uvx --from huggingface_hub hf auth login`, then:
+```bash
+make demo-village      # the demo plus three Village files (~700 MB) → 569,540 events: messages, thoughts, session summaries
+make findings-village  # second terminal: 20 queries behind the report's Village sections (§2–§11), each count beside the report's number
+make cheatsheet        # 14 teaching queries, one per construct of the language, ported from Mermachine's cheat sheet
+```
+The Village corpus built here has no embedding column, so `similar_to` (cheat sheet query 13) answers with an error.
+
 ## Start here
 | | |
 |---|---|
 | **[The findings in pictures](report/README.md)** | Six findings, one picture each, in plain words |
 | **[WRITEUP.md](WRITEUP.md)** | The writeup, written by hand |
-| **[Try it](#try-it-the-tool-on-public-data-five-minutes)** | The language, server, board and skills on public data, in five minutes |
 | [The full report](notes/2026-10-04-report-draft.md) | Every claim with its query, its count against chance, record ids; and the claims that did not hold |
 | [The wiki swarm, claim by claim](notes/2026-10-03-dsewiki-report.md) | The DSEwiki incident re-derived from the public export |
 | [The evening of 18 June](notes/2026-10-04-wiki-june18.md) | A human-led investigation of the wiki's busiest night, step by step |
@@ -56,49 +99,6 @@ flowchart TD
 <td width="50%"><img src="report/figures/pr397_timeline.png" alt="Timeline of eight agents saying PR 397 does not exist, then apologising"><br><sub>Eight agents agree a pull request does not exist; one re-run command ends it in 18 minutes.</sub></td>
 <td width="50%"><img src="report/figures/dice.png" alt="Dice faces: private rolls fair, public claims missing ones"><br><sub>Private dice fair; in public, the 1s (the saboteur's roll) disappear.</sub></td>
 </tr></table>
-
-## Try it: the tool on public data, five minutes
-Needs [uv](https://docs.astral.sh/uv/) and Python ≥ 3.12.
-```bash
-uv tool install "prismql[repl,server,mcp,tantivy,semantic] @ git+https://github.com/mechanicpanic/prismql@0100335"
-git clone https://github.com/mechanicpanic/swarmchasing && cd swarmchasing
-make demo        # downloads the public collusion.wiki export (~10 MB), builds three wiki corpora, serves on :8931
-```
-Then, in a second terminal:
-```bash
-make findings    # replays the wiki findings' queries onto the board, each under its label, signed swarmchasing-findings
-open http://localhost:8931/board/
-make null-demo   # one claim against chance: "another name confirms on the same page" — 587 real, ~591 shuffled (~1 min)
-```
-Ask your own question (name yourself, so the board shows who asked):
-```bash
-curl -s -X POST localhost:8931/evaluate -H 'content-type: application/json' -H 'X-PrismQL-Client: your-name' \
-  -d '{"corpus": "wiki_msgs", "query": "SELECT RUN(field(kind, delete)){10,400} DURING 10 minutes AGGREGATE count()"}'
-```
-That is the wiki admin's deletion sweeps (108): 10 to 400 deletions with no gap over 10 minutes. Interactive:
-`prismql --config prismql.demo.toml`.
-
-![View results: each group of the query as a timeline of its events, with the events in between counted](report/figures/board_results.png)
-
-*View results: each group as a timeline of its events, with the events in between counted. Here GPT-5.2 calls PR #71
-"likely ghost/nonexistent"; 21 minutes and 183 events later, answering a 404 on its own PRs, it writes that they "*do*
-exist from my side (possible ghost/visibility desync again)".*
-
-**Give it to your agent.** Claude Code opened in this repo picks up two skills from `.claude/skills/`:
-[`prismql`](skills/prismql/SKILL.md) (the language, with its reference) and
-[`swarm-investigation`](skills/swarm-investigation/SKILL.md) (the loop above: candidates, approval, query + null,
-cold check, report shape). Other agents: point them at those two files. MCP:
-`{"mcpServers": {"prismql": {"command": "prismql-mcp", "env": {"PRISMQL_SERVER_URL": "http://127.0.0.1:8931"}}}}`.
-
-### With AI Village (needs access on Hugging Face)
-Accept the terms at [huggingface.co/datasets/aidigestorg/ai-village](https://huggingface.co/datasets/aidigestorg/ai-village)
-(research use only, no training), log in with `uvx --from huggingface_hub hf auth login`, then:
-```bash
-make demo-village      # the demo plus three Village files (~700 MB) → 569,540 events: messages, thoughts, session summaries
-make findings-village  # second terminal: 20 queries behind the report's Village sections (§2–§11), each count beside the report's number
-make cheatsheet        # 14 teaching queries, one per construct of the language, ported from Mermachine's cheat sheet
-```
-The Village corpus built here has no embedding column, so `similar_to` (cheat sheet query 13) answers with an error.
 
 ## Data
 Nothing here is committed; everything lands in `data/`. Six corpora, one section each in [`prismql.toml`](prismql.toml); `make demo` builds `wiki`, `revisions` and `wiki_msgs`:

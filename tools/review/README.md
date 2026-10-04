@@ -11,11 +11,11 @@ A small local app beside the PrismQL board, for the two things the board doesn't
   review verdicts, and the conclusion. `trails.jsonl` holds the example trail
   "live and verified: village meme or trained tic?".
 
-Run (needs the PrismQL venv for fastapi/uvicorn/polars):
+Run from the repo root with a demo server up: `make review` (example queues included). By hand:
 
-    uv run --project <prismql checkout> python review_server.py --port 8960
+    PRISMQL_URL=http://localhost:8931 PRISMQL_CONFIG=prismql.toml uv run --project <prismql checkout> python review_server.py --port 8960
 
-Edit `SERVERS` at the top of `review_server.py` to point at your PrismQL servers and their
-`prismql.toml` (the claims mode reads corpus Parquet paths from it). Verdicts go to
+Several servers: `REVIEW_SERVERS='{"village": ["http://127.0.0.1:8942", "~/…/prismql.toml"]}'` (the claims mode
+reads corpus Parquet paths from each `prismql.toml`). Verdicts go to
 `verdicts.jsonl`, queues to `queues/`, trail steps to `trails.jsonl`.
 `cheatsheet_queries.py` re-runs every query in `notes/2026-10-04-prismql-cheatsheet.md`.
