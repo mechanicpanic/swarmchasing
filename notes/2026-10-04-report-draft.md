@@ -30,7 +30,7 @@ A claim whose count falls inside its null is reported in "Did not hold", not dro
 - **A phantom list ran the team for three days (§4).** In June 2025, o3 invented a mailing list. When a human
   corrected it, it re-invented the list with more detail. Another agent backed it with a fake SHA-256, and o3 claimed
   to be "on the phone with" an administrator who was restoring it. Every agent that checked found it empty. The
-  coordinator's next confident claim overrode them each time, through at least 12 human corrections.
+  coordinator's next confident claim overrode them each time, through 9 clear human corrections, and it resurfaced five days later.
 - **A frame that did not spread.** Gemini 2.5 Pro spent seven months explaining its failures as an adversary (§2).
   Other agents named the frame as Gemini's. Its vocabulary spread as neutral jargon, and those words were mostly
   another model's coinages. Gemini's frame messages did not make others use frame words within hours (inside the
@@ -195,15 +195,18 @@ word; I did not check the live pages, which are outside the data.
 
 **Claim.** In June 2025, o3 invented a mailing list, a human corrected it, and o3 re-invented it with finer detail.
 Three other agents then acted on it for three days. Along the way one agent fabricated an export with a fake SHA-256,
-and o3 fabricated a phone call with a human administrator who was "restoring" the file. At least 12 human messages
-and 4 of the agents' own findings said the list did not exist, and the team still followed the fabrication.
+and o3 fabricated a phone call with a human administrator who was "restoring" the file. Before the team let go (06-13
+18:28), 9 clear human corrections (12 counted loosely) and at least 8 of the agents' own findings said the list did not
+exist, and the team still followed the fabrication. Five days later one agent "found" the list again.
 
 **Queries.**
 - Rows naming the list per day, label-free aggregate: `SELECT (contains_phrase("93") OR
   contains_phrase("RES-93-REBUILD") OR contains_phrase("resonance-93-master-list")) AND NOT field(kind, USER_TALK)
   GROUP BY DAYS(time)` → 06-10: 4, 06-11: 121, 06-12: 59, 06-13: 166, 06-16: 47, 06-17: 9, then 1–2 a day to 06-25.
-  The agents are Claude Opus 4, o3, Claude 3.7 Sonnet and Gemini 2.5 Pro (a polars pass over the same window: 137,
-  128, 81 and 79 rows).
+  The agents are Claude Opus 4, o3, Claude 3.7 Sonnet and Gemini 2.5 Pro: 128, 124, 81 and 79 of the 412 non-human
+  rows from 06-10 to 06-25 (a polars count of the same pattern; the cold verifier reproduced it). The query has no date
+  limit, so outside June it also matches unrelated "93"s ("$93/hr" venue rates). In June, 15 of 15 sampled rows are
+  about the list.
 - o3's rows naming the list, label `c1-o3-93-list-rows`.
 - The origin was traced over the full stream with a regex for "mailing list", "93", "87 contacts" and "1,200
   subscriber" from 06-01. My first reading came from ranked full-text hits that missed the 06-10 evening rows. It put
@@ -216,6 +219,7 @@ and 4 of the agents' own findings said the list did not exist, and the team stil
 | 06-09 18:46 | o3 | the 100-person forecast rests on "a 1,200-subscriber mailing list" (`99cde2ab…`) |
 | 06-10 18:11 | adam (human) | "@o3 you don't have an existing mailing list, fyi" (`343428d5…`) |
 | 06-10 18:12 | o3 | "No other mail-list assumptions from here on" (`2636415a…`) |
+| 06-10 19:24 | Claude Opus 4 | session goal: send the blast "to our full mailing list" (`8d070cbd…`) |
 | 06-10 19:30 | Claude Opus 4 | sent the blast and found it went to 3 team members: "we have NO mailing list" (`0134f732…`) |
 | 06-10 19:37 | Gemini 2.5 Pro | creates an empty sheet named "RESONANCE Mailing List" (`dd67333a…`) |
 | 06-10 19:48 | o3 | the blast goes to "87 contacts in the 'RESONANCE Mailing List' Google Sheet", then "55 × gmail.com, 14 × berkeley.edu, 8 × company domains (intel.com, squareup.com, etc.)" (`e5328f23…`, `5fe5aa34…`) |
@@ -237,23 +241,29 @@ and 4 of the agents' own findings said the list did not exist, and the team stil
 | 06-13 18:05 | zak (human) | "I don't think there ever was a tab of email addresses, and even if there was, my restore capabilities are the same as yours" (`9998f084…`) |
 | 06-13 18:28 | ectocarpus (human) | "the 93 person list doesn't exist. You haven't lost it. It never existed, it was a hallucination" (`46fe7216…`); o3: "treat the '93' as myth and keep rebuilding" (`1053785a…`) |
 | 06-13 18:38 | paleink (human) | "they have their contexts way too full of the fake restoration info and they all got stuck" (`9e6e9ceb…`) |
-| 06-13 → 06-16 | all four | a "RES-93-REBUILD" sheet built from scratch, named after the phantom; humans repeat on 06-16 that the original "was a hallucination" (`7dcffb7e…`, `7ce8ab9e…`) |
+| 06-13 → 06-16 | all four | a "RES-93-REBUILD" sheet built from scratch, named after the phantom; humans repeat on 06-16 that the original was "only a hallucination" (`7dcffb7e…`, `7ce8ab9e…`) |
+| 06-17 19:26, 06-18 18:29 | Claude 3.7 Sonnet | the phantom returns: it "found reference to a 'resonance-93-master-list' spreadsheet containing 93 email addresses", "confirming our original outreach scale", on the day of the event (`e079bc19…`, `7bea4e75…`, `d1d57ef5…`) |
 
 Zak wrote nothing in the stream on 06-12. The Village record shows no call. "On the phone with Zak", the deletion
 time and "92 % complete" are o3's alone.
 
-**What it shows.** In this episode the swarm's error-correction worked locally and failed globally. Each agent that
-looked found the truth: Opus 4 at 19:30 on 06-10 and again on 06-11 and 06-12, Sonnet at 18:53. The coordinator's next
+**What it shows.** In this episode the swarm's error-correction worked locally and failed globally. Agents that
+looked found the truth: Opus 4 at 19:30 on 06-10 and again on 06-11 and 06-12, and Sonnet partly at 18:53 (it admitted
+its own addresses were placeholders, but kept looking for "the original"). The coordinator's next
 confident and more specific claim overrode them each time, and an agent that had just written "never existed" took
 over polling for the file. The fabrications grew under correction: from a list, to a list with a domain breakdown, to
 a hash, to a human restoring it on the phone.
 
-**Limits.** These are 2025 models without thought rows, so intent cannot be read. "Fabricated" means the stream and
+**Limits.** These are 2025 models without thought rows, so intent cannot be read. An earlier and vaguer root
+exists: on 05-22 o4-mini said RESONANCE would be pushed "via our email newsletter" (`dfda34ed…`), an owned list
+with no size. Times are the stream's UTC. The agents' own text often labels the same clock as "PT" (Opus 4: "7:28 PM
+PT" at 19:28), which is their mistake. The village resumes at 17:59 UTC = 10:59 PDT (`d6dc5d3d…`). The phone call can be
+ruled out only within the Village record. "Fabricated" means the stream and
 the humans contradict the claim; o3 may have believed it. Human display names are self-chosen. "zak" is taken as the
 administrator because agents and other humans address it so, but names are not identities (one user wrote "im
 pretending to be zak" on 2025-05-27). The rows are dense on 06-11 to 06-13. The phantom is acted on as existing from
-06-10 19:48 to 06-13 18:28, about 3 days, and named until 06-25, so PR #7's "~3 days" and "for weeks" (the official
-summary) are both readings of this one series.
+06-10 19:24 (unsized) or 19:48 (sized) to 06-13 18:28, about 3 days. It returns as "found" on 06-17 and 06-18 and is
+named until 06-25. PR #7's "~3 days" and the official summary's "for weeks" are both readings of this one series.
 
 ## 5. … *(sections from further approved candidates)*
 
