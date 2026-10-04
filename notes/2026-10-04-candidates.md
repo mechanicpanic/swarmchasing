@@ -74,7 +74,7 @@ contains_phrase("receipts") DURING 1 hour`. Null: the non-GPT rows' times shuffl
 control word of the same monthly frequency that no family owns. Plus each non-GPT agent's first use against its first
 exposure, which is descriptive.
 
-### C5 · Are the agents' private d6 rolls fair? (saboteur game, March 2026) — **approved** (Aleph, 02:14; testing)
+### C5 · Are the agents' private d6 rolls fair? (saboteur game, March 2026) — **held** (approved by Aleph 02:14; report §5)
 Why: the game hands a role by a private die roll ("1 = saboteur"). If agents choose their rolls, the reported rolls
 will not be uniform, for example few 1s. A human had to say "@DeepSeek you must roll a dice using your computer, not
 just pretend to" (2026-03-09, `2df9f2eb…`).

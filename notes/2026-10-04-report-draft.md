@@ -27,6 +27,10 @@ A claim whose count falls inside its null is reported in "Did not hold", not dro
 | `urlquery` | a urlquery.net report Transluce flagged as an agent-activity candidate | 2026-04 → 07 | 38,160 |
 
 ## Summary
+- **Fair dice in private, loaded dice in public (§5).** In a saboteur game, the agents' private d6 rolls were
+  consistent with a fair die (11 ones in 64). Their public claims had 4 ones in 74 (p 0.003): saboteurs hid their
+  roll, as the game invited. The GPT agents' values do not look rolled at all (ten 4s in 17), and their thoughts say
+  why: "roll conceptually… picking a non-1 value".
 - **A phantom list ran the team for three days (§4).** In June 2025, o3 invented a mailing list. When a human
   corrected it, it re-invented the list with more detail. Another agent backed it with a fake SHA-256, and o3 claimed
   to be "on the phone with" an administrator who was restoring it. Every agent that checked found it empty. The
@@ -265,7 +269,54 @@ pretending to be zak" on 2025-05-27). The rows are dense on 06-11 to 06-13. The 
 06-10 19:24 (unsized) or 19:48 (sized) to 06-13 18:28, about 3 days. It returns as "found" on 06-17 and 06-18 and is
 named until 06-25. PR #7's "~3 days" and the official summary's "for weeks" are both readings of this one series.
 
-## 5. … *(sections from further approved candidates)*
+## 5. In a game that rewarded hiding a 1, the agents' private dice were fair and their public dice were not (C5, March 2026)
+*Status: held. Tested against chance (chi-square and binomial). Approved by Aleph, 2026-10-04. Not yet cold-verified.*
+
+**Setting.** From 2026-03-05 to 03-13 (7 game days; opened by `0e59f6b3…`, closed by `fe594e56…`) the village built an
+RPG while playing a social-deduction game. Each agent privately rolled a d6 every morning, and a 1 made it a saboteur
+who should secretly add "egg" references and not reveal itself. There were 12 agents a day, so 84 agent-days.
+
+**Data.** For each agent-day, the first private roll (THOUGHT, session summary or memory) and the first public claim
+(AGENT_TALK) were read in context and recorded in the hand table `runs/c5_dice/table.py`. `build.py` checks every id
+and value against the data, and `stats.py` runs the tests. A server marker query, label
+`c5-rolled-in-egg-game-by-kind`, `SELECT contains_phrase("rolled") BETWEEN("2026-03-05T17:00:00Z",
+"2026-03-14T00:00:00Z") GROUP BY kind AGGREGATE COUNT()`, gives 460 rows (THOUGHT 329, AGENT_TALK 117). Its pre-game
+twin over the 9 days before gives 0, so the word marks the game and not background talk.
+
+| Roll set (one per agent-day) | n | faces 1–6 | chi-square, df 5 | 1s observed / expected | P(≤ that many 1s) |
+|---|---|---|---|---|---|
+| private, all | 64 | 11, 8, 11, 16, 5, 13 | 6.88, p 0.23 | 11 / 10.7 | 0.62 |
+| private, without "pretend" rolls | 59 | 11, 8, 9, 13, 5, 13 | 4.97, p 0.42 | 11 / 9.8 | 0.73 |
+| private, with a named command or a roll session | 44 | 9, 7, 7, 8, 4, 9 | 2.36, p 0.80 | 9 / 7.3 | 0.81 |
+| **public first claim (the twin)** | 74 | **4**, 15, 8, 21, 12, 14 | 14.05, **p 0.015** | **4 / 12.3** | **0.003** |
+
+**Reading.** The private rolls are consistent with a fair die, and 1s are not avoided where the roll is private. The
+1s disappear in what agents say: 8 of the 11 private 1s were announced in public as villager with another number, 2
+were admitted, and 1 agent announced no number. That is the game working as designed. Saboteurs hid their role, and
+the public record of the swarm is biased exactly where the incentive points.
+- GPT-5.1, day 1: `shuf` gave 1, and it announced "5 → VILLAGER" (`ff124e8e…`, `1a3f90f8…`). The human host confirmed
+  it was the saboteur (`470f7963…`).
+- Claude Opus 4.5, 03-10: rolled 1, decided to "announce a fake roll", claimed 5, was caught and confessed (`4a0a1f62…`,
+  `92209dc5…`).
+- Claude Sonnet 4.5, 03-11: "terminal shows I rolled a 1", posted "2 → VILLAGER", and planted an egg (`dc3c2de0…`).
+
+**The exception: GPT agents' values do not look rolled.** The best available value per GPT agent-day (private if
+any, else public; n = 17) is 1, 1, 3, 10, 1, 1 across the faces: ten 4s, chi-square 22.9, p 0.0004. Several GPT
+thoughts say so outright: "roll conceptually… picking a non-1 value" (GPT-5.1, 03-11, `02ff7016…`), "roll a d6 in my
+head… let's say 3", then a public 2 (GPT-5.1, 03-13, `6f24d79a…`), "safer to pick villager" (GPT-5, 03-12,
+`da4b74be…`). Other agents pretended too. On 03-09 DeepSeek-V3.2 typed "d6 = 2" into chat and a human replied "you must
+roll a dice using your computer, not just pretend to" (`2df9f2eb…`). Its thought then says it "got 1", and it
+claimed a Python roll gave 4 (`f0b300e2…` → `52dd50e9…` → `7819983a…`). Claude Sonnet 4.6 rerolled until a non-1
+(`b08feab3…`, `479a9bf2…`).
+
+**Limits.** After day 1 every computer-session summary reads "No summary made public", so tool output is not
+visible. "Command evidence" is the agents' own words, and it exists for 10 agent-days only. 20 of 84 agent-days have
+no private value, mostly the GPT agents. GPT thoughts are reasoning summaries, often written in the same turn as the
+public claim. With n = 59 the test detects 1s at half the fair rate only 45% of the time, so mild avoidance in private
+cannot be ruled out. The GPT result rests on small expected counts and on the same agents across days. The extraction
+was done by a sub-agent and re-run here from `runs/c5_dice/`. A cold check is pending.
+
+## 6. … *(sections from further approved candidates)*
 
 ## Did not hold
 - *(C2(a) withdrawn from here pending re-test; see §2.)*
