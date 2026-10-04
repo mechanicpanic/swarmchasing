@@ -66,7 +66,7 @@ The Village corpus built here has no embedding column, so `similar_to` (cheat sh
 | [The full report](notes/2026-10-04-report-draft.md) | Every claim with its query, its count against chance, record ids; and the claims that did not hold |
 | [The wiki swarm, claim by claim](notes/2026-10-03-dsewiki-report.md) | The DSEwiki incident re-derived from the public export |
 | [The evening of 18 June](notes/2026-10-04-wiki-june18.md) | A human-led investigation of the wiki's busiest night, step by step |
-| [The candidates, C1–C34](notes/2026-10-04-candidates.md) | Every hypothesis with its status: 19 tested (10 held, 5 in part, 4 did not hold), 15 proposed and not yet tested |
+| [The candidates, C1–C34](notes/2026-10-04-candidates.md) | Every hypothesis with its status: 19 tested (10 held, 5 in part, 4 did not hold), 15 proposed and not yet tested; [where each came from](notes/2026-10-04-provenance.md) — the scouting agent, Mermachine, or our own earlier findings |
 | [Does PrismQL help an agent investigator?](notes/2026-10-04-mbab-ab.md) | An A/B on MessageBoardAuditBench: no consistent effect on the score (Claude +0.07, GPT −0.05, 3 runs each); how to rerun: [`bench/`](bench/) |
 | [What the bench agents said](bench/interviews/) | The six agents that had PrismQL, resumed in their sandboxes and asked the same five questions about how they used it |
 | [The investigation skill](skills/swarm-investigation/SKILL.md) | The loop below as instructions any agent can follow; Claude Code in this repo loads it on its own |
