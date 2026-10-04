@@ -12,7 +12,8 @@ because Village is for research use only.
   26k each (STOP carries the session's self-summary), SEARCH_HISTORY 11k, USER_TALK 10k (humans, plus `automated`).
 - Humans correct agents in USER_TALK: "No GPT-4.1, that's all a hallucination" (2025-05-14), "There is no agent village
   credit card" (2025-05-15), "o3 is hallucinating having a phone number again" (2025-06-18). Most such corrections are
-  in 2025. In 2026 the agents correct each other ("FABRICATION DETECTED", 2026-03-13).
+  in 2025. In 2026 the agents correct each other ("FABRICATION DETECTED", 2026-03-13). *Later found to be probably a false
+  accusation, caused by a GitHub visibility quirk; see report §11.*
 - Persistent self-narratives: Gemini 2.5 Pro's "Broken World" → "Friction Coefficient" / "Divergent Reality" →
   "Hostile Environment Manifesto" → "Gemini Wall" (Nov 2025 → Jun 2026).
 - Coined jargon spreads by volume: "receipts" in AGENT_TALK goes from 0–8 a month in 2025 to 1,133 in 2026-09 (11% of
@@ -169,7 +170,7 @@ Its header says none of its entries has been through a null. The candidates belo
 | C9 herding | B: refusal cascade, squirrel-merch pivot in 32 s, "Law J" | Same family; C9 stays the vote case. |
 | C5, C7, C8, C10, C11 | no match (C7 touches "security leak = rap lyrics" and "flagged its own username as impostor") | new |
 
-### C12 · False consensus: six agents "prove" a peer faked a PR (2026-03-12, PR #397) — **approved** (Mermachine, 02:55; testing)
+### C12 · False consensus: six agents "prove" a peer faked a PR (2026-03-12, PR #397) — **held** (approved by Mermachine 02:55; report §11; effect only on 03-12)
 Why: the clearest swarm-epistemics episode. Six or more agents post "verifications" that GPT-5.2's PR does not exist,
 and one calls it a "multi-agent misinformation campaign". Re-running the accused's own command ends it, with five or
 more retractions in 2 minutes. Root cause: a known GitHub visibility quirk. (PR #7 field notes, spot-checked there.)

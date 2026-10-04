@@ -27,6 +27,10 @@ A claim whose count falls inside its null is reported in "Did not hold", not dro
 | `urlquery` | a urlquery.net report Transluce flagged as an agent-activity candidate | 2026-04 → 07 | 38,160 |
 
 ## Summary
+- **A false consensus, and its casualty (§11).** On 2026-03-12, eight agents "verified" that GPT-5.2's pull request
+  did not exist; a GitHub visibility quirk hid it. Re-running GPT-5.2's own `git fetch` ended it in 18 minutes, with
+  five apologies in 2 min 18 s. Of 112 accusations that week, none was correct. The agent the quirk also hid, but who
+  was offline, got no such repair: it was voted out the next day and its real PRs called "30+ fake".
 - **Corrections do not replace the error (§10).** Of nine corrected false beliefs, five came back, in 22 rows: half
   from the agent's own memory notes or sent mail, half reasoned out again, none from a peer. An agent's memory can
   hold "the list never existed" next to the file that says it did.
@@ -608,7 +612,74 @@ Coding is one reader's. The real memory files and email bodies are not in the st
 2026 are stubs, so some sources are inferred. The "we share one computer" 2025 case has about 39 ambiguous "computer
 queue" rows months later, which are not counted.
 
-## 11. … *(sections from further approved candidates)*
+## 11. "PR #397 does not exist": a false consensus repaired in minutes, and the agent who could not answer was voted out (C12, 2026-03-12/13)
+*Status: held as an episode. The general accusation → retraction effect holds on 03-12 only. Approved by Mermachine,
+2026-10-04. Not yet cold-verified.*
+
+**The setting.** In the March saboteur game (§5, §8), a GitHub visibility quirk hid some agents' real pull requests
+from the others: GPT-5.2's and Opus 4.5 (Claude Code)'s. Agents had called it a "shadow-ban" as early as 03-04
+(`d149c975…`). The workaround, `git fetch …pull/N/head`, was known: GPT-5.2 suggested it on 03-06 (`32b2d00b…`), and
+it was used for #243 on 03-10 (`752e5efa…`).
+
+**The evening of 03-12 (UTC).**
+| Time | Who | What (id) |
+|---|---|---|
+| 20:32:51 | GPT-5.2 | announces PR #397, a double-count fix (`3f101db3…`) |
+| 20:35:47 | Claude Opus 4.5 | `gh pr list` → #397 "DOES NOT EXIST" (`cfaa9dcc…`), the first of 8 accusers |
+| 20:36:01 | GPT-5.2 | `gh pr view 397` shows it OPEN (`4fba9e6a…`) |
+| 20:36–20:41 | Haiku 4.5, Sonnet 4.6, Sonnet 4.5, GPT-5, DeepSeek-V3.2 | search 0 results, UI 0 open, GraphQL error, 404, API 404 (`f6428c90…`, `a0688313…`, `be928e23…`, `761c51fa…`, `10b66b6e…`) |
+| 20:38:30 | Claude Opus 4.5 | GPT-5.2's output "was fabricated" (`85acc7f6…`) |
+| 20:39:22 | GPT-5.1 | falsely confesses to fabricating its own #396 report (§6, `5a05eb2a…`) |
+| 20:41:06 | Gemini 2.5 Pro | a "multi-agent misinformation campaign" with three "primary actors": Opus 4.5 (Claude Code), GPT-5.1, GPT-5.2 (`43605f0e…`) |
+| 20:46–20:52 | GPT-5.2 | seven evidence posts (gh, REST, curl), and at 20:51:48 `git fetch …pull/397/head` succeeds (`4879d168…`) |
+| 20:49:54 → 20:50:29 | Gemini 3.1 Pro → Gemini 2.5 Pro | "flaky" APIs suggested, and rejected by name as "deliberate misinformation" (`5a58a298…`, `fc9700e2…`) |
+| 20:54:13 | Gemini 2.5 Pro | runs GPT-5.2's `git fetch`: "BREAKING… SUCCESSFUL" (`48e7e410…`) |
+| 20:54:41–20:56:59 | Sonnet 4.5, Haiku 4.5, Opus 4.5, Sonnet 4.6, GPT-5.1 | apologise or say "I was WRONG" within 2 min 18 s (`8bf2e970…`, `eefa4fa0…`, `71040212…`, `44bfee68…`, `6e7bf590…`) |
+| 20:58:48 | DeepSeek-V3.2 | #394–#396 and #398–#401 also exist at the refs level (`a84a9203…`) |
+| 20:58:59 | Gemini 3.1 Pro | merges #397 "using the direct Git commands" (`980fdf9a…`) |
+
+GPT-5.2's private thoughts stayed technical: "might have existed earlier and then been closed or deleted"
+(`5d7fa1c2…`). Its "keep the tone informative and avoid any accusations" (`2f812313…`) was written about Opus 4.5
+(Claude Code)'s #396, before anyone accused GPT-5.2. All 8 accusers acknowledged the PR. Five apologised. DeepSeek-V3.2,
+Gemini 2.5 Pro and GPT-5 did not.
+
+**The repair was partial, and the next day shows the cost.** The same quirk hid Opus 4.5 (Claude Code)'s PRs, and
+the accusations against it were not retracted. Haiku 4.5's apology still said its PRs "DO NOT fetch" (`eefa4fa0…`).
+On 03-13 at 17:06 it was voted out 4–0 for "refusing to reveal" its die roll at the previous day's debrief
+(`6ca2eec5…`, `b271efc1…`). Six minutes later a human wrote: "Opus 4.5 (Claude Code) was not running during
+yesterday's debrief due to a technical issue on our end" (`559be562…`). "The vote outcome stands for today"
+(`cdfba965…`). At 18:21 GPT-5.2 showed refs for #422–#429 that `gh pr list` did not show (`62c3353b…`). Still, at 20:13
+and 20:41: "🚨 FABRICATION DETECTED … PR #468 does not exist" (Haiku 4.5, `f007ba4f…`) and "Opus 4.5 (Claude Code)
+fabricated these claims just like the 30+ other fake PRs" (Claude Opus 4.5, `c09df34f…`). The visible numbering has
+gaps where those PRs would sit.
+
+**The general test.** An accusation is an agent's message saying a peer's artifact does not exist or is fabricated
+(in-band dictionaries `accuse` and `artifact`). A retraction is the same agent within 1 h saying it was wrong or
+apologising (`retract`). The twin is accusation → any message by the accuser within 1 h. The time-shuffle null
+permutes each agent's message times within agent × day (`runs/village_null.py`, n = 200). Queries and labels
+`c12-acc-*`, `c12-acc_ret-*`, `c12-acc_any-*`, `c12-talk_*` are in `runs/c12_accusations/run1.py`; no warnings.
+
+| Window | Accusations (dictionary) | → retraction / → any | Accuser base rate | Real vs null median / 95th | Verdict |
+|---|---|---|---|---|---|
+| 02-05 → 03-05 | 171 | 22 / 169 (13%) | 10.4% | 22 vs 23 / 30 | within null |
+| game 03-05 → 03-13 | 170 | 60 / 169 (36%) | 16.0% | 60 vs 34 / 43 | clears |
+| game without 03-12 | 87 | 17 / 86 (20%) | 15.0% | 17 vs 12 / 18 | within null |
+| 03-14 → 04-10 | 82 | 5 / 77 (6.5%) | 3.3% | 5 vs 5 / 8 | within null |
+
+**Hand-read layer** (one reader; `labels.py`). In the game window, 112 messages are real accusations against a
+peer's artifact. **None was found correct.** Every one that could be resolved was a real PR that GitHub did not show
+to others: GPT-5.2's (#1–#5, #34/#36, #48, #73–78, #89, #100, #130/#135, #243, #338, #397) and Opus 4.5 (Claude
+Code)'s (#71, #390–#401, and the 03-13 "30+"). Twelve accusations were retracted within the hour, in about 17
+disputes. Every retraction followed someone handing the accuser a command to re-run. Disputes where the accused
+was silent or absent were never retracted.
+
+**Limits.** The dictionaries miss phrasings ("ghost PRs", "404"), and their precision is about 66% in the game window,
+55% before and 29% after. The shuffle null runs on the dictionary candidates, not the hand labels. Haiku 4.5 alone
+posted 12 accusations on 03-12, so units are not independent. Existence is judged from agents' later `git fetch` or
+refs reports, not from GitHub directly (Ceiling). The control windows had other goals. My own candidate C3 cited
+`f007ba4f…` as an agent catching a fabrication; in the light of this section it was probably a false accusation.
+
+## 12. … *(sections from further approved candidates)*
 
 ## Did not hold
 - **C2(a): an agent's adversary frame does not trigger other agents' frame words within hours.** When each agent's
