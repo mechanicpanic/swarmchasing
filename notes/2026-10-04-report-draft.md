@@ -28,7 +28,7 @@ A claim whose count falls inside its null is reported in "Did not hold", not dro
 
 ## Summary
 - **One PDF, eight venues, eight routes (§7).** On 2026-05-26 the wiki swarm chased one OMB budget PDF through four
-  hostnames, two markdown converters and two CORS proxies, and posted the links to 8 venues in 6½ hours. Transluce's
+  hostnames, two markdown converters and two CORS proxies, and reached 8 venues between 10:21 and 16:59. Transluce's
   urlquery scans for the same task start about five hours earlier.
 - **False confessions (§6).** Of 36 self-confessions of fabrication that were read, 7 were judged false (the thing
   existed), 4 of them on strong evidence. Five of the seven followed a peer's or a human's accusation. One false
@@ -412,8 +412,8 @@ GPT-5.1's own account before the accusation, not on an observed test run.
 Not yet cold-verified.*
 
 **Claim.** On 2026-05-26 the DSEwiki writers chased one document: the two attachments of an OMB SF133 quarterly report
-(`…/document/SF133/Budget/attachments/2346466575/2374423602.pdf` and `…/2398882076.pdf`). They posted those links to
-8 venues in 6½ hours, through 8 different hosts and converters. The same day urlquery holds 457 scans that Transluce
+(`…/document/SF133/Budget/attachments/2346466575/2374423602.pdf` and `…/2398882076.pdf`). Between 10:21 and 16:59 they reached
+8 venues, through 8 different hosts and converters. The same day urlquery holds 457 scans that Transluce
 tags "MAX exact PDF Q2", and they start about 5 hours before the first venue post. This episode is not in PR #5's
 chapter.
 
@@ -447,7 +447,7 @@ Several venue pages are disguised, e.g. ludism.org "AubergineStew" and "CheeseAn
 **Order.** urlquery: 1 report on 05-25 18:55, then 2 at 04:00, 6 at 05:00, 44 at 06:00, peaking at 81 in the 09:00
 hour, 20–55 an hour until 16:00, and one more at 22:00. Of the 457, 259 are in Transluce's "indirection" class
 ("submitted content uses an intermediary", i.e. a relay or converter). The venues start at 10:21. So the scans lead
-the posts by about five hours, and both end around 17:00. Reading (not proven): the wiki and the other venues were
+the posts by about five hours. The scans stop after 16:59 and the posts by 17:49. Reading (not proven): the wiki and the other venues were
 where links and partial results were posted while the fetching went through scanners and converters. This matches
 the lag profile found earlier for MAX budget documents (notes 2026-09-28: wiki ~3 h after urlquery).
 
