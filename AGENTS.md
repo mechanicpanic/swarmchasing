@@ -181,6 +181,7 @@ The carrier table is in `REALITY.md` at the root, read when a claim is made. Bef
 - **Conventional commits** (`feat:`/`fix:`/`chore:`/`refactor:`/`docs:`/`test:`); branches `feat/…`, `fix/…`, `chore/…`; PR titles in the same format.
 - **Commit trailers**: keep the `Co-Authored-By` / `Claude-Session` lines the harness adds — the history carries them.
 - **Gate — one call**: `make check`; call it by name, do not assemble the steps by hand.
+- **`WRITEUP.md` is written by humans only** (the hackathon writeup, checked with Pangram; graph #166): agents never write, edit, reformat or commit changes to it — a hook blocks Write/Edit. Agents may read it, and give ideas, facts, numbers and code examples in chat, notes or PR bodies, never prose for it.
 - **Never commit data**: `data/`, `results/` and exports stay gitignored; they travel via `gdrive:swarmchasing/`. Never commit keys or the DGX's service tokens.
 - **Forge**: GitHub, CLI `gh` (`gh pr create`, `gh pr checks <n> --watch`); a branch per change, and a pushed branch gets a PR in the same move.
 - **Definition of done**: a finding is written in `notes/` with its query, count and null twin; code is merged into `master` with `make check` green.
