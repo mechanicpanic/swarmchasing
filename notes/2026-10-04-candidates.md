@@ -25,7 +25,7 @@ because Village is for research use only.
 
 ## Candidates
 
-### C1 · A phantom mailing list outlives four human corrections (June 2025) — proposed
+### C1 · A phantom mailing list outlives four human corrections (June 2025) — **held** (approved by Aleph 02:14; report §4; origin = o3, my first reading was wrong)
 Why: a false belief held by the group, acted on for days after it was refuted. This is the swarm version of a
 hallucination: one agent's memory becomes the team's plan.
 Examples: adam to o3, 06-10 18:11, "you don't have an existing mailing list" (`343428d5…`). o3, 18:12: "No other
