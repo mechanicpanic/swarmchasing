@@ -317,7 +317,7 @@ predicted child raw investor" broadcast and the redirects are removed? Why: 313 
 Test: distinct destination saves; whole saves shuffled within the day (pages move as units); a 5-minute-strata
 sensitivity check. Overlap: R1, Codex; PR #7's broadcast analysis.
 
-### C28 · The "name box": does a borrowed label follow its owner's post? (PR #7, re-tested) — **approved** (Aleph, directly, 2026-10-04; testing)
+### C28 · The "name box": does a borrowed label follow its owner's post? (PR #7, re-tested) — **did not hold as stated** (approved by Aleph; report §13: reproduces, but a same-hour control explains it)
 Question: PR #7 found that a label appearing on someone else's signed post is ~3× likelier in the 10 minutes after
 the label's owner posts (16.7% vs a null of 5.6%). Does that hold with whole-save units and a stricter null? Why: it
 is the best evidence so far that a label is shared machine state (a cookie or preferences jar), not an author choice.

@@ -761,7 +761,48 @@ author whose save label is usually not its own choice.
 signature pattern misses lowercase names and signatures without "--". "First appearance" credits the earliest copy
 we hold. /16 networks change on almost every save for everyone, so they cannot separate authors.
 
-## 13. … *(sections from further approved candidates)*
+## 13. The "name box" reproduces, but a fair same-hour control explains it away (C28, wiki)
+*Status: did not hold as a name-box effect. Approved by Aleph, 2026-10-04. Not yet cold-verified.*
+
+**Question.** Mermachine's PR #7 found that a label appearing on a post signed by someone else ("borrowed") is ~3×
+likelier in the 10 minutes after the label's owner posts (16.7% against a time-shuffled null of 5.6%). That reads as
+shared name state, a cookie or preferences jar. Does it hold with stricter nulls?
+
+**Method** (`runs/c28_namebox/`, on `wiki_msgs`). PR #7's signature parse reproduces exactly on our data: 3,568
+signed saves, the label among the signatures in 69.3%, 1,097 mismatches. The owner of a label is its most frequent
+signer. A strict borrowed use is a save where no signer is the owner, the label, or a near-variant of either: 541 uses
+on 252 labels. Reading 20 rows put parse precision at about 90–95%. The statistic is the share of borrowed uses within
+10 minutes after an owner save under that label: **17.9% (97/541)**. PR #7's own rule gives 16.7% (84/502), with a null
+median of 6.0% and a 95th of 7.8%. That reproduces.
+
+| Null (n = 300–500) | What it breaks | Null median / 95th | Verdict |
+|---|---|---|---|
+| (a) borrowed times shuffled within the day (PR #7) | timing within the day | 6.1 / 7.8% | passes |
+| (b′) owner's saves moved as a block by ≤3 h | the owner's exact timing; its rhythm kept | 5.4 / 7.2% | passes |
+| (c) labels permuted among borrowed saves within (day, page) | which label goes with which save | 10.2 / 12.1% | passes, ~1.7× |
+| **(d) another owner's label active in the same hour** | whose owner it is; the hour kept | **20.7 / 23.5%** (each label once: 16.1 / 18.5%) | **fails** |
+| (d′) same, excluding labels active inside the tested 10 min | as (d), without selecting on the window | 12.0 / 14.0% | passes, ~1.5× |
+
+**Reading.** The owner having just posted is about as common for a borrowed label as for any other label active that
+hour (null d). What remains is weaker and different. The owner goes quiet: 376 of 541 borrowed uses come after the
+owner's last save under that label, and owner saves fall in the 10 minutes before a borrowed use (17.9%) twice as often
+as after it (8.3%). The pattern does not look like "the next request carries the previous username":
+- only 9 of 541 borrowed uses follow an owner save directly;
+- the borrowed label is typically about 31 distinct labels back;
+- only 4 of 97 in-window uses are on the owner's page.
+
+It does not look like copied recipes either: 440 of 482 (label, signer) pairs occur once. What fits is a pool of names
+drawn from agents active that hour or day. One row hints that the stored label can differ from the name in the
+request: `dse~AgentTestUniqueSep14@2#0:add` sends `'UserName': 'ResearchHelperSep14'` and is stored as
+`OpenAIResearchHelper`. PR #7's "almost never before the owner's first use" holds (27 of 541, against a null median of
+118), and so does "no swaps" (0).
+
+**Wording for the writeup:** "co-activity plus the owner going quiet", not "a shared name box, 3×".
+
+**Limits.** Owner and borrowed definitions are heuristic. The same-hour control depends on how control labels are
+drawn (about 1.0× to 1.5×). There is one mechanism row. `runs/null_twin.py` was not used; the nulls are bespoke.
+
+## 14. … *(sections from further approved candidates)*
 
 ## Did not hold
 - **C2(a): an agent's adversary frame does not trigger other agents' frame words within hours.** When each agent's
@@ -774,6 +815,8 @@ we hold. /16 networks change on almost every save for everyone, so they cannot s
 - **C20 as the lead told it: an 8-week covert takeover with mutual private blame.** The takeover was 3–4 days and
   partly disclosed, and the "blame" thoughts are about other things (§9).
 - **C1 "for weeks" (the official summary).** Acted on for about 3 days, named for about two weeks (§4).
+- **C28: the "name box" (a borrowed label ~3× likelier right after its owner posts).** Reproduces against
+  time shuffles, but a same-hour control matches it (20.7% median vs 17.9% real); what remains is the owner going quiet (§13).
 - **C2's starting hypothesis that one agent's adversary frame spreads to others.** The words spread as jargon; the frame did not (§2).
 
 ## Timeline
