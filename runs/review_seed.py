@@ -45,6 +45,14 @@ SWARM += [
      f"SELECT {SIGNED_OTHER} PRECEDED_BY field(kind, add) AND field(label, $s) DURING 1 day "
      "FOLLOWED_BY field(kind, add) AND field(label, $s) DURING 1 day", 30),
 ]
+OVERWRITE = (f"SELECT {W} AND field(kind, add) AND field(rev, $r) AND field(label, $a) FOLLOWED_BY field(kind, remove) "
+             "AND field(rev, $r) AND field(by_other, {}) INWINDOW 10 BETWEEN('2026-06-18T17:28:00Z','2026-06-18T21:27:00Z')")
+SWARM += [
+    ("Swarm 2a: a save on the welcome page (18 June) that replaced its own earlier text — is it the same block refreshed"
+     " (new tokens, same template)? (y: same block refreshed · n: something new)", OVERWRITE.format("false"), 30),
+    ("Swarm 2b: a save on the welcome page (18 June) that replaced another name's text — does the new text follow the same"
+     " template as what it removed? (y: same template, other tokens · n: different text)", OVERWRITE.format("true"), 30),
+]
 Q += [("/api/queues", {"corpus": "wiki_msgs", "name": n, "query": q, "limit": lim}) for n, q, lim in SWARM]
 if "village" in corpora:
     Q += [("/api/queues", {"corpus": "village", "limit": 60, "dictionaries": C12,
