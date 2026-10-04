@@ -77,6 +77,16 @@ That is the wiki admin's deletion sweeps (108): 10 to 400 deletions with no gap 
 cold check, report shape). Other agents: point them at those two files. MCP:
 `{"mcpServers": {"prismql": {"command": "prismql-mcp", "env": {"PRISMQL_SERVER_URL": "http://127.0.0.1:8931"}}}}`.
 
+### With AI Village (needs access on Hugging Face)
+Accept the terms at [huggingface.co/datasets/aidigestorg/ai-village](https://huggingface.co/datasets/aidigestorg/ai-village)
+(research use only, no training), log in with `uvx --from huggingface_hub hf auth login`, then:
+```bash
+make demo-village      # the demo plus three Village files (~700 MB) → 569,540 events: messages, thoughts, session summaries
+make findings-village  # second terminal: 17 queries behind the report's Village sections, each count beside the report's number
+make cheatsheet        # 14 teaching queries, one per construct of the language, ported from Mermachine's cheat sheet
+```
+The Village corpus built here has no embedding column, so `similar_to` (cheat sheet query 13) answers with an error.
+
 ## Data
 Nothing here is committed; everything lands in `data/`. Six corpora, one section each in [`prismql.toml`](prismql.toml); `make demo` builds `wiki`, `revisions` and `wiki_msgs`:
 
