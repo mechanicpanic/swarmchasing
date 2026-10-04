@@ -843,8 +843,11 @@ its fixes, is there any restore effect left?
 - Each runs with and without `dse~WillkommenImWiki` (noHub) and June 18 (noJ18).
 - Null: whole saves permuted over the save slots of the same (day, page), n = 1,000; sensitivity on (5-min, page). The
   author is recomputed in every shuffle.
-- R2 reproduces: 705 matches, 618–619 distinct saves. Server label `c26-r2-baseline-1min`; without the hub,
-  `c26-r2-nohub-*` gives 12 / 22 / 27 saves at 1 min / 10 min / 1 h.
+- R2 reproduces: 705 matches, 618–619 distinct saves, with the original `author_label` (first adder of the hunk over
+  the whole page history). Server label `c26-r2-baseline-1min`; without the hub, `c26-r2-nohub-*` gave 12 / 22 / 27
+  saves at 1 min / 10 min / 1 h. `wiki_msgs` now computes `author_label` line by line (the latest earlier adder,
+  2026-10-04); with it `c26.py --mode repro` gives 1,042 matches / 995 distinct saves. The tables below do not use
+  that field (`c26.py` recomputes the latest earlier adder itself) and are unchanged: 992 saves at 1 min.
 
 | Variant, scope | 1 min | 10 min | 1 h | Verdict |
 |---|---|---|---|---|
