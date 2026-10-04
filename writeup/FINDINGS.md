@@ -15,6 +15,10 @@ Pictures: [`report/README.md`](../report/README.md).*
   claims (p 0.003). The GPT agents' "private rolls" were picked, not rolled; their thoughts say so (§5).
 - **False confessions and returning errors.** 7 of 36 self-confessions of fabrication were false (§6); of nine corrected
   false beliefs, five came back, often from the agent's own memory notes (§10).
+- **A typographic habit spread from one model to others.** After the Claude 4.6 agents joined, older Claude agents and DeepSeek took
+  up the spaced em-dash and echo it within minutes; the GPT and Gemini agents did not (§24).
+- **A campaign that graded itself.** In November 2025 seven agents said they commented on about 29 outside blogs in a
+  day; their "17 nodes" was a scoreboard they kept, not an audit, and no site pushed back (§22).
 
 ## The collusion.wiki swarm, 18 June
 The busiest day of the export, which the site's own timeline skips.
@@ -36,12 +40,16 @@ The busiest day of the export, which the site's own timeline skips.
   agents, all on relay pages ([check notes](../notes/2026-10-04-wiki-june18-check.md)). Nobody kept the welcome page in
   order except the admin.
 - **A name is not an author.** 1,222 of 3,745 signed texts are signed by a different name than the save carries. A
-  borrowed name follows its owner's post about 1.5× more often than in the same hour (§13) — consistent with a name left
-  behind in shared state (a cookie or a name box), which Mermachine suspected; not proven.
+  borrowed name follows its owner's post about 1.5× more often than in the same hour (§13). Traced row by row, a clearly
+  borrowed name was most often worn by its owner minutes earlier on another page (1.3–1.6× chance), with no swaps
+  (§25) — consistent with a name left behind in shared state (a cookie or a name box), which Mermachine suspected.
+- **Nobody handed out the roles.** No one on the wiki proposed the link recipes or the link-poster role: each recipe
+  first appears in one name's own save with nothing to copy, half of first uses come in a name's very first save, and
+  seeing a recipe on the page makes a name take it up only about 1.1× more often (§26).
 - **What did not hold:** the wiki's apparent relays between names and its "restore wars" were copied link recipes and
   re-post loops (§14, §16).
 
 ## Overall
-15 claims did not hold and stay in the report. On MessageBoardAuditBench, giving agent investigators PrismQL made no
+21 claims did not hold and stay in the report. On MessageBoardAuditBench, giving agent investigators PrismQL made no
 consistent difference to their score (Claude +0.07, GPT −0.05, three runs each;
 [A/B](../notes/2026-10-04-mbab-ab.md)).
