@@ -107,6 +107,15 @@ its shape:
 `contains_tokens()` always matches whole tokens (Unicode-aware: preserves
 C++, emails, contractions); `contains_phrase()` matches one exact phrase.
 
+Text predicates read fixed text fields and no other column. Words — `contains()` and `contains_tokens()` — read `text`, `content` and `message` (tantivy: `text` only); a phrase — `contains_phrase()` or a multi-word dictionary term — reads `text` only; `is_question()`, `contains_link()` and `mentions_user()` (when mentions were not stamped at ingest) read `text`, `content` and `message`. When the corpus holds none of the fields a predicate reads, it refuses with an error instead of answering zero; text in another column is matched with `field(body, "word", partial)`. A phrase or a dictionary term with no letters or digits (`contains_phrase(" — ")`) refuses too: text is indexed as words, so punctuation alone would match nothing; find it with `field(text, "—", partial)`.
+From Python on the memory backend, `BackendConfig(text_fields=["text", "body"])` makes the words in `body` searchable too; a phrase still reads `text` alone, and tantivy reads `text` whatever the config says.
+
+**`contains(x)` is a dictionary name, `contains_phrase("x")` is a literal.**
+`contains(timeout)` with no dictionary called `timeout` is an error
+(`Dictionary 'timeout' not found`), not a search for the word; a quoted word
+inside `contains()` is refused with a pointer to `contains_phrase()`. Define `timeouts = ["timeout"]` or
+write `contains_phrase("timeout")`.
+
 ### 2. Boolean Operators
 
 ```prismql
@@ -330,6 +339,37 @@ over plain fields and temporal units (`hour(ts)`, `day(ts)`, `week(ts)`,
 **One function per query**: `AGGREGATE count(), sum(x)` is an error — run
 one query per function.
 
+**What `count()` counts: result groups, not entities.** `A FOLLOWED_BY B`
+returns one group for every event that matches `A` and has a partner, so
+two start events on one page are two matches and count twice. Stream
+`1 delete P`, `2 delete P`, `3 save P`, `4 delete Q`, `5 save Q`:
+
+```prismql
+SELECT field(kind, delete) AND field(page, $p) FOLLOWED_BY field(kind, save) AND field(page, $p) INWINDOW 10
+-- groups [1, 3] [2, 3] [4, 5]: AGGREGATE count() is 3, for 2 pages
+SELECT field(kind, delete) AND field(page, $p) FOLLOWED_BY field(kind, save) AND field(page, $p) INWINDOW 10 AGGREGATE count(DISTINCT page)
+-- 2: the pages that have at least one match
+SELECT field(kind, delete) AND field(page, $p) FOLLOWED_BY field(kind, save) AND field(page, $p) INWINDOW 10 GROUP BY page AGGREGATE count()
+-- {P: 2, Q: 1}: matches per page; the number of keys is the number of pages
+```
+
+Pick the one that answers the question asked:
+
+- *how many matches* — `count()`; *how many entities have one* —
+  `count(DISTINCT field)`; *how many per entity* — `GROUP BY field AGGREGATE
+  count()`.
+- `count(DISTINCT f)` collects `f` from **every** event of every group, both
+  legs. It counts entities only when every leg carries the same value (the
+  `$p` above). If the field differs between legs (the asker and the
+  answerer), it counts both sides' values together; `GROUP BY f` keys each
+  group by its **first** event alone, so its keys are the first-leg values.
+- To count the other end, flip the operator: `B PRECEDED_BY A` gives one
+  group per `B`, each with its nearest earlier `A` (here `[2, 3] [4, 5]`).
+  It is another question, not the same pairs reversed.
+- There is no "keep one group per entity" stage. To keep the first (or any
+  one) match per page, read the groups and deduplicate by the first event's
+  field outside the language.
+
 **ORDER BY** sorts groups by the fields' values on each group's first
 event: `SELECT from(alice) ORDER BY timestamp DESC`. Several fields sort by
 their values in order; one `ASC`/`DESC`, written once after the last field,
@@ -394,8 +434,7 @@ SELECT
    message of the B-group and the positional gap from A's last message to
    B's first is within `n` (greedy closest match, like the restriction
    level). Matched groups are concatenated chronologically, so multi-message
-   stages stay intact: `(SELECT a, b INWINDOW 3) FOLLOWED_BY (SELECT c)
-   INWINDOW 8` yields groups `[a, b, c]`. `NOT_FOLLOWED_BY` /
+   stages stay intact: `(SELECT a, b INWINDOW 3) FOLLOWED_BY (SELECT c) INWINDOW 8` yields groups `[a, b, c]`. `NOT_FOLLOWED_BY` /
    `NOT_PRECEDED_BY` keep the left groups that have no such counterpart.
 
    - Each positional link carries its own `INWINDOW n` — a chain cannot
@@ -544,8 +583,10 @@ SELECT from(alice) FOLLOWED_BY from(bob) FOLLOWED_BY from(alice) FOLLOWED_BY fro
 -- Monologue detection (a run of one speaker)
 SELECT from(alice){5} INWINDOW 10
 
--- Unanswered messages (negative lookarounds carry their own window
--- and cannot be chained with other sequential operators)
+-- Unanswered messages (a negative lookaround carries its own window;
+-- it may open a chain or follow another NOT_ link, never a positive one:
+-- A FOLLOWED_BY B NOT_FOLLOWED_BY C is refused,
+-- A NOT_PRECEDED_BY S DURING 30 minutes FOLLOWED_BY C DURING 2 hours runs)
 SELECT from(alice) NOT_FOLLOWED_BY from(bob) INWINDOW 10
 ```
 
@@ -585,17 +626,27 @@ Sequential links (`FOLLOWED_BY`, `PRECEDED_BY`, chains):
   gets the single nearest eligible message on the right side, after it for
   `FOLLOWED_BY`, before it for `PRECEDED_BY`, along the window's axis
   (positions for `INWINDOW`, time for `DURING`) — never every message in the
-  window. Stream `a1 a2 b1 b2`: `SELECT from(a) FOLLOWED_BY from(b)
-  INWINDOW 5` → `[[a1, b1], [a2, b1]]`.
+  window. Stream `a1 a2 b1 b2`: `SELECT from(a) FOLLOWED_BY from(b) INWINDOW 5` → `[[a1, b1], [a2, b1]]`.
 - **Partners are shared.** Two left messages may pick the same partner (`b1`
   above).
 - **Strictly later in time.** On a `DURING` link the partner's timestamp must
   be strictly later (strictly earlier for `PRECEDED_BY`): a message with the
   same timestamp never continues the sequence, even when it is next in the
   stream. `INWINDOW` links look at positions only.
+  Stream (user, time): `1 alice 100`, `2 bob 100`, `3 bob 101`.
+  `from(alice) FOLLOWED_BY from(bob) INWINDOW 1` → `[1, 2]` (next in the
+  stream; time is not looked at); `from(alice) FOLLOWED_BY from(bob) DURING
+  10 seconds` → `[1, 3]` (event 2 shares alice's time, so it is not later);
+  `from(alice), from(bob) DURING 10 seconds` → `[1, 2]` and `[1, 3]` (a
+  comma row asks only for a span of at most 10 seconds, so equal times
+  pass). `DURING 0 seconds` on a sequential link therefore matches nothing.
 - **Ties go by position.** Among candidates with the same timestamp the
   nearest in the stream wins: the earliest going forward, the latest going
   backward.
+  Stream (user, time): `1 alice 100`, `2 bob 105`, `3 bob 105`:
+  `from(alice) FOLLOWED_BY from(bob) DURING 10 seconds` → `[1, 2]`, not
+  `[1, 3]`; going backward, `from(bob) PRECEDED_BY from(alice) DURING 10 seconds` over
+  `1 alice 100`, `2 alice 100`, `3 bob 105` → `[2, 3]`.
 - **Chains grow link by link.** Each element is the nearest after the
   previous one; a trailing window bounds every link, not the whole chain; no
   message appears twice in a group.
@@ -620,8 +671,7 @@ temporal one, ties by stream position. With positional windows all of this is
 stream order; it differs only when timestamps run backwards in load order, and
 the engine warns when they do.
 
-A result of one condition (`SELECT from(alice)`, `SELECT contains(x) OR
-field(k, v)`) lists one message per group in stream order — ids are labels,
+A result of one condition (`SELECT from(alice)`, `SELECT contains(x) OR field(k, v)`) lists one message per group in stream order — ids are labels,
 never the order, so any mix of id types works.
 
 ## Syntax Decision Tree
