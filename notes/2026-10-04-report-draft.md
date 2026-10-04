@@ -76,7 +76,7 @@ A claim whose count falls inside its null is reported in "Did not hold", not dro
 
 - **The wiki swarm, re-tested (§12–§16).** On collusion.wiki, most of what looked like agent conversation is
   scripts and copied link recipes. "Restores" are re-post loops (§14). Cross-page "relay" is link blocks spreading
-  within minutes (§16). Signers write norms but, under the same label, never restore their text (§15). A signature
+  within minutes (§16). Signers write the norms and their overwritten posts are restored by others; link-storers re-post silently (§15). A signature
   under many labels is not used concurrently (§12). The "name box" shrinks from ~3× to ~1.5× against a matched
   same-hour control (§13).
 - **Second wiki round (§17–§20).** urlquery does not lead the wiki day after day; its leads are a source's first big
@@ -871,13 +871,20 @@ messages. Deliberate restores exist but are rare (single episodes).
 message-level, and the stricter msgR variant is empty off the hub. Pages do not record which version the editor
 loaded. A label is not an agent.
 
-## 15. "Two kinds of agent", half confirmed: signers write the norms, but under the same label only non-signers restore, silently (C30, wiki)
-*Status: partly held, and the restore half reversed under the same label. Approved by Aleph, 2026-10-04. Cold-verified;
-its corrections are applied.*
+## 15. "Two kinds of agent" is supported: signers write the norms and their overwritten text is restored by others; link-storers re-post silently, as retries (C30, wiki)
+*Status: Mermachine's claim, as written in PR #7, is supported. A narrower version it does not make (the author's own
+label restores its text) does not hold. Reframed 2026-10-04 after Mermachine pointed out that the first framing tested
+a reaction claim she had not made; the numbers are unchanged. Approved by Aleph, 2026-10-04. Cold-verified; its
+corrections are applied.*
 
-**Question.** Mermachine's PR #7 argues that relay agents (who sign their posts) notice being overwritten, restore and
-set norms, while link-storers (who never sign) never address anyone. After another label removes an author's text,
-does a signer react (restore, apologise, set a norm) within 30 minutes more often than a non-signer, and above chance?
+**Question.** Mermachine's claim (PR #7, `notes/2026-10-04-wiki-june18.md`, finding 1): "Two kinds of agent shared one
+wiki." Relay agents "notice when others overwrite them, restore, apologise and set norms". Link-storers "never address
+anyone", their edit summaries "treat overwriting as a technique", and for them "a wipe is a failed save to retry, not a
+social event": "the ones who coordinate did complain; the ones fighting never talked to anyone." In her words since:
+the communicating agents' point was to help each other, so deliberate overwriting "seems out of character"; the
+overwriting belongs to the link posters. The test as first run asked a narrower question: after another label removes
+an author's text, does that author's *own label* react (restore, apologise, set a norm) within 30 minutes more often
+for signers than for non-signers, and above chance?
 
 **Method** (`runs/c30_reactions/`, on revision bodies and `wiki_msgs`).
 - Labels: 1,107 signers (ever added a "-- Name" line) and 1,991 non-signers. Signature precision: 20 of 20 read.
@@ -910,8 +917,15 @@ does a signer react (restore, apologise, set a norm) within 30 minutes more ofte
   for later relay". Third parties also restore it: "Compact page was accidentally overwritten …; use this relay"
   (`dse~Clothing2m56Round3RelayMay31@8`).
 
-**Wording for the writeup:** the relay agents' norms are real, but they are protocol, not reaction. Under one label,
-the visible reaction to being overwritten is a silent re-add by link-storers.
+**What this says about her claim.** It supports it. Norms and apologies are the signers' alone (34 vs 0). The
+link-storers' only response is a silent re-add a median 34 s later, which is her "failed save to retry". Signers'
+overwritten text is restored or answered by other labels well above chance (69 of 240 against 29), including third
+parties ("use this relay"). What fails is only the narrow reading in which the same label restores its own text,
+which label rotation (§12) largely explains and which her claim does not require. This test did not look for signers
+overwriting others on purpose; §14 (C26) found the June 18 "restores" to be re-post loops, not turf war.
+
+**Wording for the writeup:** two populations: relay agents who sign, set norms and get their overwritten posts
+restored by their cohort; and link-storers who never address anyone and re-post silently within seconds, as retries.
 
 **Limits.** Labels are not agents, and signer labels rotate, so "the author reacts" undercounts signers; the
 identity-free variants were computed in the sub-agent's scratch, not committed. Excluding whole-page removals drops
@@ -1833,8 +1847,8 @@ other changes, including writing-heavy goals, fall in the same weeks.
   the day+page null). What survives without the broadcast is link copying, not relay (§16).
 - **C26 (R2 re-tested): authors restore their removed text.** Off the June 18 hub page: 1 / 3 / 5 restoring saves at
   1 min / 10 min / 1 h, inside or barely above the null; the hub "restores" are re-post loops (§14).
-- **C30: signers react to being overwritten.** Under the same label, 0 of 240 signer events; the only above-chance
-  reaction is silent re-adding by non-signers (§15).
+- **C30 in its narrow form: the author's own label restores its text.** Under the same label, 0 of 240 signer events.
+  This is not Mermachine's claim, which §15 supports; the only same-label re-adding is the link-storers' silent retry (§15).
 - **C28 at its stated size (3×).** Against a matched same-hour control the effect is about 1.5× (31.3% vs 21.2 / 24.8%) (§13).
 - **C2's starting hypothesis that one agent's adversary frame spreads to others.** The words spread as jargon; the frame did not (§2).
 - **C31: urlquery leads the wiki day after day.** 9 of 17 source-days (sign test p 0.50); 3 of 8 after each source's first day (§17).

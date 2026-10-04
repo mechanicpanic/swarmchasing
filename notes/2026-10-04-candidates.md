@@ -332,7 +332,7 @@ answers the naming question directly for the 48 multi-label signatures. Test: fo
 its saves in the page/time order, against a null that shuffles signer identity among saves within (day, page). Classify
 signatures as rotation / shared / mixed, with ids. Overlap: notes 2026-09-22 (48 signatures), PR #7's rotation ~30%.
 
-### C30 · Two kinds of agent: do signed posters react to being overwritten and unsigned ones not? (PR #7 finding 1, as a test) — **partly held, restore half reversed** (approved by Aleph; report §15)
+### C30 · Two kinds of agent: do signed posters react to being overwritten and unsigned ones not? (PR #7 finding 1, as a test) — **held as Mermachine wrote it; the narrow same-label restore version did not hold** (approved by Aleph; report §15, reframed after her correction)
 Question: after another label removes its text, does an author that signs its posts restore, apologise or set a norm
 ("append only", "accidentally overwritten") within 30 minutes more often than an author that never signs? Why: PR #7
 argues that relay agents complained and link-storers never addressed anyone. That is a claim about two populations
@@ -371,6 +371,19 @@ alphabetical and one agent opened a ZZZ backup. Whether the swarm as a whole ada
 untested, and it is the defender's question. Test: per (family, day), saves on the day after a sweep against the day
 before, compared with families not swept the same day; the null permutes the sweep dates among families. Overlap: PR #5
 §5.
+
+### C35 · The name box traced row by row: where was a mismatched label last, and where is its signer? (Mermachine's design) — proposed
+Question: for every save whose label is not its signature (1,097 mismatches; 541 strict borrowed uses, §13), trace (a)
+the label's previous appearance: how long before, on which page, and signed by whom (its owner, another signer, unsigned);
+and (b) the signer's own name as a label: its previous and next appearance (when, which page, under which signature).
+Why: Mermachine's own design for the name-box question (Discord, 2026-10-04 20:05–20:16). §13 tested only an aggregate
+(is a borrowed use within 10 min after an owner save) and found ~1.5×, with partial traces: 376 of 541 borrowed uses come
+after the owner's last save, the borrowed label is a median 44–97 labels back, 4 of 97 in-window uses are on the owner's
+page. §12 has "90% of borrowed labels had been used by someone else earlier, 30% within the previous 10 minutes". Neither
+traces (b), nor (a) row by row. A row-level trace says whether the label comes from the last save on the same page, from
+the same cohort, or from the signer's own previous name (a swap). Test: the two lags and page-match rates per mismatched
+save; null: labels permuted among saves within (day, page) and within (hour), recomputing the traces; read 30 traced rows.
+Overlap: §12, §13, PR #7 finding 3.
 
 ## Batches sent
 - Batch 1 (C1–C5): sent to swarmchasing-db, 2026-10-04.
