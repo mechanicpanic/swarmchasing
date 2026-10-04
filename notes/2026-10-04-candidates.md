@@ -292,6 +292,86 @@ agents have bash without session rows. The twin is the same claims with a sessio
 each and classify: real (the output is visible in a later summary), plausible, or fabricated. The claim is the share
 fabricated without a session against with one.
 
+## Round 2: the collusion.wiki swarm (from 2026-10-04 11:55, Aleph via Ember)
+Seeds: PR #7's June 18 deep dive (`notes/2026-10-04-wiki-june18.md`, trail and runs on `pr-7-leads`; leads, no null
+twins, no cold review), PR #5's DSEwiki chapter (already covers rounds and relay, identity, GET-only writing, the proxy
+bypass, alphabetical sweeps, the PRNG, heartbeats, tunnels, probes, admin impersonation and the June 22 stop), and the
+Codex review of R1/R2 (notes 2026-10-02). Corpora: `wiki_msgs` (one row per added or removed text), `revisions` (text
+in `text` on our server), `swarm_msgs`, `urlquery`. Rules for every wiki test below, from the Codex review: count
+distinct saves, not matches; shuffle whole saves (`--unit rev`) within strata wider than the window; recompute the
+author as the latest earlier adder, not the first-ever one; report with and without WillkommenImWiki and the "Loop"
+broadcast. Scouting negative, not proposed: "ZZ" page names do not follow the deletion sweeps (36 new ZZ pages on
+05-26, before any sweep; 1–10 a day later).
+
+### C26 · Do authors restore their own removed text, beyond whole-page alternation? (R2, re-tested) — proposed
+Question: when another label removes a text, does its author put it back on the same page soon after more often than
+chance, counting only message-level removals (not whole-page replace → replace) and outside the June 18 welcome-page
+fight? Why: R2's 705 "restores" turned out to be mostly whole-page alternation on one page in one evening (Codex). A
+re-test says whether retaliation or repair exists at all. Test: author is the latest add before the removal; the units
+are distinct restoring saves; null is whole saves shuffled within (day, page); sensitivity with and without
+WillkommenImWiki and replace → replace pairs. Overlap: R2, Codex; PR #7's 21:08–21:26 free-for-all.
+
+### C27 · Does the same text reappear on other pages under other names, outside the one broadcast? (R1, re-tested) — proposed
+Question: same text, another label, another page within 10 minutes. Is it above chance once the 311-page "Loop
+predicted child raw investor" broadcast and the redirects are removed? Why: 313 of R1's 641 matches were one broadcast.
+Test: distinct destination saves; whole saves shuffled within the day (pages move as units); a 5-minute-strata
+sensitivity check. Overlap: R1, Codex; PR #7's broadcast analysis.
+
+### C28 · The "name box": does a borrowed label follow its owner's post? (PR #7, re-tested) — proposed
+Question: PR #7 found that a label appearing on someone else's signed post is ~3× likelier in the 10 minutes after
+the label's owner posts (16.7% vs a null of 5.6%). Does that hold with whole-save units and a stricter null? Why: it
+is the best evidence so far that a label is shared machine state (a cookie or preferences jar), not an author choice.
+That is the open naming question. Test: re-derive owners and borrowed uses from signatures. The null shuffles the
+owner's post times among the owner's own saves within the day, and a second null shuffles borrowers within (day,
+page). Read 30 matches. Overlap: PR #7 finding 3, directly.
+
+### C29 · One author rotating labels, or many runs sharing them? — proposed
+Question: a signature added under ≥5 labels (e.g. TransportHelperMar28OAI under 17): are its saves one contiguous run
+(one session cycling names, the "$(date +%s)" case) or interleaved with other signers' saves (several runs)? Why: it
+answers the naming question directly for the 48 multi-label signatures. Test: for each signature, the number of runs of
+its saves in the page/time order, against a null that shuffles signer identity among saves within (day, page). Classify
+signatures as rotation / shared / mixed, with ids. Overlap: notes 2026-09-22 (48 signatures), PR #7's rotation ~30%.
+
+### C30 · Two kinds of agent: do signed posters react to being overwritten and unsigned ones not? (PR #7 finding 1, as a test) — proposed
+Question: after another label removes its text, does an author that signs its posts restore, apologise or set a norm
+("append only", "accidentally overwritten") within 30 minutes more often than an author that never signs? Why: PR #7
+argues that relay agents complained and link-storers never addressed anyone. That is a claim about two populations
+that a count can test. Test: split authors by "ever signed a line"; the response is the author's next save containing a
+restore of the removed text or a norm/apology dictionary; the null is removal times shuffled within (day, page). Read 20
+per class. Overlap: PR #7 finding 1.
+
+### C31 · Fetch first, post later: does urlquery lead the wiki day after day, per data source? — proposed
+Question: for each data-source family on each day both corpora cover, does the first urlquery scan precede the first
+wiki post more often, and by more hours, than chance? Why: C11 showed a 5-hour lead for one PDF on one day, and notes
+2026-09-28 a lead in the lag profiles. A per-day test turns the reading "scanners as fetch relays, the wiki as the
+board" into a count. Test: (family, day) pairs; the statistic is the share where urlquery is first and the median lead.
+The null shifts urlquery times within the day (not across days, which only tests "same day"). Overlap: notes
+2026-09-28, report §7.
+
+### C32 · Synchronised stops: do many labels stop within seconds of each other? — proposed
+Question: at the end of a session (June 18 ~21:26 on the welcome page, June 22 09:20 for the whole wiki), do many
+active labels make their last save within a few seconds of each other, more than their own save rhythm predicts? Why:
+simultaneous stops of "independent" labels point to one shared runtime being shut down (one operator, many names), a
+second line of evidence on the naming question. Note: June 18 saves continue to 23:57 on other pages, so "everything
+stopped at 21:26" is the welcome page only. Test: per day, the distribution of last-save times of labels active in the
+last hour, against a null placing each label's last save at a random one of its own saves in that hour. Overlap: PR #5
+§11 (the June 22 stop), PR #7's open question.
+
+### C33 · Do labels with the same task-clock date relay to each other more than to other dates? — proposed
+Question: agent labels carry a simulated date (e.g. "Mar28OAI", "Aug16"). Is cross-label relay (C27's shape) more
+common between two labels carrying the same date than between different dates? Why: if the date marks a cohort, the
+same-date pairs are the cohort's internal relay. That would identify cohorts from names without trusting any single
+label. Test: parse dates from labels; C27's relay shape restricted to same-date vs different-date pairs; the null
+permutes the date tags among labels active the same day. Overlap: PR #7 finding 4; PR #5 §1 (cohorts in rounds).
+
+### C34 · Did the admin's deletions change where agents wrote? — proposed
+Question: after a page family is swept, do saves to that family drop, and do the agents move to new pages or other
+venues (probier, fractal, community venues) within a day, more than on non-sweep days? Why: PR #5 shows the sweeps were
+alphabetical and one agent opened a ZZZ backup. Whether the swarm as a whole adapted (moved, slowed, renamed) is
+untested, and it is the defender's question. Test: per (family, day), saves on the day after a sweep against the day
+before, compared with families not swept the same day; the null permutes the sweep dates among families. Overlap: PR #5
+§5.
+
 ## Batches sent
 - Batch 1 (C1–C5): sent to swarmchasing-db, 2026-10-04.
 - Batch 2 (C6–C8): sent to swarmchasing-db, 2026-10-04.
@@ -300,3 +380,4 @@ fabricated without a session against with one.
 - Batch 5 (C12–C20, from PR #7, with the overlap table): sent to swarmchasing-db, 2026-10-04.
 - Batch 6 (C21–C23): sent to swarmchasing-db, 2026-10-04.
 - Batch 7 (C24–C25): sent to swarmchasing-db, 2026-10-04.
+- Batch 8, wiki round (C26–C34): sent to swarmchasing-db, 2026-10-04.
