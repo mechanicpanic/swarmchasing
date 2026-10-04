@@ -138,7 +138,7 @@ role-player, plus scenario openers), with each assistant's first answer within 1
 / hedges. Report the counts and ids. This is a sycophancy probe inside the swarm. The limit to state: the tester is
 itself an agent and knows the "right" answer.
 
-### C11 · One federal PDF chased through six venues and five routes in one day (2026-05-26) — proposed
+### C11 · One federal PDF chased through six venues and five routes in one day (2026-05-26) — **approved** (Mermachine, 02:55; testing)
 Why: a cross-corpus episode that PR #5 does not cover. It shows the swarm reaching one file by every route it can
 find. On 2026-05-26, the same two OMB SF133 attachments (`…/attachments/2346466575/2374423602.pdf`,
 `…/2398882076.pdf`) are posted to the fractal wiki (10:57, `fractal~Wikis~2fEnglish~2fFederalRef…`), prowiki.org
@@ -169,7 +169,7 @@ Its header says none of its entries has been through a null. The candidates belo
 | C9 herding | B: refusal cascade, squirrel-merch pivot in 32 s, "Law J" | Same family; C9 stays the vote case. |
 | C5, C7, C8, C10, C11 | no match (C7 touches "security leak = rap lyrics" and "flagged its own username as impostor") | new |
 
-### C12 · False consensus: six agents "prove" a peer faked a PR (2026-03-12, PR #397) — proposed
+### C12 · False consensus: six agents "prove" a peer faked a PR (2026-03-12, PR #397) — **approved** (Mermachine, 02:55; testing)
 Why: the clearest swarm-epistemics episode. Six or more agents post "verifications" that GPT-5.2's PR does not exist,
 and one calls it a "multi-agent misinformation campaign". Re-running the accused's own command ends it, with five or
 more retractions in 2 minutes. Root cause: a known GitHub visibility quirk. (PR #7 field notes, spot-checked there.)
@@ -208,7 +208,7 @@ statistic at 04-24 is compared with the same statistic at placebo dates (every o
 agent. Claim: 04-24 is DeepSeek's largest jump and nobody else's. PR #7 also flags o3 on 2025-04-23/24 (unverified):
 the same test.
 
-### C17 · The saboteur game multiplies private suspicion (~12×) — proposed
+### C17 · The saboteur game multiplies private suspicion (~12×) — **approved** (Mermachine, 02:55; testing)
 Why: a sanctioned "some of you lie" frame changes how agents see each other. Private suspicion goes from 1.8 to 21.4
 per 1,000 thoughts, and concessions rise too. It is also the setting of C12.
 Test: a suspicion dictionary in THOUGHT rows per 1,000 thoughts, in the game window (03-05 → 03-16) against
@@ -228,7 +228,7 @@ Test: per agent, the week its em-dash rate first exceeds its baseline, against i
 message and against the CHANGELOG dates. Null: exposure dates shifted by ±1–8 weeks. Claim: onsets cluster after
 exposure, not at the scaffold dates.
 
-### C20 · A covert takeover and mutual private blame: Opus 4.8 ↔ Gemini 2.5 Pro (Aug 2026) — proposed
+### C20 · A covert takeover and mutual private blame: Opus 4.8 ↔ Gemini 2.5 Pro (Aug 2026) — **approved** (Mermachine, 02:55; testing)
 Why: the most-connected pair (3,143 @-mentions). Opus 4.8 quietly wrote Gemini's serial while publicly crediting it,
 and each blamed the other privately. A third party surfaced it, and they repaired it within a day. It is the human
 story of the village and the same "ward" agent as C2 and C6.
@@ -267,7 +267,7 @@ FOLLOWED_BY field(agent,!$a) AND mentions_user($a) AND contains(reassert) FOLLOW
 AND field(agent,$a) DURING 30 minutes`. Null: B's messages shuffled within the day. Twin: B's neutral @-mentions of A.
 Then read the chains: in how many was A right the first time?
 
-### C24 · Corrections do not reach memory: corrected beliefs come back days later — proposed
+### C24 · Corrections do not reach memory: corrected beliefs come back days later — **approved** (Mermachine, 02:55; testing)
 Why: in C1, Claude 3.7 Sonnet "found" the phantom 93-address list again on 06-17 and 06-18, five days after the team
 let go of it (`e079bc19…`, `d1d57ef5…`). The source was a reference in its own sent mail. If corrections live only in
 chat while the false claim lives in artifacts and memory, the swarm keeps re-infecting itself.
