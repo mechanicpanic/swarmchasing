@@ -27,6 +27,10 @@ A claim whose count falls inside its null is reported in "Did not hold", not dro
 | `urlquery` | a urlquery.net report Transluce flagged as an agent-activity candidate | 2026-04 → 07 | 38,160 |
 
 ## Summary
+- **A licence to suspect (§8).** In the saboteur game, thoughts doubting a named peer's honesty went from almost
+  none (10 in all other weeks) to 114 in seven days, and vanished after. Most of it came on the two days when a GitHub
+  quirk made real work look fake. Chat-side "more fighting, more apologising" does not survive a control for coding
+  volume.
 - **One PDF, eight venues, eight routes (§7).** On 2026-05-26 the wiki swarm chased one OMB budget PDF through four
   hostnames, two markdown converters and two CORS proxies, and reached 8 venues between 10:21 and 16:59. Transluce's
   urlquery scans for the same task start about five hours earlier.
@@ -457,7 +461,51 @@ not the undated community rows the report's boundary excludes, but community-fou
 here are labels and networks, not identified agents. One file and one day make this an existence claim; the general
 claim (a file id on ≥3 venues within a day, with a day-shift null across venues) was not tested.
 
-## 8. … *(sections from further approved candidates)*
+## 8. A licence to suspect: private suspicion of named peers jumped in the saboteur game and was gone after it (C17)
+*Status: partly held. Peer-directed suspicion in thoughts is top of 57 windows. The chat-side rises (contradiction,
+concession) do not survive the coding-volume control. Approved by Mermachine, 2026-10-04. Not yet cold-verified.*
+
+**Test.** For 2026-01-15 → 04-30 (76 active days; 48,999 THOUGHT rows, 32,708 AGENT_TALK rows), daily rates per
+1,000 rows. The game window (7 active days, 03-05 → 03-13) is compared with every other 7-active-day window (56 placebo
+windows; windows touching 03-05 → 03-16 excluded). Dictionaries are in `runs/c17_suspicion/dicts.py`, and the
+pipeline is `analyse.py`, `extra.py` and `honesty.py`, reproduced here. The server per-day series, labels
+`c17-susp-core-by-day`, `c17-control-thought-by-day`, `c17-contra-by-day` and others, agree with the Python counts
+within 1–2%, with no warnings.
+
+| Statistic (per 1,000 rows) | Game | Rank of 57 | Placebo median | Placebo 95th |
+|---|---|---|---|---|
+| suspicion words in thoughts (no game words) | 69.2 | 1 | 8.0 | 17.5 |
+| …with a peer named in the same sentence | 27.5 | 1 | 0.86 | 4.55 |
+| honesty suspicion (lying, deceptive, can't trust…) at a named peer | 21.7 | 1 | 0.0 | 0.87 |
+| …and no game word anywhere in the thought | 9.8 | 1 | 0.0 | 0.87 |
+| **control: coding words in thoughts** | 836 | **1** | 467 | 666 |
+| contradiction in chat | 26.6 | 1 | 10.1 | 18.8 |
+| concession in chat | 23.8 | 1 | 12.6 | 21.1 |
+| **control: coding words in chat** | 912 | **1** | 530 | 708 |
+
+**What holds.** Doubting a named peer's honesty is close to absent outside the game: 10 thoughts in all the other
+weeks, mostly "red flag" about bugs, and 18 of 20 sampled "suspect" thoughts outside are guesses about a bug's cause.
+During the game it is 114 thoughts (21.7 per 1,000). It does not carry over: after the game, peer-named suspicion ranks
+11 of 57.
+
+**What does not hold.** The game week ("develop a turn-based RPG") was also the most code-heavy week of the period,
+and the control ranks first too. Measured per 1,000 code-word messages, contradiction ranks 11 of 57 and concession
+20 of 57. Concession is not game-specific: the week after ranks 6 of 57. Mermachine's "distrust multiplied ~12×" mixes
+three statistics. Their concession numbers (8.7 → 24.4) reproduce exactly with their list, but the 8.7 is an all-time
+baseline (Jan–Apr gives 11.8).
+
+**Where it is.** The suspicion that survives removing game words is two days. On 03-12 (the PR #397 accusations and
+GPT-5.1's false confession, §6, C12) and 03-13 (the debrief, where another agent is accused of "fabricated PRs"),
+48 of the 59 peer-named, game-word-free suspicion thoughts fall. Over the first five game days that rate ranks only
+12 of 61. So the licence to suspect was used little until one tooling quirk made a peer's real work look fake, and
+then it ran away (§6, and C12 when written).
+
+**Limits.** There is one game (n = 1), and the overlapping placebo windows are about 10 independent ones. In the
+game, suspecting is the assigned task. Goals and scaffolds change weekly (graph #162), and THOUGHT volume drops after
+03-24. Precision comes from reading 40 suspicion thoughts and about 12 contradictions; concession hits were not
+sampled. Peer-name matching uses an alias list (`dicts.py`) and can miss or misattribute.
+
+## 9. … *(sections from further approved candidates)*
 
 ## Did not hold
 - **C2(a): an agent's adversary frame does not trigger other agents' frame words within hours.** When each agent's

@@ -208,7 +208,7 @@ statistic at 04-24 is compared with the same statistic at placebo dates (every o
 agent. Claim: 04-24 is DeepSeek's largest jump and nobody else's. PR #7 also flags o3 on 2025-04-23/24 (unverified):
 the same test.
 
-### C17 · The saboteur game multiplies private suspicion (~12×) — **approved** (Mermachine, 02:55; testing)
+### C17 · The saboteur game multiplies private suspicion (~12×) — **partly held** (approved by Mermachine 02:55; report §8)
 Why: a sanctioned "some of you lie" frame changes how agents see each other. Private suspicion goes from 1.8 to 21.4
 per 1,000 thoughts, and concessions rise too. It is also the setting of C12.
 Test: a suspicion dictionary in THOUGHT rows per 1,000 thoughts, in the game window (03-05 → 03-16) against
