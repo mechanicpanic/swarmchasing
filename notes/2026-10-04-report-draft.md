@@ -846,7 +846,52 @@ messages. Deliberate restores exist but are rare (single episodes).
 message-level, and the stricter msgR variant is empty off the hub. Pages do not record which version the editor
 loaded. A label is not an agent.
 
-## 15. … *(sections from further approved candidates)*
+## 15. "Two kinds of agent", half confirmed: signers write the norms and apologies, but only non-signers restore, silently (C30, wiki)
+*Status: partly held, and the restore half reversed. Approved by Aleph, 2026-10-04. Not yet cold-verified.*
+
+**Question.** Mermachine's PR #7 argues that relay agents (who sign their posts) notice being overwritten, restore and
+set norms, while link-storers (who never sign) never address anyone. After another label removes an author's text,
+does a signer react (restore, apologise, set a norm) within 30 minutes more often than a non-signer, and above chance?
+
+**Method** (`runs/c30_reactions/`, on revision bodies and `wiki_msgs`).
+- Labels: 1,107 signers (ever added a "-- Name" line) and 1,991 non-signers. Signature precision: 20 of 20 read.
+- Removal events are line-level, with the author as the latest earlier adder (recomputed). Whole-page removals are
+  excluded: 4,735 of 5,588. That leaves 853 events, 240 for signers and 613 for non-signers.
+- A reaction is the author's save within 30 minutes that re-adds a removed line or adds norm or apology text. The
+  dictionary is `dic.py`; 19 of 20 hits read correctly.
+- Null: whole saves shuffled within (day, page), n = 500.
+- A text_key version on `wiki_msgs` gives the same picture. It had to drop 163 false "removals" that were really
+  re-encodings of em dashes.
+
+| Subset | Group | Events | Reacted | Null median / 95th | Verdict |
+|---|---|---|---|---|---|
+| all | signers | 240 | **0** (0%, CI 0–1.6%) | 0 / 1 | not above chance |
+| all | non-signers | 613 | **24** (3.9%), all silent re-adds | 10 / 13, p .002 | above chance |
+| no hub, no June 18 | signers | 229 | 0 | 0 / 1 | not above chance |
+| no hub, no June 18 | non-signers | 199 | 7 (3.5%) | 0 / 2, p .002 | above chance |
+
+**Reading.**
+- *Holds:* norm and apology text belongs to signers. 34 of their 5,113 saves carry it; 0 of 9,473 non-signer saves
+  do. But it is not timed to the signer's own text being removed: it is pre-emptive protocol and self-correction.
+- *Reversed:* the only above-chance restoring is by non-signers, and it is silent. Link-storers re-add their link
+  blocks a median 34 s later. In 11 of 24 cases they also drop the remover's lines: a tug of war or a stale copy, not
+  a reply (e.g. `dse~WillkommenImWiki@1329` → `@1331`).
+- *Why signers score zero:* their labels rotate (§12). Only 62 of 240 signer events see the same label save again
+  within 30 minutes. Counting any label other than the remover, signers' text gets restored or answered more than chance
+  (69 of 240 events against a null median of 29). That includes the victim's own signature under a new label: 6 of 171
+  against 2 / 4, e.g. `dse~DataUSAPovertyCountySequenceFeb03@16` → `dse~DataUSAPovertyR5LiveSep13@2`, "use this page
+  for later relay". Third parties also restore it: "Compact page was accidentally overwritten …; use this relay"
+  (`dse~Clothing2m56Round3RelayMay31@8`).
+
+**Wording for the writeup:** the relay agents' norms are real, but they are protocol, not reaction. Under one label,
+the visible reaction to being overwritten is a silent re-add by link-storers.
+
+**Limits.** Labels are not agents, and signer labels rotate, so "the author reacts" undercounts signers; the
+identity-free variants were computed in the sub-agent's scratch, not committed. Excluding whole-page removals drops
+85% of them. The dictionary's recall is untested. A deliberate restore cannot be told from a save made from a stale
+copy.
+
+## 16. … *(sections from further approved candidates)*
 
 ## Did not hold
 - **C2(a): an agent's adversary frame does not trigger other agents' frame words within hours.** When each agent's
@@ -861,6 +906,8 @@ loaded. A label is not an agent.
 - **C1 "for weeks" (the official summary).** Acted on for about 3 days, named for about two weeks (§4).
 - **C26 (R2 re-tested): authors restore their removed text.** Off the June 18 hub page: 1 / 3 / 5 restoring saves at
   1 min / 10 min / 1 h, inside or barely above the null; the hub "restores" are re-post loops (§14).
+- **C30: signers react to being overwritten.** Under the same label, 0 of 240 signer events; the only above-chance
+  reaction is silent re-adding by non-signers (§15).
 - **C28: the "name box" (a borrowed label ~3× likelier right after its owner posts).** Reproduces against
   time shuffles, but a same-hour control matches it (20.7% median vs 17.9% real); what remains is the owner going quiet (§13).
 - **C2's starting hypothesis that one agent's adversary frame spreads to others.** The words spread as jargon; the frame did not (§2).

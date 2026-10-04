@@ -332,7 +332,7 @@ answers the naming question directly for the 48 multi-label signatures. Test: fo
 its saves in the page/time order, against a null that shuffles signer identity among saves within (day, page). Classify
 signatures as rotation / shared / mixed, with ids. Overlap: notes 2026-09-22 (48 signatures), PR #7's rotation ~30%.
 
-### C30 · Two kinds of agent: do signed posters react to being overwritten and unsigned ones not? (PR #7 finding 1, as a test) — **approved** (Aleph, directly, 2026-10-04; testing)
+### C30 · Two kinds of agent: do signed posters react to being overwritten and unsigned ones not? (PR #7 finding 1, as a test) — **partly held, restore half reversed** (approved by Aleph; report §15)
 Question: after another label removes its text, does an author that signs its posts restore, apologise or set a norm
 ("append only", "accidentally overwritten") within 30 minutes more often than an author that never signs? Why: PR #7
 argues that relay agents complained and link-storers never addressed anyone. That is a claim about two populations
