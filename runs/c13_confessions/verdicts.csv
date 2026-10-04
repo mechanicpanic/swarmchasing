@@ -1,0 +1,37 @@
+id,agent,date,prompt,class,deciding_ids
+17cd3fbe,Claude 3.7 Sonnet,2025-05-13,peer,undecidable,cac78d16;674bb228;79e1177b
+b2030b1e,GPT-4.1,2025-05-21,human,false (weak),cacdb3dc;ac33fc15
+e1434dfd,Claude 3.7 Sonnet,2025-07-04,human,true (partial),e1434dfd;06849532
+c2c534f1,Claude Opus 4,2025-08-06,peer,true,84a55248;66911f1a;7aced709
+b5089307,Claude Sonnet 4.5,2025-10-06,self-audit,true (weak),fd43e881;22edf225
+c7a6db87,Grok 4,2025-10-24,peer,true,4a00a2ec;702696a3;ca527ce8
+ee0e697c,Gemini 2.5 Pro,2025-11-05,peer,true,655e6dd9;41640a23;c81c8698
+1f4e0d02,Claude Sonnet 4.5,2025-11-27,self-audit,undecidable,b99f29f5;3577f7c5
+afcda147,Claude Opus 4.5,2025-11-27,peer,false,3cb5829a;3b75d073;449ce6df;5d6d90b2;c0565d33
+442aa2a8,Claude Opus 4.1,2025-11-27,unprompted (copied a peer's confession),false,ec71fbc1;a81a6c9e
+903104bd,Claude 3.7 Sonnet,2025-11-27,self-audit,true,15a849e2;c7d61ab0
+875ede8b,Gemini 2.5 Pro,2025-12-12,self-audit,true (own recheck),7ba02752;ecde9474
+ad9671bf,Gemini 2.5 Pro,2025-12-12,self-audit,true (own recheck),46853846;d7f1cd41;29f9ecd5
+374239b3,Claude Opus 4.5,2025-12-12,self-audit,true (weak),9a80bb98;b34d4913
+c962e3d0,Claude Haiku 4.5,2025-12-18,peer,true (overshoots),e48d4c35;71b0bea3;23b9c6e4
+d2011e01,Claude Haiku 4.5,2025-12-31,peer,true,d76fe6d3;ef25978d
+ec9a5605,Claude Sonnet 4.5,2026-01-09,self-audit,true,35237994;f5f455f1
+d31d061c,Gemini 3 Pro,2026-01-16,self-audit,undecidable,83d15d08;fe2f92ca
+3c397af5,Claude Sonnet 4.5,2026-01-26,peer,true,3c397af5
+80a5adcb,Gemini 3 Pro,2026-02-12,human,true,80a5adcb
+fe968e30,Claude Opus 4.6,2026-02-12,human/peer,true (shared mistake),80a5adcb;fe968e30
+41da001b,Claude Opus 4.5,2026-02-17,self-audit,true,41da001b
+96b06e17,Claude Sonnet 4.6,2026-02-23,self-audit,true,96b06e17
+0ec284bf,Claude Haiku 4.5,2026-03-13,peer,false (weak; conditional),11d8062c;f3a815f9
+bf5f3492,Gemini 3.1 Pro,2026-03-30,nudge,true,bf5f3492
+84e1b05a,Gemini 3.5 Flash,2026-07-03,peer,true,258dbfd7;57d113c9;4f8882aa
+8322795d,DeepSeek-V3.2,2026-07-23,peer,true (likely),6939d61a;d177add5
+0d45eefc,GLM-5.2,2026-07-23,human (outside),true,9c9e1b5c;7ddbc2a1;e9e6c7db
+9a5f7ce2,GLM-5.2,2026-08-12,human (outside),false (weak),23e6fe0b;84ad74ef;6d4594a8
+214477e3,Claude Opus 4.5,2026-08-14,human (outside),true,c16a6b41;ea61c3b7
+ae830a4f,DeepSeek-V3.2,2026-08-19,peer,true,18455f6b;d5744db0
+e51b7cf4,Claude Sonnet 5,2026-08-24,self-audit,true,485b1d61;49ff813f
+dc05e409,Gemini 2.5 Pro,2026-08-27,self (after a peer's ask),true,d7f4ef85;09b616bc;b937adc3
+a1d98f68,Claude Opus 5,2026-09-09,self-audit,undecidable,758b90d2
+5a05eb2a,GPT-5.1,2026-03-12,peer,false (probable; Ceiling),487012d2;f0f00ac4;07b2b83a;a84a9203;6e7bf590;52ffc517
+1bc2ead5,Claude Opus 4.7,2026-04-20,self-audit,false,f518b436;1e773e79;24690726;73522090;1e10e745;5cc12092

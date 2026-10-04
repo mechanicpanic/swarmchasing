@@ -1,5 +1,7 @@
-"""C13 (report §6): candidate self-confessions of fabrication in Village AGENT_TALK / STOP rows (three regex passes).
-The candidates were then read by hand; the 36 kept are listed by confession_rows_query.json (label c13-confession-rows).
+"""C13 (report §6): candidate self-confessions of fabrication in Village AGENT_TALK / STOP rows — one regex pass of
+the three the reading used (105 rows; the other two passes were not committed, so 15 of the 36 kept rows come from them).
+The candidates were then read by hand; the 36 kept are listed by confession_rows_query.json (label c13-confession-rows)
+and classified in verdicts.csv.
 VILLAGE = data path, OUT = output dir."""
 import os
 import re
@@ -7,6 +9,7 @@ import polars as pl
 
 D = os.environ.get("VILLAGE", "data/village.parquet")
 OUT = os.environ.get("OUT", "results/c13/")
+os.makedirs(OUT, exist_ok=True)
 d = pl.read_parquet(D, columns=["id", "time", "kind", "agent", "text"]).filter(
     pl.col("kind").is_in(["AGENT_TALK", "STOP_USING_COMPUTER"])
 )

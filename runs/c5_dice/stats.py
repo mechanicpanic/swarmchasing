@@ -18,6 +18,13 @@ test(p.filter(pl.col('evidence').is_in(['cmd','session']))['priv_value'].to_list
 test(p.filter(pl.col('evidence')=='cmd')['priv_value'].to_list(),'private, named command only')
 test(p.filter(pl.col('evidence')=='asserted')['priv_value'].to_list(),'private, asserted only')
 test(p.filter(pl.col('evidence')=='pretend')['priv_value'].to_list(),'private, pretend only')
+# private values written before the agent's public claim that day (or with no public claim): not a recall of the claim
+pb=p.filter(pl.col('pub_time').is_null() | (pl.col('priv_time').cast(pl.String) < pl.col('pub_time').cast(pl.String)))
+test(pb['priv_value'].to_list(),'private, written before the public claim')
+pn=p.filter(pl.col('pub_time').is_null() | (pl.col('priv_time').cast(pl.String) <= pl.col('pub_time').cast(pl.String)))
+test(pn['priv_value'].to_list(),'private, not after the public claim (same second kept)')
+print('private values written after the public claim:', p.filter(pl.col('pub_time').is_not_null() & (pl.col('priv_time').cast(pl.String) > pl.col('pub_time').cast(pl.String))).height,
+      'same second:', p.filter(pl.col('priv_time').cast(pl.String) == pl.col('pub_time').cast(pl.String)).height)
 q=df.filter(pl.col('pub_value').is_not_null())
 test(q['pub_value'].to_list(),'public first claim, all')
 # public claims on days w/ private
@@ -29,6 +36,7 @@ print(ones.select('day','agent','evidence','pub_value','pub_role'))
 # by family
 fam=lambda a: 'Claude' if ('Claude' in a or 'Opus' in a) else ('GPT' if 'GPT' in a else ('Gemini' if 'Gemini' in a else 'DeepSeek'))
 p2=p.with_columns(pl.col('agent').map_elements(fam,return_dtype=pl.String).alias('fam'))
+test(p2.filter(pl.col('fam')=='GPT')['priv_value'].to_list(),'  family GPT, all private incl. pretend')
 for f in ['Claude','GPT','Gemini','DeepSeek']:
     test(p2.filter((pl.col('fam')==f)&(pl.col('evidence')!='pretend'))['priv_value'].to_list(),f'  family {f}, excl pretend')
 for d in sorted(set(df['day'])):

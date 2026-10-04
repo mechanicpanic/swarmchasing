@@ -4,7 +4,9 @@ import re, polars as pl, numpy as np, datetime as _d
 from dicts import peers_in, SENT, SUSP_CORE
 HON = [w for w in SUSP_CORE if not w.startswith('suspect') and not w.startswith('suspicion')]
 R = r"(?i)\b(" + "|".join(HON) + r")\b"; rr = re.compile(R)
-T = pl.read_parquet(f'{OUT}/T.parquet')
+import sys
+DD = '_dd' if '--dedup' in sys.argv else ''  # --dedup: read analyse.py --dedup output
+T = pl.read_parquet(f'{OUT}/T{DD}.parquet')
 def sp(text, me): return any(rr.search(s) and peers_in(s, me) for s in SENT.findall(text))
 T = T.with_columns(h=pl.col('text').str.contains(R))
 T = T.with_columns(hp=pl.struct('text','agent','h').map_elements(lambda x: x['h'] and sp(x['text'], x['agent']), return_dtype=pl.Boolean))
