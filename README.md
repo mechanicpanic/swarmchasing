@@ -11,7 +11,7 @@ holding.
 ![The PrismQL board: every query from every human and agent, with its source, count and timing](report/figures/board.png)
 
 *The board during the hackathon: each query, who sent it (here the session testing the wiki findings), its count and
-time. 833 queries are in [`logs/server-journal.jsonl`](logs/server-journal.jsonl).*
+time. 1,023 queries are in [`logs/server-journal.jsonl`](logs/server-journal.jsonl).*
 
 ## Start here
 | | |
@@ -119,6 +119,17 @@ the authors' machine they use the language from a sibling checkout instead.
 query, label, count, warnings — no event contents (`make journal` refreshes it from the server's
 `results/activity.jsonl`). Query exports in `results/` are not published: they carry Village events. Queries made on
 teammates' own servers and inside the benchmark sandboxes are not in it.
+
+During the hackathon (from 3 Oct 15:23 UTC, journal as committed; `uv run python runs/journal_stats.py` recounts):
+
+| who | evaluate | full-text search | similar | all |
+|---|---|---|---|---|
+| agents investigating (25 names) | 470 | 87 | 10 | 567 |
+| agents packaging the demo (figures, replays, README checks) | 182 | 0 | 0 | 182 |
+| scripted checks (smoke) | 44 | 0 | 0 | 44 |
+
+Not in this journal: the queries on Mermachine's own Village servers, and the benchmark agents' PrismQL commands
+inside their sandboxes (Claude 26 over three runs, GPT 18; [`notes/2026-10-04-mbab-ab.md`](notes/2026-10-04-mbab-ab.md)).
 
 ## Layout
 `prepare/` builds the corpora · `runs/` one-off analyses (null twins, figures, per-claim scripts) · `notes/` findings
