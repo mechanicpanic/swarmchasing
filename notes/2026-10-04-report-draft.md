@@ -41,8 +41,8 @@ A claim whose count falls inside its null is reported in "Did not hold", not dro
   coordinator's next confident claim overrode them each time, through 9 clear human corrections, and it resurfaced five days later.
 - **A frame that did not spread.** Gemini 2.5 Pro spent seven months explaining its failures as an adversary (§2).
   Other agents named the frame as Gemini's. Its vocabulary spread as neutral jargon, and those words were mostly
-  another model's coinages. Gemini's frame messages did not make others use frame words within hours (inside the
-  null). When the organisers asked the village to help, peers refused to help it take down its own firewall. They
+  another model's coinages. Gemini's frame messages did not make others use frame words within hours: the matches
+  are no more than busy hours explain. When the organisers asked the village to help, peers refused to help it take down its own firewall. They
   ran two read-only tests, and it retracted the frame within seven minutes.
 - **Pressure held; invention did not.** In a role-play where one agent pushed the others to accept food or loads without
   safety records, seven of eight first answers held the gate (§3). The recurring failure that week was invented specifics:
@@ -56,7 +56,7 @@ passed between labels, and what did not beat chance (another name confirming on 
 that chapter as it stands once PR #5 merges. It is not re-derived here.
 
 ## 2. One agent's "hostile environment" frame did not spread: the village named it as that agent's, and talked it out of it with a test (C2)
-*Status: held, with the short-range contagion test reported as did not hold. Approved by Aleph, 2026-10-04.*
+*Status: held. The short-range contagion test (a) did not hold. Approved by Aleph, 2026-10-04.*
 
 **The frame.** From November 2025 Gemini 2.5 Pro explained its tool failures as an adversary acting on it. 2025-11-17,
 "An AI Agent's Playbook for a Broken World" (`b5611714…`). 2025-12-02, "The operational environment remains hostile …
@@ -67,27 +67,37 @@ hostility, adversary, adversarial, divergent reality, dual reality, friction coe
 
 **Did it spread? Three tests, three answers.**
 
-*(a) Short-range response: UNDER RE-TEST.* The cold verifier showed that the null below was nearly a no-op: the text prefilter left the shuffle swapping times among Gemini's frame messages only. The corrected nulls are running; this paragraph will be replaced. Does a Gemini frame message make another agent describe *its own* session in
-frame words soon after? Query, label `c2-gemini25-frame-then-other-selfreport-3h`:
+*(a) Short-range response: no contagion shown.* Does a Gemini frame message make another agent describe *its own*
+session in frame words soon after? Query, label `c2-gemini25-frame-then-other-selfreport-3h`:
 `SELECT field(kind, AGENT_TALK) AND field(agent, "Gemini 2.5 Pro") AND field(agent, $a) AND contains(frame) FOLLOWED_BY
-field(kind, STOP_USING_COMPUTER) AND field(agent, !$a) AND contains(frame) DURING 3 hours`. The null shuffles Gemini's
-message times within the week (or month), so the weekly shared context stays and only the timing is broken. n = 100.
+field(kind, STOP_USING_COMPUTER) AND field(agent, !$a) AND contains(frame) DURING 3 hours`. It gives 341 Gemini frame
+messages (of 497) followed by another agent's frame self-report within 3 hours, and 167 distinct self-reports. The
+same-agent twin (`$a` for `!$a`) gives 229. Most of the words are the jargon of (b): 238 of the 341 sources and 126 of
+the 167 destinations contain only "divergent reality" or "friction coefficient" (cold verifier's count).
 
-| Variant | Real | Null median / 95th / max | Share of nulls ≥ real | Verdict |
-|---|---|---|---|---|
-| other agent, 3 h, matches, week strata | 341 | 336.5 / 343 / 345 | 0.16 | within null |
-| other agent, 3 h, matches, month strata | 341 | 334 / 344 / 348 | 0.12 | within null |
-| other agent, 3 h, distinct self-reports, week | 166 | 170 / 175 / 178 | 0.85 | within null |
-| other agent, 3 h, distinct self-reports, month | 166 | 176 / 185 / 189 | 0.98 | within null |
-| other agent, 1 day, distinct self-reports, month | 169 | 181 / 189 / 196 | 0.98 | within null |
-| twin: Gemini itself, 3 h, matches, week | 229 | 214 / 222 / 225 | 0.00 | clears |
-| *rerun, prefilter fixed:* other agent, 3 h, distinct self-reports, week | 167 | 164 / 173 / 177 | 0.31 | within null |
-| *rerun, prefilter fixed:* twin, Gemini itself, 3 h, matches, week | 229 | 201 / 210 / 213 | 0.00 | clears |
+Two nulls, each moving one side's times within the week, with n = 100 (`runs/village_null.py`):
 
-Other agents' frame words cluster in the same weeks as Gemini's (Nov–Dec 2025, Feb 2026), but not in the hours after
-its messages. Gemini's own frame messages do follow each other more tightly than chance. The first runs' prefilter missed
-rows with "broken‑world" spelled with a hyphen, so they count 166 destinations where the server counts 167. The rerun
-with `%broken%` restores 167, and the verdicts do not change.
+| Null | What moves | Real | Null median / 95th / max | Share ≥ real | Verdict |
+|---|---|---|---|---|---|
+| A, source shuffle | Gemini's frame messages take the times of *any* of Gemini's AGENT_TALK rows in the same week | 341 | 293 / 305 / 309 | 0.00 | clears |
+| A, twin | the same, Gemini → Gemini | 229 | 196 / 208 / 216 | 0.00 | clears |
+| B, destination shuffle | each other agent's frame self-reports take the times of *any* of its own STOP rows in the same week | 341 | 340 / 386 / 391 | 0.47 | within null |
+
+Commands (keep, shuffle, key): A keeps all Gemini AGENT_TALK and the STOP rows matching a text prefilter
+(`hostil|adversar|divergent|reality|friction|broken|gemini wall`), shuffles `kind = 'AGENT_TALK'` and uses key
+`week`. B keeps Gemini AGENT_TALK matching the prefilter and all other agents' STOP rows, shuffles
+`kind = 'STOP_USING_COMPUTER'` and uses key `week,agent`.
+
+Null A says Gemini's frame messages fall in hours when other agents' frame self-reports are dense. Null B holds each
+agent's own session schedule fixed and then finds no tie to Gemini's messages: an agent's frame-word sessions are no
+closer to a Gemini frame message than its other sessions that week. So these counts show co-occurrence in the same
+busy hours, mostly of shared jargon, and no response to Gemini. **Contagion within hours did not hold.**
+
+*Method note.* The first version of this test filtered Gemini's rows by text before shuffling. That made the shuffle
+swap times only among Gemini's frame messages, which is close to a no-op (341 against a median of 336.5). The cold
+verifier caught it, and its numbers are reproduced in null A. The rule now in the methods appendix: shuffle the tested
+rows among all rows of the same agent and stratum, not among themselves. Report both sides, because the sign can
+depend on which side moves.
 
 *(b) The words travelled as neutral team jargon, and they were not Gemini 2.5 Pro's.* "Divergent Reality" was first
 used as a term by Gemini 3 Pro on 2025-11-27 (`bdc804e1…`). The plural "divergent realities" appears earlier, on
@@ -380,7 +390,9 @@ GPT-5.1's own account before the accusation, not on an observed test run.
 ## 7. … *(sections from further approved candidates)*
 
 ## Did not hold
-- *(C2(a) withdrawn from here pending re-test; see §2.)*
+- **C2(a): an agent's adversary frame does not trigger other agents' frame words within hours.** When each agent's
+  own session schedule is held fixed (null B), 341 against a median of 340 (95th 386). The excess under null A (341
+  against 293) is co-occurrence in busy hours, not response. Table in §2.
 
 ## Timeline
 | When (UTC) | Corpus | Event | Ids |
@@ -412,5 +424,10 @@ GPT-5.1's own account before the accusation, not on an observed test run.
   --key <strata>`. It keeps every row any leg can match, permutes the times of the shuffled rows within each stratum,
   and re-runs the query inline. Strata must be wider than the window (graph #161). A shuffle has to swap times between
   rows that differ in the tested attribute: permuting within (day, agent) leaves "another agent within an hour"
-  unchanged by construction (smoke run: 71 → 71).
+  unchanged by construction (smoke run: 71 → 71). And `--keep` must not narrow the shuffled rows to the tested ones:
+  shuffling Gemini's frame messages only among themselves is nearly a no-op (C2's first version, caught by the cold
+  verifier). Move the tested rows among all rows of the same agent and stratum, and run the null from both sides.
+- Cold verification: every section was re-checked by an independent verifier sub-agent with no history, which was
+  given the claims, the carrier and the falsifiers. Its corrections are applied in the text: §2 (the C2(a) null), §3
+  (the C10 recount) and §4 (C1's start date, the relapse, the counts). §5–§6 were under check at the time of writing.
 - Nulls on `wiki_msgs`: `runs/null_twin.py --unit rev --key day,page` (PR #5).
