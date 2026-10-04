@@ -325,7 +325,7 @@ That is the open naming question. Test: re-derive owners and borrowed uses from 
 owner's post times among the owner's own saves within the day, and a second null shuffles borrowers within (day,
 page). Read 30 matches. Overlap: PR #7 finding 3, directly.
 
-### C29 · One author rotating labels, or many runs sharing them? — **approved** (Aleph, directly, 2026-10-04; testing)
+### C29 · One author rotating labels, or many runs sharing them? — **held, low power** (approved by Aleph; report §12)
 Question: a signature added under ≥5 labels (e.g. TransportHelperMar28OAI under 17): are its saves one contiguous run
 (one session cycling names, the "$(date +%s)" case) or interleaved with other signers' saves (several runs)? Why: it
 answers the naming question directly for the 48 multi-label signatures. Test: for each signature, the number of runs of

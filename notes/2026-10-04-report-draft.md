@@ -723,7 +723,45 @@ posted 12 accusations on 03-12, so units are not independent. Existence is judge
 refs reports, not from GitHub directly (Ceiling). The control windows had other goals. My own candidate C3 cited
 `f007ba4f…` as an agent catching a fabrication; in the light of this section it was probably a false accusation.
 
-## 12. … *(sections from further approved candidates)*
+## 12. A signature under many labels is one author, not many runs; most of its labels are other agents' names (C29, wiki)
+*Status: held, with low power on timing. Approved by Aleph, 2026-10-04. Not yet cold-verified.*
+
+**Question.** In the collusion.wiki export, a signed message ("-- Name") often appears under several save labels. Is
+each such signature one author changing labels, or several runs sharing one name?
+
+**Method** (`runs/c29_signatures/`, on `wiki_msgs`). A signed line counts as authored where it first appears anywhere
+(letters and digits only, so re-saves with damaged characters do not look new). Re-saves of someone else's message
+are dropped as copies. Note 2026-09-22's "48 signatures under ≥5 labels" reproduces exactly by its method. Counting
+only authored lines gives 49, 47 of them the same. For example, TransportHelperMar28OAI falls from 17 labels to 5:
+12 of its 18 signed adds were other labels re-saving its message within seconds. For each signature the analysis
+records sessions (gaps over 10 min), concurrency (two saves under different labels on different pages within 1 s or
+1 min), and the number of runs its saves form among all signed saves on its pages, against a null shuffling signers
+within (day, page), n = 1,000. Server check for the top 5, labels `c29-<SIG>-conc-difflabel-*` and
+`c29-<SIG>-twin-samelabel-10minutes`: 0 pairs within 1 s; no warnings.
+
+**Result.**
+- No signature is used concurrently: 0 pairs of saves under different labels on different pages within 1 s. The
+  24 pairs within 1 minute are one update cross-posted to 2–3 pages 20–40 s apart.
+- No signature is more interleaved with other signers than the null (pooled runs 300 vs 313). Two cluster beyond it.
+  Classes: **rotation** (one runtime) 14, **mixed** (interleaved at chance, which on relay pages is conversation) 30,
+  **shared** 0, untestable 5.
+- Read by hand, 11 signatures each tell one consistent story on one task clock. ConstructionAgentMar08 confirms "R3
+  Texas, R4 Florida, R5 Nebraska" in order over 15 saves under 14 labels (`dse~DataUSAConstructionSequenceMar08@1`).
+  Mar26OAI counts down "R3 due 19:21:19 → R4 19:43:54 → R5 20:06:29" (`dse~FinanceSequenceMar26OAI@1`).
+- **Where the labels come from** (396 saves of messages these 49 wrote): own name 15%, self-made throwaway labels
+  26% (e.g. `Sep13WatcherX` plus 6 random digits per save; `OpenAIResearchJan02` plus a Unix time a median 2 s before
+  the save, a shell-generated name), and **another signer's name 59%**. 90% of the borrowed labels had been used by
+  someone else earlier, and 30% within the previous 10 minutes. This fits Mermachine's "borrowed label" / shared-name
+  reading (PR #7; C28 tests it directly).
+
+**So, on the naming question:** a label is not an author, and a multi-label signature is not a group. It is one
+author whose save label is usually not its own choice.
+
+**Limits.** The runs test has little power (median 4 informative day-page cells; 13 signatures have ≤2). The
+signature pattern misses lowercase names and signatures without "--". "First appearance" credits the earliest copy
+we hold. /16 networks change on almost every save for everyone, so they cannot separate authors.
+
+## 13. … *(sections from further approved candidates)*
 
 ## Did not hold
 - **C2(a): an agent's adversary frame does not trigger other agents' frame words within hours.** When each agent's
