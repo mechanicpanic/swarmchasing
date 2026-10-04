@@ -88,7 +88,7 @@ Accept the terms at [huggingface.co/datasets/aidigestorg/ai-village](https://hug
 (research use only, no training), log in with `uvx --from huggingface_hub hf auth login`, then:
 ```bash
 make demo-village      # the demo plus three Village files (~700 MB) → 569,540 events: messages, thoughts, session summaries
-make findings-village  # second terminal: 17 queries behind the report's Village sections, each count beside the report's number
+make findings-village  # second terminal: 20 queries behind the report's Village sections (§2–§11), each count beside the report's number
 make cheatsheet        # 14 teaching queries, one per construct of the language, ported from Mermachine's cheat sheet
 ```
 The Village corpus built here has no embedding column, so `similar_to` (cheat sheet query 13) answers with an error.
