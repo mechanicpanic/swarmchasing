@@ -16,8 +16,9 @@ for _ in range(30):  # wait for the app
 have = {q.get("name") for q in call(REVIEW + "/api/queues")}
 corpora = call(PRISMQL + "/health").get("documents", {})
 Q = [("/api/queues", {"corpus": "wiki_msgs", "limit": 20,
-      "name": "Wiki: a deleted page written again within 10 minutes — a real restore of the deleted page? (y: restore · n: new text on the same page)",
-      "query": "SELECT field(kind, delete) AND field(page, $p) FOLLOWED_BY field(kind, add) AND field(page, $p) DURING 10 minutes"})]
+      "name": "Wiki: what a page said, its deletion by the admin, and what was written on it within 10 minutes — a restore of what was there? (y: restore · n: new text on the same page)",
+      "query": "SELECT field(kind, delete) AND field(page, $p) PRECEDED_BY field(kind, add) AND field(page, $p) DURING 30 days "
+               "FOLLOWED_BY field(kind, add) AND field(page, $p) DURING 10 minutes"})]
 D18, W = "BETWEEN('2026-06-18T00:00:00Z','2026-06-19T00:00:00Z')", 'field(page, "dse~WillkommenImWiki")'
 SWARM = [  # questions about the wiki swarm, each a queue of groups to read
     ("Swarm 1: is this an agent writing to others — about being overwritten, or how to coordinate? (y: writes to others · n: the words match by chance)",
