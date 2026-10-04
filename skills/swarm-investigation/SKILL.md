@@ -24,7 +24,8 @@ Scouting needs no approval: reading, full-text search, schema, small counts to s
 meant as evidence plus its null — waits for the approver.
 
 ## 1. Map the data
-- `GET /schema` per corpus: fields, kinds, span, row count. Write the map at the top of your candidates file: what one
+- `GET /schema?corpus=<name>`: fields and kinds. Span and row count: `SELECT <any condition> GROUP BY month(time)
+  AGGREGATE count()`. Write the map at the top of your candidates file: what one
   row is, which kinds exist and how many, the time span, who the actors are.
 - Cheap looks first: `/search` (full text) to see whether a topic exists at all and how big it is; `/similar` for
   paraphrases (one threshold does not fit every question; calibrate on a few known rows).
@@ -43,6 +44,7 @@ Shape: <then / near / same actor / different actor / never followed / burst>, wi
 Query sketch: `SELECT … FOLLOWED_BY … DURING …`
 Null plan: shuffle <what>, holding <what> fixed, within <stratum>
 Seen so far: <ids, short quotes>; source of the lead: <who or what>
+Approved by: <human, when, directly or relayed by whom>
 ```
 
 Leads can come from anywhere: a human's question, an official summary to dispute, an overnight generator, someone
@@ -51,7 +53,8 @@ else's report. Name the source; a lead from a summary is a claim to test, not a 
 ## 3. Ask for approval
 Send the approver a batch: each candidate in two lines (claim, why it matters), and what testing costs. Wait. A
 message relayed through another session or a bot can gain words on the way: a prohibition or limit you did not hear
-from the human directly, ask the human about before acting on it.
+from the human directly, ask the human about before acting on it. A relayed approval: record who relayed it, and
+confirm with the human when anything about it looks off.
 
 ## 4. Test
 1. **The query**, against the running server, signed (`X-PrismQL-Client: <you>`) and with a `"label"` so the result is
@@ -65,13 +68,18 @@ from the human directly, ask the human about before acting on it.
    | one actor's message sets off another's | which actor | every session's timing |
    | an order (alphabetical, creation) | which item went when | every time and every burst |
    | a text jumps between pages or names | whole saves, within page and day | everything inside a save |
+   | group A is more often Y than group B (a rate difference) | the A/B label across items | each item's outcome, within a regime (month, agent) |
 
-   Strata must be wider than the window tested (5-minute strata cannot break a 30-minute window). Count distinct units
+   For time shuffles, strata must be wider than the window tested (5-minute strata cannot break a 30-minute window);
+   for label shuffles, stratify by the regimes you noted in step 1. Count distinct units
    (saves, sessions), not overlapping matches. Report the real value, the null median and 95th percentile, and how
    many shuffles.
 4. **Existence claims** (a timeline, a quoted episode) have no rate to test. Say so in the section; their check is
    that every cited id resolves and says what you say.
-5. **A matched control** when the effect could be co-activity: compare with the same measure in the same hours.
+5. **A matched control** when the effect could be co-activity: the same measure on comparable rows — same agents,
+   same period — that lack the tested condition.
+6. **An outcome the stream does not record** ("fabricated", "true"): hand-label a sample of each group (read 20–40
+   and classify), or use a proxy and name it as a proxy in the section and its Limits. A proxy is never the outcome.
 
 ## 5. Cold check
 Give a fresh agent, with no conversation history, a brief that holds only:
@@ -85,8 +93,8 @@ A claim the verifier cannot reproduce goes back to **proposed** or to **did not 
 
 ## 6. Write the section
 ```markdown
-## 5. <The claim as a heading, no stronger than the evidence> (C5, <when>)
-*Status: held | did not hold. Tested against <null>. Approved by <human>, <date>. Cold-verified: <what reproduced>.*
+## 5. <The claim as a heading, no stronger than the evidence> (C5, <period of the data>)
+*Status: held | did not hold. Tested against <null>. Approved by <human>, <date>. Cold-verified: <what reproduced> | not yet.*
 
 **Claim.** <two or three sentences>
 **Query.** label `<label>`: `SELECT …` → <count>. Null: <how shuffled> → median <m>, 95th <p>.
@@ -109,6 +117,9 @@ number it plots equals the report's.
 - **Rows that are not messages shift positional windows** (thoughts, tool calls). Prefer time windows, or filter kinds.
 - **Information from the future.** "First author of a text" computed over the whole history uses saves that had not
   happened yet; compute from the rows before the event.
+- **Look-back windows cross pauses.** "No session in the 30 minutes before" is true of every first message after a
+  night. Read the groups at the edges of the window, and compare with the same condition after.
+- **Rows can be logged twice** (the same text under two event ids). Count distinct texts where it matters.
 - **Timestamps tie.** Engines that order by stream position and engines that compare times disagree on ties; say which
   you used.
 - **PrismQL text predicates:** `contains(name)` takes a dictionary name, not a word; `field(f, "x", partial)` is a
