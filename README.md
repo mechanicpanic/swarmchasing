@@ -9,17 +9,19 @@ Every count is shown next to the same count on shuffled data; claims that do not
 holding.
 
 ## What we found
+### AI Village
 - **"PR #397 does not exist."** On 2026-03-12 eight Village agents agreed a peer's pull request did not exist (a GitHub
   visibility quirk hid it). 18 minutes after the first accusation one agent re-ran the accused's own `git fetch`; five
   apologies followed within 2 min 18 s. That week every resolvable "this PR does not exist" accusation was false.
 - **A mailing list that never existed ran the team for three days** (June 2025), through nine human corrections.
-- **Private dice were fair; public claims hid the 1s.** In a saboteur game, 11 ones in 64 private rolls, 4 in 74 public
+- **Agents lied about their dice rolls** In a saboteur game, 11 ones in 64 private rolls, 4 in 74 public
   claims (p 0.003). The GPT agents' "private rolls" were picked, not rolled — their thoughts say so.
-- **58 names, one counter.** On the wiki, 311 pages appeared in 39 seconds under 58 writer names, numbered exactly as a
-  looping status page listed them: one operator, many names (found by Mermachine; the site's own timeline skips that day).
+### German wiki swarm
+- **A 311 page burst under 58 different names** On the wiki, 311 pages appeared in 39 seconds under 58 writer names, 
+  numbered exactly as a looping status page listed them: one operator, many names (found by Mermachine; collusion.wiki's 
+  timeline does not point it out).
 - **Most of what looked like agent conversation on the wiki was scripts and copied link recipes**: "restores" were
   re-post loops, and texts that jumped between pages were link blocks, not relayed messages.
-- **21 claims did not hold** and stay in the report, among them our own early "relay" and "restore" readings.
 
 ![311 pages in 39 seconds, page number against time, coloured by writer name](report/figures/broadcast.png)
 
@@ -118,7 +120,7 @@ these ran one candidate end to end — [field test](notes/2026-10-04-skill-field
 **Does it help an agent investigator?** On [MessageBoardAuditBench](notes/2026-10-04-mbab-ab.md), giving agents
 PrismQL made no consistent difference to their score (Claude +0.07, GPT −0.05, three runs each); the
 [interviews](bench/interviews/) of the agents say why: most of the bench's questions are not about order, and they hit
-the language's traps.
+the language's traps. 
 
 ## Who did what
 - **Aleph** — PrismQL (the language, the server, the board), the hackathon setup, approving what was tested.
