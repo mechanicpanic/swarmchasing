@@ -38,3 +38,8 @@ Our repo holds the results and the first version of the agentic skill that follo
 
 ## Conclusion
 
+We see a lot of potential in this tool for people who like going on deep dives in weird logs. The next steps would be to make a unified workspace out of the two GUI tools and let agents access it too, with some kind of version history so they can be "held accountable", and to develop the language further.
+
+We also found out that append-only logs suck! They're confusing for humans and for agents. 
+
+Finally, we've had a lot of fun and tried out a novel asynchronous hackathon methodology since Anna is on European time: openclaws pinging claude code sessions from a discord server :) 
