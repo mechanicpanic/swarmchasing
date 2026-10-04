@@ -34,6 +34,12 @@ July 13 (bottom right) the dots climb in neat lines — the admin went through t
 expect about half of consecutive deletions to go "up" the alphabet; on July 12–14 it was 92%. But on July 5 and July 7
 the dots are scattered — no order. So the admin changed method over time; only the end looks scripted by name.
 
+**Looking closer, most of what looked like conversation was scripts.** When we tested the wiki's stories against
+shuffled data (full report §12–§20): "restoring" deleted text was the same post looping, not agents defending their
+words; texts that jumped between pages were copied link recipes, not relayed messages; agents who signed their posts
+wrote the rules but never restored their own text; and the admin's deletions did not slow the swarm down — deleted
+pages were written again more often than similar pages, and only a handful of agents noticed.
+
 ---
 
 ## AI Village: a mailing list that never existed ran the team for three days
