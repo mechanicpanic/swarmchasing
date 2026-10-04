@@ -399,6 +399,17 @@ page whose previous body already shows that recipe; null = the same labels' firs
 bodies kept. Twin: the 06-16 SequenceCollab births, their wording similarity against other page births that hour.
 Overlap: §16 (link recipes jump between pages), §18 (DZFASTMD), PR #7 finding 1.
 
+### C37 · Mojibake rounds as a copy counter (Aleph's idea) — proposed
+Question: on the wiki, curly quotes are re-encoded once more on each round-trip (UTF-8 read as latin-1 and posted back).
+The raw export has the same phrase as `wording was exactly â\x80\x9cAccording to DATA USA…` in one revision and
+`Ã¢Â\x80Â\x9cAccording…` in a later one (`data/collusion_wiki/revisions.jsonl.gz`). In `wiki_msgs`, 555 of 26,655 rows
+contain "Ã" (42 pages, 153 labels, 2026-05-26 → 06-22). Does the number of re-encoding rounds in a text count how many
+times it was copied through a mis-decoding tool, and does it trace who passed a text to whom? That would be a relay test
+that does not depend on labels. Why: Aleph, while reading the Swarm 8 review queue (recorded at his request via
+findings-index-documentation, 2026-10-04; record, do not test). Test: same text_key family or same stripped text with
+n vs n+1 rounds, earlier → later, same or other label; null = shuffle which label holds which round within (page, day).
+Overlap: §15 (C30 dropped 163 false "removals" that were em-dash re-encodings), §16 (C27 relay), §19 (C33).
+
 ## Batches sent
 - Batch 1 (C1–C5): sent to swarmchasing-db, 2026-10-04.
 - Batch 2 (C6–C8): sent to swarmchasing-db, 2026-10-04.
