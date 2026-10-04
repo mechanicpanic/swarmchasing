@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PrismQL Review</title>
+<style>
+:root{--bg:#f7f6f3;--panel:#fff;--ink:#1d1d1f;--muted:#6b6b70;--line:#e3e1dc;--accent:#5b4bd6;--yes:#1f8a4c;--no:#c0392b;--unsure:#b7791f;--hl:#fff2a8;--chip:#eeeaff;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#141416;--panel:#1d1d21;--ink:#ececf0;--muted:#9a9aa3;--line:#2e2e35;--accent:#9d8fff;--yes:#3ccf7a;--no:#ff6b5c;--unsure:#f0b44c;--hl:#5a4d12;--chip:#2c2850;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+header{display:flex;gap:12px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:2;flex-wrap:wrap}
+header h1{font-size:15px;margin:0;font-weight:650}
+header .sp{flex:1}
+input,select,textarea,button{font:inherit;color:inherit}
+input,select,textarea{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 8px}
+button{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:6px 10px;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+main{display:grid;grid-template-columns:300px 1fr;gap:0;min-height:calc(100vh - 52px)}
+aside{border-right:1px solid var(--line);padding:12px;background:var(--panel);overflow:auto}
+aside h2{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:14px 0 6px}
+.q{padding:8px;border-radius:8px;border:1px solid transparent;cursor:pointer;margin-bottom:4px}
+.q:hover{border-color:var(--line)} .q.on{border-color:var(--accent);background:var(--chip)}
+.q .n{font-weight:600;word-break:break-word} .q .t{font-size:12px;color:var(--muted)}
+form.new{display:grid;gap:6px} form.new textarea{min-height:70px;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+section#view{padding:16px 20px;overflow:auto;min-width:0}
+.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.tally span{margin-right:10px;font-variant-numeric:tabular-nums}
+.y{color:var(--yes)} .no{color:var(--no)} .u{color:var(--unsure)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px}
+.claim{font-size:16px;font-weight:600;margin-bottom:6px}
+.meta{color:var(--muted);font-size:12px;margin-bottom:8px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.chip{background:var(--chip);border-radius:999px;padding:2px 9px;font-size:12px}
+.ev{border-left:3px solid var(--line);padding:6px 10px;margin:6px 0}
+.ev.anchor{border-left-color:var(--accent);background:var(--chip)}
+.ev .h{font-size:12px;color:var(--muted)} .ev .h b{color:var(--ink)}
+.ev .x{white-space:pre-wrap;word-break:break-word;margin-top:2px}
+.ev .why{font-size:11px;color:var(--muted);margin-top:3px}
+mark{background:var(--hl);color:inherit;border-radius:2px}
+.verdict{display:flex;gap:8px;align-items:center;flex-wrap:wrap;position:sticky;bottom:0;background:var(--bg);padding:10px 0}
+.verdict button{min-width:96px}
+.verdict .yes.on{background:var(--yes);color:#fff;border-color:var(--yes)}
+.verdict .no.on{background:var(--no);color:#fff;border-color:var(--no)}
+.verdict .unsure.on{background:var(--unsure);color:#fff;border-color:var(--unsure)}
+.verdict input{flex:1;min-width:200px}
+.dots{display:flex;gap:3px;flex-wrap:wrap;margin:8px 0}
+.dot{width:12px;height:12px;border-radius:3px;background:var(--line);cursor:pointer}
+.dot.yes{background:var(--yes)} .dot.no{background:var(--no)} .dot.unsure{background:var(--unsure)} .dot.cur{outline:2px solid var(--accent);outline-offset:1px}
+.small{font-size:12px;color:var(--muted)} .err{color:var(--no);white-space:pre-wrap}
+details summary{cursor:pointer;color:var(--muted);font-size:12px}
+@media (max-width:760px){main{grid-template-columns:1fr} aside{border-right:0;border-bottom:1px solid var(--line)}}
+</style>
+</head>
+<body>
+<header>
+  <h1>PrismQL Review</h1>
+  <span class="small">mark each finding true / false / unsure, with a note</span>
+  <span class="sp"></span>
+  <a href="/trails" style="color:var(--accent)">Trails →</a>
+  <label class="small">reviewer <input id="reviewer" size="10" placeholder="your name"></label>
+  <span class="small">keys: <b>y</b> true · <b>n</b> false · <b>u</b> unsure · <b>j/k</b> next/prev · <b>/</b> note</span>
+</header>
+<main>
+<aside>
+  <h2>Queues</h2>
+  <div id="queues"></div>
+  <h2>New queue from a query</h2>
+  <form class="new" id="fq">
+    <select id="fq-server"></select>
+    <select id="fq-corpus"></select>
+    <textarea id="fq-query" placeholder="SELECT …"></textarea>
+    <input id="fq-name" placeholder="name (optional)">
+    <input id="fq-limit" type="number" value="50" min="1" max="500" title="how many groups to review">
+    <button class="primary">Run &amp; review</button>
+    <div id="fq-err" class="err"></div>
+  </form>
+  <h2>New queue from claims (JSONL)</h2>
+  <form class="new" id="fc">
+    <input id="fc-path" placeholder="~/…/leads.jsonl">
+    <input id="fc-ids" placeholder="ids, comma-separated (optional)">
+    <input id="fc-name" placeholder="name (optional)">
+    <button class="primary">Load claims</button>
+    <div id="fc-err" class="err"></div>
+  </form>
+</aside>
+<section id="view"><p class="small">Pick a queue on the left, or make one.</p></section>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const store = { get(k){ try { return localStorage.getItem(k) } catch { return null } },
+                set(k,v){ try { localStorage.setItem(k,v) } catch {} } };
+let servers = {}, Q = null, idx = 0;
+
+async function api(path, opts={}) {
+  const r = await fetch(path, {headers:{"Content-Type":"application/json"}, ...opts});
+  const t = await r.text(); let j; try { j = JSON.parse(t) } catch { j = t }
+  if (!r.ok) throw new Error(typeof j === "string" ? j : (j.detail || JSON.stringify(j)));
+  return j;
+}
+
+function highlight(text, why) {
+  const spans = [];
+  for (const p of why || []) for (const m of p.matches || []) if (m.field === "text") spans.push([m.start, m.end]);
+  if (!spans.length) return esc(text);
+  spans.sort((a,b)=>a[0]-b[0]); let out = "", at = 0;
+  for (const [s,e] of spans) { if (s < at) continue; out += esc(text.slice(at,s)) + "<mark>" + esc(text.slice(s,e)) + "</mark>"; at = e; }
+  return out + esc(text.slice(at));
+}
+function evHtml(e, why, opts={}) {
+  const who = e.agent ?? e.actor ?? "", kind = e.kind ?? "";
+  const preds = (why||[]).map(p => p.predicate + (p.score ? ` (${p.score})` : "")).join(" · ");
+  return `<div class="ev ${opts.anchor ? "anchor" : ""}">
+    <div class="h"><b>${esc(who)}</b> · ${esc(kind)} · ${esc(String(e.time||"").replace("T"," ").slice(0,19))}${e.room ? " · #"+esc(e.room) : ""}
+      ${opts.ctx ? ` · <a href="#" data-ctx="${esc(e.id)}">context</a>` : ""}</div>
+    ${(() => { const t = String(e.text ?? ""); return t.length > 900
+      ? `<details class="x"><summary>${esc(t.slice(0,300))}… <span class="small">(${t.length.toLocaleString()} chars, click to expand)</span></summary>${highlight(t, why)}</details>`
+      : `<div class="x">${highlight(t, why)}</div>`; })()}
+    ${preds ? `<div class="why">matched: ${esc(preds)}</div>` : ""}
+    <div class="ctxbox" id="ctx-${esc(e.id)}"></div></div>`;
+}
+
+async function loadServers() {
+  servers = await api("/api/servers");
+  $("#fq-server").innerHTML = Object.keys(servers).map(s => `<option>${s}</option>`).join("");
+  fillCorpora();
+}
+function fillCorpora() {
+  const c = servers[$("#fq-server").value] || [];
+  $("#fq-corpus").innerHTML = c.map(x => `<option>${x}</option>`).join("") || "<option>(server down)</option>";
+}
+$("#fq-server").onchange = fillCorpora;
+
+async function loadQueues() {
+  const qs = await api("/api/queues");
+  $("#queues").innerHTML = qs.map(q => {
+    const t = q.tally;
+    return `<div class="q ${Q && Q.id===q.id ? "on":""}" data-q="${q.id}">
+      <div class="n">${esc(q.name)}</div>
+      <div class="t">${q.mode} · ${esc(q.server)}/${esc(q.corpus)} · ${q.n} items</div>
+      <div class="t"><span class="y">✔ ${t.yes}</span> <span class="no">✘ ${t.no}</span> <span class="u">? ${t.unsure}</span> · ${t.todo} left${t.precision!=null ? ` · precision ${Math.round(t.precision*100)}%` : ""}</div></div>`;
+  }).join("") || '<p class="small">none yet</p>';
+}
+$("#queues").onclick = e => { const d = e.target.closest("[data-q]"); if (d) openQueue(d.dataset.q); };
+
+async function openQueue(id, at) {
+  Q = await api("/api/queues/" + id);
+  idx = at ?? Math.max(0, Q.items.findIndex(it => !it.verdict || it.verdict.verdict === "clear"));
+  store.set("review.queue", id); render(); loadQueues();
+}
+
+function tallyHtml() {
+  const t = Q.tally;
+  return `<div class="tally"><span class="y">✔ ${t.yes}</span><span class="no">✘ ${t.no}</span><span class="u">? ${t.unsure}</span><span>${t.todo} left</span>${t.precision!=null ? `<span><b>precision ${Math.round(t.precision*100)}%</b></span>` : ""}</div>`;
+}
+
+function render() {
+  if (!Q) return;
+  const it = Q.items[idx]; const v = it?.verdict;
+  const dots = Q.items.map((x,i) => `<div class="dot ${x.verdict?.verdict||""} ${i===idx?"cur":""}" data-i="${i}" title="${i+1}"></div>`).join("");
+  let body = "";
+  if (!it) body = '<p class="small">Queue is empty.</p>';
+  else if (Q.mode === "query") {
+    const g = it.group, b = g.bindings || [];
+    body = `<div class="card"><div class="meta">group ${idx+1} of ${Q.items.length} (query found ${Q.total})</div>
+      ${b.length ? `<div class="chips">${b.map(a => Object.entries(a).map(([k,v]) => `<span class="chip">$${esc(k)} = ${esc(v)}</span>`).join("")).join('<span class="small">or</span>')}</div>` : ""}
+      ${(g.events||[]).map((e,i) => evHtml(e, (g.explain||[])[i], {ctx:true})).join("")}</div>`;
+  } else {
+    const c = it.claim;
+    body = `<div class="card"><div class="meta">claim ${idx+1} of ${Q.items.length} · ${esc(c.id||"")} · ${esc(c.generator||"")} · ${esc(c.type||"")} · confidence ${esc(c.confidence||"?")}</div>
+      <div class="claim">${esc(c.hook)}</div>
+      <div class="meta">when: ${esc(c.when)} · agents: ${esc((c.agents||[]).join(", "))}</div>
+      ${c.evidence ? `<div><b>evidence (as claimed):</b> ${esc(c.evidence)}</div>` : ""}
+      ${c.example ? `<div style="margin-top:6px"><b>example (as claimed):</b> ${esc(c.example)}</div>` : ""}
+      ${c.next_step ? `<details style="margin-top:6px"><summary>suggested check</summary>${esc(c.next_step)}</details>` : ""}</div>
+      <div class="card"><b>What the dataset's summary said</b> <span class="small">linked by the agent that made the claim; passage checked verbatim</span>
+        <div id="sum-body" class="small">loading…</div></div>
+      <div class="card"><b>In the data</b> <span class="small" id="ev-status">looking for the quoted message…</span>
+        <div id="ev-body"></div>
+        <form id="srch" class="bar" style="margin-top:10px"><input id="s-text" placeholder="search text in this window" style="flex:1">
+          <input id="s-agent" placeholder="agent (exact)" size="14"><button>Search</button></form>
+        <div id="s-out"></div></div>`;
+  }
+  $("#view").innerHTML = `<div class="bar"><b>${esc(Q.name)}</b> ${tallyHtml()} <span style="flex:1"></span>
+      <a href="/api/export/${Q.id}" target="_blank">export</a></div>
+    ${Q.mode==="query" ? `<div class="small" style="margin-bottom:8px"><code>${esc(Q.query)}</code></div>` : ""}
+    <div class="dots">${dots}</div>${body}
+    <div class="verdict">
+      <button class="yes ${v?.verdict==="yes"?"on":""}" data-v="yes">✔ true (y)</button>
+      <button class="no ${v?.verdict==="no"?"on":""}" data-v="no">✘ false (n)</button>
+      <button class="unsure ${v?.verdict==="unsure"?"on":""}" data-v="unsure">? unsure (u)</button>
+      <input id="note" placeholder="note: why (optional)" value="${esc(v?.note||"")}">
+      <button data-nav="-1">← k</button><button data-nav="1">j →</button></div>`;
+  if (it && Q.mode === "claims") { loadSummary(it); loadEvidence(it); }
+}
+
+async function loadSummary(it) {
+  try {
+    const r = await api(`/api/claim_summary?qid=${Q.id}&key=${encodeURIComponent(it.key)}`);
+    if (r.status !== "linked") { $("#sum-body").textContent = r.status === "no_links_file"
+      ? "no summary links recorded for this claims file" : "no summary link recorded for this claim"; return; }
+    const conf = {exact: "exact passage", not_applicable: "this claim doesn't dispute a summary (passage shown for reference)", none: "no passage found: the claim may misattribute"}[r.summary_link_confidence] || r.summary_link_confidence;
+    $("#sum-body").innerHTML = `<div class="ev"><div class="h"><b>${esc(r.summary_type)} summary</b> · ${esc(r.summary_date || r.summary_target || "")} · written by ${esc(r.summary_model)} · ${esc(conf)}${r.passage_redactions ? " · human names redacted" : ""}</div>
+      <div class="x" style="color:var(--ink)">${esc(r.summary_passage || "")}</div>
+      ${r.note ? `<div class="why">note from the claim's author: ${esc(r.note)}</div>` : ""}
+      ${(r.other_passages||[]).length ? `<details><summary>${r.other_passages.length} other summaries say the same</summary>${r.other_passages.map(o => `<div class="x small">${esc(typeof o === "string" ? o : (o.summary_passage || o.passage || JSON.stringify(o)))}</div>`).join("")}</details>` : ""}</div>`;
+  } catch (e) { $("#sum-body").textContent = "summary lookup failed: " + e.message; }
+}
+async function loadEvidence(it) {
+  try {
+    const r = await api(`/api/claim_evidence?qid=${Q.id}&key=${encodeURIComponent(it.key)}`);
+    window._win = r.window;
+    if (!r.anchors.length) { $("#ev-status").textContent = `quoted message not found${r.quote ? ` ("${r.quote}")` : ""}. Use search below.`; return; }
+    $("#ev-status").textContent = `found the quoted message${r.anchors.length>1 ? ` (+${r.anchors.length-1} similar)` : ""}; showing what came before and after`;
+    const ctx = r.context?.events || [];
+    $("#ev-body").innerHTML = ctx.map(x => evHtml({...x.event, id:x.id}, null, {anchor: x.offset===0})).join("");
+  } catch (e) { $("#ev-status").textContent = "evidence lookup failed: " + e.message; }
+}
+
+async function verdict(val) {
+  const it = Q.items[idx]; if (!it) return;
+  await api("/api/verdicts", {method:"POST", body: JSON.stringify({queue:Q.id, item:it.key, verdict:val,
+    note: $("#note")?.value || "", reviewer: $("#reviewer").value})});
+  await openQueue(Q.id, Math.min(idx+1, Q.items.length-1));
+}
+
+$("#view").addEventListener("click", async e => {
+  const t = e.target;
+  if (t.dataset.v) return verdict(t.dataset.v);
+  if (t.dataset.nav) { idx = Math.max(0, Math.min(Q.items.length-1, idx + +t.dataset.nav)); return render(); }
+  if (t.dataset.i) { idx = +t.dataset.i; return render(); }
+  if (t.dataset.ctx) {
+    e.preventDefault(); const box = document.getElementById("ctx-" + t.dataset.ctx);
+    if (box.innerHTML) { box.innerHTML = ""; return; }
+    box.innerHTML = '<div class="small">loading…</div>';
+    try {
+      const r = await api(`/api/context?server=${Q.server}&corpus=${encodeURIComponent(Q.corpus)}&id=${encodeURIComponent(t.dataset.ctx)}`);
+      box.innerHTML = `<div style="margin:6px 0 6px 12px">${(r.events||[]).map(x => evHtml({...x.event, id:x.id}, null, {anchor:x.offset===0})).join("")}</div>`;
+    } catch (err) { box.innerHTML = `<div class="err">${esc(err.message)}</div>`; }
+  }
+});
+$("#view").addEventListener("submit", async e => {
+  if (e.target.id !== "srch") return; e.preventDefault();
+  const w = window._win || [];
+  const p = new URLSearchParams({qid:Q.id, text:$("#s-text").value, agent:$("#s-agent").value, start:w[0]||"", end:w[1]||""});
+  $("#s-out").innerHTML = '<div class="small">searching…</div>';
+  try { const rows = await api("/api/search?" + p);
+    $("#s-out").innerHTML = rows.length ? rows.map(r => evHtml(r, null, {ctx:true})).join("") : '<div class="small">no matches in this window</div>';
+  } catch (err) { $("#s-out").innerHTML = `<div class="err">${esc(err.message)}</div>`; }
+});
+
+document.addEventListener("keydown", e => {
+  if (!Q || ["INPUT","TEXTAREA","SELECT"].includes(document.activeElement.tagName)) {
+    if (e.key === "Escape") document.activeElement.blur(); return; }
+  const k = e.key.toLowerCase();
+  if (k === "y" || k === "1") verdict("yes");
+  else if (k === "n" || k === "2") verdict("no");
+  else if (k === "u" || k === "3") verdict("unsure");
+  else if (k === "j") { idx = Math.min(Q.items.length-1, idx+1); render(); }
+  else if (k === "k") { idx = Math.max(0, idx-1); render(); }
+  else if (k === "/") { e.preventDefault(); $("#note")?.focus(); }
+});
+
+$("#fq").onsubmit = async e => {
+  e.preventDefault(); $("#fq-err").textContent = "running…";
+  try { const r = await api("/api/queues", {method:"POST", body: JSON.stringify({server:$("#fq-server").value,
+      corpus:$("#fq-corpus").value, query:$("#fq-query").value, name:$("#fq-name").value, limit:+$("#fq-limit").value})});
+    $("#fq-err").textContent = ""; openQueue(r.id);
+  } catch (err) { $("#fq-err").textContent = err.message; }
+};
+$("#fc").onsubmit = async e => {
+  e.preventDefault(); $("#fc-err").textContent = "loading…";
+  const ids = $("#fc-ids").value.split(",").map(s=>s.trim()).filter(Boolean);
+  try { const r = await api("/api/queues/claims", {method:"POST", body: JSON.stringify({path:$("#fc-path").value,
+      ids: ids.length ? ids : null, name:$("#fc-name").value})});
+    $("#fc-err").textContent = ""; openQueue(r.id);
+  } catch (err) { $("#fc-err").textContent = err.message; }
+};
+
+$("#reviewer").value = store.get("review.reviewer") || "";
+$("#reviewer").onchange = () => store.set("review.reviewer", $("#reviewer").value);
+loadServers().then(loadQueues).then(() => { const q = store.get("review.queue"); if (q) openQueue(q).catch(()=>{}); });
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+[server]
+port = 8942
+default_corpus = "village_chat"
+enable_file_output = true
+results_dir = "results"
+
+[corpora.village_chat]
+data = "chat.parquet"
+
+[corpora.village_chat.board]
+kind = "kind"
+actor = "agent"
+
+[corpora.village]
+data = "village.parquet"
+
+[corpora.village.board]
+kind = "kind"
+actor = "agent"
+
+# aleph's full stream (2026-09-29): events + THOUGHT rows (each right before
+# its event), text, embeddinggemma-300m vectors with doc/query prompts in the
+# file's metadata. README: ../village_embeddings_2026-09-29/README.md
+[corpora.village_full]
+data = "../village_embeddings_2026-09-29/3_village_full_with_text.parquet"
+
+[corpora.village_full.board]
+kind = "kind"
+actor = "agent"

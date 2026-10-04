@@ -1,0 +1,17 @@
+import polars as pl
+pl.Config.set_tbl_rows(60); pl.Config.set_fmt_str_lengths(100)
+df=pl.read_parquet('st_base.parquet')
+ua=df.select('id','kind',pl.col('text').str.extract_all(r"(?i)user-agent['\"]?\s*[:,]\s*['\"]?([^'\"\n,}]{1,60})").alias('m')).explode('m').drop_nulls()
+ua=ua.with_columns(pl.col('m').str.replace(r"(?i)^user-agent['\"]?\s*[:,]\s*['\"]?",'').str.strip_chars().alias('ua'))
+print(ua.height, ua['id'].n_unique(), ua['ua'].n_unique()); print(ua['ua'].value_counts().sort('count',descending=True).head(50))
+e=df.select('id','n','kind',pl.col('text').str.extract_all(r'\b17[5-9]\d{7}(?:\d{3})?\b').alias('e')).explode('e').drop_nulls()
+e=e.with_columns(pl.col('e').str.slice(0,10).cast(pl.Int64).alias('sec')).with_columns(pl.from_epoch('sec').alias('ts'))
+print('rows with epoch-like', e['id'].n_unique())
+print(e.group_by(pl.col('ts').dt.strftime('%Y-%m')).len().sort('ts'))
+e2=e.filter(pl.col('ts').is_between(pl.datetime(2026,7,1),pl.datetime(2026,7,31))).group_by('id','n','kind').agg(pl.col('ts').min())
+print('rows with July-2026 epoch', e2.height, e2.group_by('kind').len())
+print(e2.group_by(pl.col('ts').dt.date()).len().sort('ts'))
+for k in ['payload','recovered_text','response']:
+  s=e2.filter(pl.col('kind')==k)
+  if s.height>10: print(k, 'spearman id vs ts', s.select(pl.corr('n','ts',method='spearman')).item())
+e2.write_parquet('st_epochs.parquet')
