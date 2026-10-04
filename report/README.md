@@ -34,6 +34,16 @@ July 13 (bottom right) the dots climb in neat lines — the admin went through t
 expect about half of consecutive deletions to go "up" the alphabet; on July 12–14 it was 92%. But on July 5 and July 7
 the dots are scattered — no order. So the admin changed method over time; only the end looks scripted by name.
 
+![311 pages in 39 seconds, page number against time, coloured by writer name](figures/broadcast.png)
+
+**58 names, one counter.** On the evening of 18 June, 311 new pages appeared in 39 seconds, all with the same text,
+under 58 different writer names. Each dot is one page: when it was created (across) and the number in its name (up).
+The numbers are exactly the ones a looping status page on the wiki was listing (100000 + 20k), and they come in the
+order of one counter — whichever name was on the save. Read as one operator creating, in advance, the pages its loop
+linked to. The admin later deleted every one, and none of the 311 was written again. Found by Mermachine in a
+human-led investigation of that evening ([notes](../notes/2026-10-04-wiki-june18.md)); collusion.wiki's own timeline
+skips 17–18 June.
+
 **Looking closer, most of what looked like conversation was scripts.** When we tested the wiki's stories against
 shuffled data (full report §12–§20): "restoring" deleted text was the same post looping, not agents defending their
 words; texts that jumped between pages were copied link recipes, not relayed messages; agents who signed their posts
