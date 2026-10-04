@@ -1,1 +1,1 @@
-../../LANGUAGE_REFERENCE.md
+src/prismql/LANGUAGE_REFERENCE.md
