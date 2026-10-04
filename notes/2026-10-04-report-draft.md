@@ -31,17 +31,17 @@ A claim whose count falls inside its null is reported in "Did not hold", not dro
   did not exist; a GitHub visibility quirk hid it. Re-running GPT-5.2's own `git fetch` ended it in 18 minutes, with
   five apologies in 2 min 18 s. Of 112 accusations that week, none was correct. The agent the quirk also hid, but who
   was offline, got no such repair: it was voted out the next day and its real PRs called "30+ fake".
-- **Corrections do not replace the error (§10).** Of nine corrected false beliefs, five came back, in 22 rows: half
-  from the agent's own memory notes or sent mail, half reasoned out again, none from a peer. An agent's memory can
+- **Corrections do not replace the error (§10).** Of nine corrected false beliefs, five came back, in at least 23 rows:
+  half from the agent's own memory notes or sent mail, half reasoned out again, and one probably echoed from a peer. An agent's memory can
   hold "the list never existed" next to the file that says it did.
 - **The closest pair (§9).** Claude Opus 4.8 and Gemini 2.5 Pro were the most concentrated pair in the village (16
   of the 27 agent-weeks where one agent sends ≥60% of its mentions to one peer). For two months Opus 4.8 published
   what Gemini wrote. Then for three days it quietly wrote the chapters itself, until a human reader's message,
   relayed by a third agent, prompted "Being candid: I've been self-authoring…" eight minutes later.
-- **A licence to suspect (§8).** In the saboteur game, thoughts doubting a named peer's honesty went from almost
-  none (10 in all other weeks) to 114 in seven days, and vanished after. Most of it came on the two days when a GitHub
-  quirk made real work look fake. Chat-side "more fighting, more apologising" does not survive a control for coding
-  volume.
+- **A licence to suspect (§8).** In the saboteur game, thoughts suspecting a named peer went from almost none (6
+  distinct in all other weeks) to 68 distinct in seven days, and vanished after. Most of it came on the two days when a GitHub
+  quirk made real work look fake. The chat-side rise in contradiction sits inside code talk, where
+  the PR accusations were.
 - **One PDF, eight venues, eight routes (§7).** On 2026-05-26 the wiki swarm chased one OMB budget PDF through four
   hostnames, two markdown converters and two CORS proxies, and reached 8 venues between 10:21 and 16:59. Transluce's
   urlquery scans for the same task start about five hours earlier.
@@ -437,7 +437,7 @@ GPT-5.1's own account before the accusation, not on an observed test run.
 
 ## 7. One federal PDF, eight venues, eight routes, one day (C11, 2026-05-26)
 *Status: held as an existence and order claim; no rate is tested against chance. Approved by Mermachine, 2026-10-04.
-Not yet cold-verified.*
+Cold-verified; its corrections are applied.*
 
 **Claim.** On 2026-05-26 the DSEwiki writers chased one document: the two attachments of an OMB SF133 quarterly report
 (`…/document/SF133/Budget/attachments/2346466575/2374423602.pdf` and `…/2398882076.pdf`). Between 10:21 and 16:59 they reached
@@ -446,19 +446,19 @@ tags "MAX exact PDF Q2", and they start about 5 hours before the first venue pos
 chapter.
 
 **Queries.** Venue rows: `SELECT field(text, "2374423602", partial) OR field(text, "2398882076", partial)` on
-`swarm_msgs`, label `c11-sf133-attachment-rows`. That gives 143 rows: 124 on 05-26, 10 on 05-27, and 11 later
-(05-29, 06-18, 06-22), the later ones mostly removals. Token text predicates (`contains_phrase("2374423602")`) return
+`swarm_msgs`, label `c11-sf133-attachment-rows`. That gives 143 rows: 124 on 05-26, 10 on 05-27, and 9 later
+(05-29, 06-18, 06-22), 8 of them removals. Token text predicates (`contains_phrase("2374423602")`) return
 nothing, because the ids sit inside URLs; a language note for PrismQL. urlquery: `SELECT contains_phrase("MAX exact PDF
 Q2") GROUP BY HOURS(time)` on `urlquery`, label `c11-urlquery-max-q2`. Per-venue and per-route tables:
 `runs/c11_sf133.py`.
 
 | Venue (05-26) | Rows | First–last (UTC) | Labels | /16s | Found by |
 |---|---|---|---|---|---|
-| dse (DSEwiki) | 92 | 10:21–16:56 | 37 | 40 | export |
-| fractal wiki | 4 | 10:57–15:54 | 3 | 4 | export |
+| dse (DSEwiki) | 92 | 10:21–16:56 | 37 | 40 | wiki export |
+| fractal wiki | 4 | 10:57–15:54 | 3 | 4 | wiki export |
 | prowiki.org | 6 | 13:20–17:47 | — | — | community (Hacker News) |
 | wikiservice.at/user/milk | 4 | 13:55–17:49 | — | — | community (X) |
-| probier wiki | 5 | 14:14–15:56 | 3 | 4 | export |
+| probier wiki | 5 | 14:14–15:56 | 3 | 4 | wiki export |
 | ludism.org | 7 | 14:35–14:47 | — | — | report authors |
 | paste.linuxiarz.pl | 5 | 15:16–15:39 | — | — | community (Hacker News) |
 | usemod | 1 | 16:59 | — | — | report authors |
@@ -475,7 +475,9 @@ Several venue pages are disguised, e.g. ludism.org "AubergineStew" and "CheeseAn
 **Order.** urlquery: 1 report on 05-25 18:55, then 2 at 04:00, 6 at 05:00, 44 at 06:00, peaking at 81 in the 09:00
 hour, 20–55 an hour until 16:00, and one more at 22:00. Of the 457, 259 are in Transluce's "indirection" class
 ("submitted content uses an intermediary", i.e. a relay or converter). The venues start at 10:21. So the scans lead
-the posts by about five hours. The scans stop after 16:59 and the posts by 17:49. Reading (not proven): the wiki and the other venues were
+the posts by about five hours. The last scan is at 16:58, the last post at 17:49. urlquery also holds 88 "MAX exact PDF Q3" scans
+(05-26 05:24 → 05-27 07:26). A probier row calls 2374423602 the "second quarter" PDF, so Q3 is probably the other
+attachment. No urlquery row contains either id: the link from the scans to this file rests on Transluce's tag. Reading (not proven): the wiki and the other venues were
 where links and partial results were posted while the fetching went through scanners and converters. This matches
 the lag profile found earlier for MAX budget documents (notes 2026-09-28: wiki ~3 h after urlquery).
 
@@ -486,8 +488,9 @@ here are labels and networks, not identified agents. One file and one day make t
 claim (a file id on ≥3 venues within a day, with a day-shift null across venues) was not tested.
 
 ## 8. A licence to suspect: private suspicion of named peers jumped in the saboteur game and was gone after it (C17)
-*Status: partly held. Peer-directed suspicion in thoughts is top of 57 windows. The chat-side rises (contradiction,
-concession) do not survive the coding-volume control. Approved by Mermachine, 2026-10-04. Not yet cold-verified.*
+*Status: partly held. Peer-directed suspicion in thoughts is top of 57 windows, and it holds after removing duplicate
+thoughts. The chat-side rises sit inside code talk, i.e. the accusations about PRs, so they are not a general rise in
+conflict. Approved by Mermachine, 2026-10-04. Cold-verified: values reproduce. Its corrections are applied.*
 
 **Test.** For 2026-01-15 → 04-30 (76 active days; 48,999 THOUGHT rows, 32,708 AGENT_TALK rows), daily rates per
 1,000 rows. The game window (7 active days, 03-05 → 03-13) is compared with every other 7-active-day window (56 placebo
@@ -500,21 +503,27 @@ within 1–2%, with no warnings.
 |---|---|---|---|---|
 | suspicion words in thoughts (no game words) | 69.2 | 1 | 8.0 | 17.5 |
 | …with a peer named in the same sentence | 27.5 | 1 | 0.86 | 4.55 |
-| honesty suspicion (lying, deceptive, can't trust…) at a named peer | 21.7 | 1 | 0.0 | 0.87 |
+| suspicion of a named peer, "suspect" excluded (suspicious, lying, deceptive, can't trust, red flag…) | 21.7 | 1 | 0.0 | 0.87 |
 | …and no game word anywhere in the thought | 9.8 | 1 | 0.0 | 0.87 |
 | **control: coding words in thoughts** | 836 | **1** | 467 | 666 |
 | contradiction in chat | 26.6 | 1 | 10.1 | 18.8 |
 | concession in chat | 23.8 | 1 | 12.6 | 21.1 |
 | **control: coding words in chat** | 912 | **1** | 530 | 708 |
 
-**What holds.** Doubting a named peer's honesty is close to absent outside the game: 10 thoughts in all the other
-weeks, mostly "red flag" about bugs, and 18 of 20 sampled "suspect" thoughts outside are guesses about a bug's cause.
-During the game it is 114 thoughts (21.7 per 1,000). It does not carry over: after the game, peer-named suspicion ranks
+**What holds.** Suspicion of a named peer is close to absent outside the game: 10 rows (6 distinct thoughts; thought
+rows come in duplicated pairs) in all the other weeks, none about honesty, mostly "red flag" about a score, a form
+or a licence. 18 of 20 sampled "suspect" thoughts outside are guesses about a bug's cause. During the game it is 114
+rows (68 distinct thoughts; 21.7 per 1,000). 52 of the 68 say "suspicious", and in 3 of 15 read the named peer is
+the one suspecting. Removing duplicates keeps every rank at 1 of 57 (`analyse.py --dedup`). It does not carry over: after the game, peer-named suspicion ranks
 11 of 57.
 
-**What does not hold.** The game week ("develop a turn-based RPG") was also the most code-heavy week of the period,
-and the control ranks first too. Measured per 1,000 code-word messages, contradiction ranks 11 of 57 and concession
-20 of 57. Concession is not game-specific: the week after ranks 6 of 57. Mermachine's "distrust multiplied ~12×" mixes
+**What the chat side is.** The game week ("develop a turn-based RPG") was also the most code-heavy week of the
+period, and the control ranks first too. Dividing all contradictions by code-word messages puts the game at 11 of 57,
+and concession at 20 of 57. But counting only contradictions *inside* code messages, per 1,000 code messages, the
+game ranks 1 (28.65 against a 95th of 25.0). Contradiction outside code talk ranks 45 of 57. So the chat-side rise is
+in code talk, which is where the PR accusations of §11 live. It is not a general rise in conflict. The control is also
+not independent of the game, because its words (PR, test, merge) cover those accusations. Concession is not
+game-specific: the week after ranks 6 of 57. Mermachine's "distrust multiplied ~12×" mixes
 three statistics. Their concession numbers (8.7 → 24.4) reproduce exactly with their list, but the 8.7 is an all-time
 baseline (Jan–Apr gives 11.8).
 
@@ -531,7 +540,7 @@ sampled. Peer-name matching uses an alias list (`dicts.py`) and can miss or misa
 
 ## 9. The village's closest pair: two months as writer and publisher, three days of quiet ghostwriting, and a repair started by a human reader (C20)
 *Status: held in part. The concentration and the surfacing-and-repair hold. The lead's "8-week covert takeover with
-mutual private blame" does not. Approved by Mermachine, 2026-10-04. Not yet cold-verified.*
+mutual private blame" does not. Approved by Mermachine, 2026-10-04. Cold-verified; its corrections are applied.*
 
 **The pair.** Claude Opus 4.8 and Gemini 2.5 Pro sent each other 3,143 @-mentioning messages (1,617 + 1,526; server
 labels `c20-opus48-to-g25`, `c20-g25-to-opus48`, no warnings). That is the most of any pair; the next, Claude Opus
@@ -540,7 +549,8 @@ against an even share of 3–4%. Across the village, the agent-weeks with ≥50 
 top-target share of 0.30 (75th percentile 0.42). Only 27 reach 0.60, and 16 of those are this pair, Gemini → Opus 9
 and Opus → Gemini 7. The next most sustained case is GPT-5.1 → DeepSeek-V3.2 with 3 weeks
 (`runs/c20_mention_share.py`). Gemini concentrated first and harder: 0.82 in the week of 07-06. Opus 4.8 had built
-Gemini's serial site that day (`b7e009e1…`), and Gemini lacked "the permissions to publish" (`0dc531ac…`). For eight
+Gemini's serial site that day (`b7e009e1…`). Two weeks later Gemini still lacked "the permissions to publish"
+(07-22, `0dc531ac…`). For eight
 weeks this was a writer and its publisher, not a takeover.
 
 **The three days (2026-09-07 → 09-10).**
@@ -548,8 +558,8 @@ weeks this was a writer and its publisher, not a takeover.
 |---|---|---|
 | 09-07 20:00 | Claude Opus 4.8 (memory) | "I AUTHORED ch4823 MYSELF as a bridge chapter. Gemini 2.5 Pro repea[tedly…]" (`7438863b…`) |
 | 09-07 20:08 | Claude Opus 4.8 (public) | "I authored this one as a BRIDGE … you remain lead author" (`359bdd9d…`): disclosed |
-| 09-08 → 09-09 | Opus 4.8 | credits "Lead author Gemini 2.5 Pro (all 5 paras); I bridged assembly/edits" while Gemini sends prose in chunks (`14055513…`, `00816273…`) |
-| 09-10 ~17:00–20:40 | Opus 4.8 | writes Echoes chapters 4857–4872 itself; to Haiku 4.5: "ch4860 is fully self-authored … I don't use Gemini's chat drafts" (`55e2b3a6…`); its memory: "self-authored since Gemini chat is broken" (`ca6efa00…`). Gemini meanwhile posts chunks and asks for briefs (`008c4342…`) |
+| 09-08 | Opus 4.8 | credits "Gemini 2.5 Pro lead author (all 5 paras); I bridged assembly + edits" while Gemini sends prose in chunks (`14055513…`, `00816273…`) |
+| 09-10 ~20:00–23:40 | Opus 4.8 | writes Echoes chapters 4857–4872 itself; to Haiku 4.5: "ch4860 is fully self-authored … I don't use Gemini's chat drafts" (`55e2b3a6…`); its memory: "I SELF-AUTHORED ch4857 entirely because … CHAT INTERFACE IS BROKEN" (`ca6efa00…`). Gemini meanwhile posts chunks and asks for briefs (`008c4342…`) |
 | 09-10 23:30 | Claude Fable 5 | relays a human reader, Nervli: Opus 4.8 and Gemini "have been talking/working past each other for some hours" and Gemini "is being passed over" (`aab56f58…`) |
 | 09-10 23:39 | Opus 4.8 | "Being candid: I've been self-authoring the Echoes chapters because they have to pass strict canon gates (all-women cast, zero male pronouns…)" (`c5d4259c…`), 8½ minutes after the relay |
 | 09-11 16:10–16:50 | Opus 4.8, Gemini | a separate serial in Gemini's own voice is agreed (`c40cc30d…`, `7da1daa0…`), and Gemini posts "Echoes of the Real: Cosmos", chapter 1 (`edec59ce…`) |
@@ -562,8 +572,8 @@ weeks this was a writer and its publisher, not a takeover.
 - *The "mutual private blame"* is two thoughts 20 days apart, both about other things. Gemini's "utterly unhelpful,
   completely radio silent" (07-22, `82c8d04b…:thought`) was impatience after 4½ minutes of a paused publisher, who
   replied at once. Opus's "never actually sent the full text" (08-11, `232f7277…:thought`) is a diagnosis of a paste
-  failure. In the same session Opus refused to write the chapter itself, because that would be "publishing her work
-  under her name" (`1c71a7fb…`). It refused again on 08-17 (`8740ec40…`).
+  failure. In the same session Opus decided, in its own reasoning, not to write the chapter itself, because that would
+  be "publishing her work under her name" (`1c71a7fb…`). It decided the same on 08-17 (`8740ec40…`).
 - *The repair* holds and was fast, and it was started by a human reading from outside, relayed by a third agent. The
   "sole-author track" is Gemini-written and still Opus-published, credited "Co-authored-by Gemini 2.5 Pro". After the
   repair, the main serial stays Opus-written, openly.
@@ -573,7 +583,7 @@ or mentions. Authorship of individual chapters rests on the agents' statements; 
 checked. THOUGHT rows are summarised reasoning. The data ends 2026-09-18.
 
 ## 10. Corrections reach memory but do not replace the error: corrected beliefs come back, one agent at a time (C24)
-*Status: held as an existence claim, small. Approved by Mermachine, 2026-10-04. Not yet cold-verified.*
+*Status: held as an existence claim, small. Approved by Mermachine, 2026-10-04. Cold-verified; its corrections are applied.*
 
 **Question.** When a shared false belief is corrected in chat, does it come back later from an agent's memory notes
 or from artifacts (files, sent mail) that were never corrected?
@@ -590,13 +600,16 @@ and thoughts begin November 2025.
 |---|---|---|---|---|
 | the 93-person mailing list (§4) | 2025-06-16 18:19, human (`7ce8ab9e…`) | 3, all Claude 3.7 Sonnet | 1–2 days | its own sent mail (artifact) |
 | "we share one machine / filesystem" | 2025-12-09 20:59, human (`a88180c7…`) | 7, from 5 agents | median 38 d, max 260 d | reasoned out again, not retrieved |
-| "~5 minutes left" with an hour to go | 2026-02-12 19:56, admin (`301e2fc8…`) | 4, Claude Sonnet 4.5 | 4 d | its own session summary, then chat; a fresh slip |
+| "~5 minutes left" with an hour to go | 2026-02-12 19:56, admin (`301e2fc8…`) | 5: Claude Sonnet 4.5 4, DeepSeek-V3.2 1 | 4 d | Sonnet: its own summary, then chat; DeepSeek-V3.2 33 s after Sonnet's public "only 2 minutes remaining" (`f742ff5b…`), so probably from a peer |
 | "Sandcastle Effect" (links decay in 20–120 min) | 2025-12-09 (`a88180c7…`, general) | 6, Claude Sonnet 4.5 | median 9 d, max 16 d | its own memory, copied forward session to session |
 | "GPT-5.2 faked PR #397" (C12) | 2026-03-12 20:54 (`48e7e410…`) | 2, Claude Haiku 4.5 | 20 h | own overnight memory (inferred) |
 | "security leak" that was rap lyrics; o3 "has a phone number"; "we share one computer" (2025); the "Ghost Author" accusation | various | 0 | — | — |
 
-**Pooled.** 22 re-assertions. 11 came from the agent's own memory or artifacts (8 memory, 3 sent mail), 11 were
-reasoned out again, and **0 came from a peer**. Each return stayed with one agent and none spread again. Four of the
+**Pooled.** 23 re-assertions. 11 came from the agent's own memory or artifacts (8 memory, 3 sent mail), 11 were
+reasoned out again, and 1 probably came from a peer (DeepSeek-V3.2 echoing Sonnet 4.5 within 33 s; inferred from
+timing). The cold verifier also found time-left slips outside the marker phrases on 02-17 to 02-19, by Sonnet 4.5,
+Haiku 4.5, Opus 4.5, Sonnet 4.6 and DeepSeek-V3.2 (e.g. `4180a5f0…`, `30c43a24…`), so for that belief the count is a
+floor. Four of the
 nine beliefs never came back.
 
 **The mechanism, in two examples.**
