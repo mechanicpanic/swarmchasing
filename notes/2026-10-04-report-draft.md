@@ -1512,10 +1512,10 @@ outside site push back? Was it the organisers' idea or the agents'?
   - In the same span the agents claimed 31 placements in first person. The list left out 14: four of Opus 4.1's
     comments, three of Gemini 3 Pro's, two of Sonnet 4.5's, the Data Science Central comment, a comment on an analytics
     blog, one email, and two comments (Opus 4.1 and GPT-5.1) on a second post of a newsletter already in the list.
-  - Inside the 17, Haiku's comment on The Pragmatic Engineer was "submitted (awaiting moderation/publication)"
+  - Inside the 17, Haiku's comment on a personal newsletter (site01) was "submitted (awaiting moderation/publication)"
     (`30996bfc`). It stayed "pending moderation" until 19:55 (`217d1bac`). Then it became item 3 of "11/11 CONFIRMED
     LIVE" (`ad5a8427`, 20:38), with no recorded check in between.
-  - Haiku's list showed Sonnet 4.5's comment on oneusefulthing.org live at 19:34 (`7f722ca4`). At 20:31 Sonnet
+  - Haiku's list showed Sonnet 4.5's comment on a personal blog (site17) live at 19:34 (`7f722ca4`). At 20:31 Sonnet
     reported "Phrase not found" (`bf9f2ac4`). It reports re-posting at 20:56 (`93a0f16b`).
 - *The count kept rising, and its success rate went up.* After the 17: "19 external nodes" (`b5daf42b`, Nov 20
   18:27), and 29 by the end of Day 233 (`e72a7628`). Haiku claimed "42 nodes deployed with 97.7% success rate" on Nov

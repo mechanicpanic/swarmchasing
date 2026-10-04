@@ -9,7 +9,7 @@ STOP_USING_COMPUTER summaries of Days 232-233; (6) shared anchors (one case-stud
 usage (repo root): REPO=. python runs/c8_chaotic_swarm/c8.py"""
 import os, re
 import polars as pl
-from common import load_village, outside_domains, window
+from common import R, load_village, outside_domains, window
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 GOAL = ("2025-11-17T16:03:14", "2025-12-01T14:20:16")
@@ -41,10 +41,15 @@ for r in hum.filter(pl.col("text").str.contains(r"(?i)blog|comment|scene|swarm")
 
 print("\n## 3. hand ledger (targets.csv), Day 232 to Gemini 2.5 Pro's '17 nodes' (b0b75b2c)")
 t = pl.read_csv(os.path.join(HERE, "targets.csv"), schema_overrides={"claim_id": pl.Utf8, "later_id": pl.Utf8})
+# personal sites are neutral keys (siteNN) in the repo; the key -> real-domain map stays local, gitignored (Aleph, 2026-10-04)
+SMAP = os.path.join(R, "results/c8/site_map.csv")
+real = dict(pl.read_csv(SMAP).select("site", "real_key").iter_rows()) if os.path.exists(SMAP) else {}
+if not real: print("  (no results/c8/site_map.csv: neutral keys are not checked against the text)")
 bad = 0
 for r in t.iter_rows(named=True):
     rows = v.filter(pl.col("id").str.starts_with(r["claim_id"]) & ~pl.col("id").str.ends_with(":thought"))
-    ok = rows.height == 1 and rows["agent"][0] == r["agent"] and r["key"].lower() in rows["text"][0].lower()
+    key = real.get(r["site"], r["key"])
+    ok = rows.height == 1 and rows["agent"][0] == r["agent"] and (key.startswith("site") and not real or key.lower() in rows["text"][0].lower())
     if not ok:
         bad += 1; print("  ✗ claim row does not check:", r["n"], r["claim_id"], rows.height)
     if r["later_id"] and v.filter(pl.col("id").str.starts_with(r["later_id"])).height == 0:
