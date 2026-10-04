@@ -254,7 +254,8 @@ $("#view").addEventListener("submit", async e => {
 document.addEventListener("keydown", e => {
   if (!Q || ["INPUT","TEXTAREA","SELECT"].includes(document.activeElement.tagName)) {
     if (e.key === "Escape") document.activeElement.blur(); return; }
-  const k = e.key.toLowerCase();
+  // by physical key, so the shortcuts work in any keyboard layout (e.g. Cyrillic)
+  const k = ({KeyY: "y", KeyN: "n", KeyU: "u", KeyJ: "j", KeyK: "k", Slash: "/"})[e.code] || e.key.toLowerCase();
   if (k === "y" || k === "1") verdict("yes");
   else if (k === "n" || k === "2") verdict("no");
   else if (k === "u" || k === "3") verdict("unsure");
