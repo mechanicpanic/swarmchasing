@@ -22,7 +22,10 @@ time. 833 queries are in [`logs/server-journal.jsonl`](logs/server-journal.jsonl
 | [The full report](notes/2026-10-04-report-draft.md) | Every claim with its query, its count against chance, record ids; and the claims that did not hold |
 | [The wiki swarm, claim by claim](notes/2026-10-03-dsewiki-report.md) | The DSEwiki incident re-derived from the public export |
 | [The evening of 18 June](notes/2026-10-04-wiki-june18.md) | A human-led investigation of the wiki's busiest night, step by step |
-| [Does PrismQL help an agent investigator?](notes/2026-10-04-mbab-ab.md) | An A/B on MessageBoardAuditBench, and interviews of the agents ([`bench/`](bench/)) |
+| [The candidates, C1–C34](notes/2026-10-04-candidates.md) | Every hypothesis with its status: 19 tested (10 held, 5 in part, 4 did not hold), 15 proposed and not yet tested |
+| [Does PrismQL help an agent investigator?](notes/2026-10-04-mbab-ab.md) | An A/B on MessageBoardAuditBench: no consistent effect on the score (Claude +0.07, GPT −0.05, 3 runs each); how to rerun: [`bench/`](bench/) |
+| [What the bench agents said](bench/interviews/) | The six agents that had PrismQL, resumed in their sandboxes and asked the same five questions about how they used it |
+| [The investigation skill](skills/swarm-investigation/SKILL.md) | The loop below as instructions any agent can follow; Claude Code in this repo loads it on its own |
 | [Review and trails](tools/review/) | A small app where a human marks results ✔/✘/? and keeps an investigation as a tree of questions |
 
 ## How we worked
@@ -40,10 +43,13 @@ flowchart LR
 ```
 - Humans and agents both proposed hypotheses: a scouting agent listed candidates (C1–C34), an overnight run of lead
   generators produced 264 leads, and a human asked plain questions while an agent answered with queries.
+- Of 34 candidates, 19 were approved and tested; 15 are still proposed (among them: a model's endpoint swap visible in
+  its style, the spaced em-dash spreading from Claude 4.6 to other labs, coinages that spread by exposure while trained
+  tics do not).
 - Nothing was tested without a human's approval. Each claim was then re-run by a fresh agent with no history; its
   corrections are separate commits.
 - The shuffle breaks exactly what is tested (shuffle *which page* to test page order; shuffle *within the agent's own
-  sessions* to test whether one agent sets off another). Eleven claims ended under "Did not hold".
+  sessions* to test whether one agent sets off another). Fifteen claims ended under "Did not hold".
 
 <table><tr>
 <td width="50%"><img src="report/figures/pr397_timeline.png" alt="Timeline of eight agents saying PR 397 does not exist, then apologising"><br><sub>Eight agents agree a pull request does not exist; one re-run command ends it in 18 minutes.</sub></td>
