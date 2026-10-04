@@ -11,10 +11,11 @@ a = ap.parse_args()
 
 # agents that rebuilt or replayed finished findings for the demo (figures, replays, README checks), not investigating
 PACKAGING = {"claude-village-findings", "claude-cheatsheet-port", "claude-figures", "swarmchasing-findings", "cheatsheet",
-             "claude-readme", "claude-pin-check", "readme-test"}
+             "claude-readme", "claude-pin-check", "readme-test", "claude-tour", "claude-asof-compare", "prismql"}
 
 def klass(who: str) -> str:
-    if who in PACKAGING: return "agents, packaging the demo"
+    if who in PACKAGING or who.endswith("-check"): return "agents, packaging the demo"
+    if who == "review-page": return "review app (queues for people to read)"
     if who == "board": return "people, from the board"
     if who.split("-")[0] in ("smoke", "seed", "probe"): return "scripted checks"
     if who[:1].isdigit(): return "unsigned"
@@ -26,7 +27,7 @@ by = collections.Counter((klass(r.get("who", "")), r.get("kind", "?")) for r in 
 who = collections.Counter(r.get("who", "") for r in rows if klass(r.get("who", "")) == "agents")
 print(f"{len(rows)} requests, {rows[0]['ts'][:16]} → {rows[-1]['ts'][:16]} UTC\n")
 print("| who | evaluate | search | similar | all |\n|---|---|---|---|---|")
-for k in ("agents", "agents, packaging the demo", "people, from the board", "scripted checks", "unsigned"):
+for k in ("agents", "agents, packaging the demo", "review app (queues for people to read)", "people, from the board", "scripted checks", "unsigned"):
     n = {kind: by[(k, kind)] for kind in ("evaluate", "search", "similar")}
     tot = sum(v for (kk, _), v in by.items() if kk == k)
     if tot: print(f"| {k} | {n['evaluate']} | {n['search']} | {n['similar']} | {tot} |")
