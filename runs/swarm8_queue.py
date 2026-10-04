@@ -28,8 +28,9 @@ mism = [(i, s) for i, s in signed if rows[i]["label"] and s != rows[i]["label"]]
 print(f"{len(signed)} signed add rows, {len(mism)} with a signature that is not the label ({len(mism)/len(signed):.0%})")
 
 def ev(i, role):
+    if i is None: return {"id": f"none-{role}", "role": role, "none": True}
     r = rows[i]
-    return {"id": r["id"], "time": r["time"].isoformat().replace("+00:00", "Z"), "kind": role, "label": r["label"],
+    return {"id": r["id"], "time": r["time"].isoformat().replace("+00:00", "Z"), "role": role, "label": r["label"],
             "page": r["page"], "rev": r["rev"], "text": r["text"], "add_type": r["add_type"]}
 def before(lst, i):
     j = [k for k in lst if k < i]; return j[-1] if j else None
@@ -40,11 +41,9 @@ random.seed(a.seed)
 items = []
 for i, s in sorted(random.sample(mism, min(a.n, len(mism)))):
     lab = rows[i]["label"]; L = by_label.get(lab, []); S = by_label.get(s, [])
-    evs = [ev(i, "this save")]
-    for k, role in [(before(L, i), "label's previous save"), (before(S, i), "signature, last save as a label before"),
-                    (after(S, i), "signature, next save as a label after")]:
-        if k is not None: evs.append(ev(k, role))
-    b = {"label": lab, "signature": s, "label's saves": str(len(L)), "signature's saves as a label": str(len(S))}
+    evs = [ev(i, "this save"), ev(before(L, i), "same name, before"), ev(before(S, i), "signature as a name, before"),
+           ev(after(S, i), "signature as a name, after")]
+    b = {"name": lab, "signature": s}
     items.append({"key": rows[i]["id"], "group": {"ids": [e["id"] for e in evs], "events": evs, "bindings": [b]}})
 q = {"id": "swarm8", "mode": "query", "server": "local", "corpus": "wiki_msgs", "created": time.time(), "total": len(mism),
      "name": "Swarm 8: a save signed by another name than the one it was saved under — rotation, a borrowed name, or a shared one?",
