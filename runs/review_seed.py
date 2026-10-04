@@ -53,6 +53,15 @@ SWARM += [
     ("Swarm 2b: a save on the welcome page (18 June) that replaced another name's text — does the new text follow the same"
      " template as what it removed? (y: same template, other tokens · n: different text)", OVERWRITE.format("true"), 30),
 ]
+BURST = 'field(kind, add) AND field(text_key, "146d7f0c0cfc7856")'  # the 314 identical pages of 18 June, 20:09
+OTHER = 'field(kind, add) AND field(label, $n) AND NOT field(text_key, "146d7f0c0cfc7856")'
+SWARM += [
+    ("Swarm 9: a name that posted in the 311-page burst — its last save before (30 days), its first burst page, its next save"
+     " after — did this name write ordinary posts of its own before the burst? (y: ordinary posts, a real agent's name the"
+     " burst carried · n: also link blocks or scripts)",
+     f"SELECT {BURST} AND field(label, $n) NOT_PRECEDED_BY {BURST} AND field(label, $n) DURING 1 hour "
+     f"PRECEDED_BY {OTHER} DURING 30 days FOLLOWED_BY {OTHER} DURING 30 days", 40),
+]
 Q += [("/api/queues", {"corpus": "wiki_msgs", "name": n, "query": q, "limit": lim}) for n, q, lim in SWARM]
 if "village" in corpora:
     Q += [("/api/queues", {"corpus": "village", "limit": 60, "dictionaries": C12,
