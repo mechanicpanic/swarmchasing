@@ -10,7 +10,7 @@ else
 PY  := uv run --no-project --with "polars>=1.44,<2" --with "pyarrow>=15" python
 PQ  := prismql
 PQS := prismql-server
-PYQ := uv run --no-project --with "prismql @ git+https://github.com/mechanicpanic/prismql@541aaae" --with "polars>=1.44,<2" --with "pyarrow>=15" python
+PYQ := uv run --no-project --with "prismql @ git+https://github.com/mechanicpanic/prismql@7a6975c" --with "polars>=1.44,<2" --with "pyarrow>=15" python
 endif
 demo: wiki-data wiki wiki-msgs  ## first run on a fresh clone: the public wiki export → three corpora → server + board on :8931
 	$(PQS) --config prismql.demo.toml $(if $(PORT),--port $(PORT))
