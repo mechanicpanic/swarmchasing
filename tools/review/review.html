@@ -35,7 +35,7 @@ section#view{padding:16px 20px;overflow:auto;min-width:0}
 .chip{background:var(--chip);border-radius:999px;padding:2px 9px;font-size:12px}
 .ev{border-left:3px solid var(--line);padding:6px 10px;margin:6px 0}
 .ev.anchor{border-left-color:var(--accent);background:var(--chip)}
-.ev .h{font-size:12px;color:var(--muted)} .ev .h b{color:var(--ink)}
+.ev .h{font-size:12px;color:var(--muted);overflow-wrap:anywhere} .ev .h b{color:var(--ink)}
 .ev .x{white-space:pre-wrap;word-break:break-word;margin-top:2px}
 /* a wiki save's added / removed text, shown as a diff */
 .ev.add{border-left-color:#2f8f46} .ev.add .x{background:#e9f7ec}
@@ -45,8 +45,9 @@ section#view{padding:16px 20px;overflow:auto;min-width:0}
 .qbox .kw{color:#5b3cc4;font-weight:600} .qbox .op{color:#b4387a;font-weight:700} .qbox .fn{color:#1f6fb2}
 .qbox .var{color:#b35c00;font-weight:600} .qbox .str{color:#2f7d32} .qbox .num{color:#8a5a00}
 .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:10px} .cols>div{min-width:0}
+.ev.none{border-left-style:dashed;opacity:.6}
 .cols .colh{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-@media (max-width:800px){.cols{grid-template-columns:1fr}}
+@media (max-width:800px){.cols{grid-template-columns:1fr !important}}
 .ev .why{font-size:11px;color:var(--muted);margin-top:3px}
 mark{background:var(--hl);color:inherit;border-radius:2px}
 .verdict{display:flex;gap:8px;align-items:center;flex-wrap:wrap;position:sticky;bottom:0;background:var(--bg);padding:10px 0}
@@ -121,17 +122,17 @@ function highlight(text, why) {
 }
 function evHtml(e, why, opts={}) {
   const who = e.agent ?? e.actor ?? e.label ?? "", kind = e.kind ?? "";
-  const where = [e.page, e.add_type && `add_type ${e.add_type}`].filter(Boolean).map(esc).join(" · ");
-  const preds = (why||[]).map(p => p.predicate + (p.score ? ` (${p.score})` : "")).join(" · ");
+  const where = [e.page, e.add_type === "copy" && "copy of someone else's text"].filter(Boolean).map(esc).join(" · ");
   const diff = kind === "add" || kind === "remove", sign = kind === "add" ? "+ " : "− ";
   const mark = h => diff ? h.split("\n").map(l => `<span class="sign">${sign}</span>${l}`).join("\n") : h;
+  if (e.none) return `<div class="ev none"><div class="x small">none</div></div>`;
+  const showKind = kind && !diff && !opts.inCol;
   return `<div class="ev ${opts.anchor ? "anchor" : ""} ${diff ? kind : ""}">
-    <div class="h"><b>${esc(who)}</b> · ${esc(kind)} · ${esc(String(e.time||"").replace("T"," ").slice(0,19))}${e.room ? " · #"+esc(e.room) : ""}${where ? " · "+where : ""}
-      ${opts.ctx ? ` · <a href="#" data-ctx="${esc(e.id)}">context</a>` : ""}</div>
+    <div class="h"><b>${esc(who)}</b>${showKind ? " · "+esc(kind) : ""} · ${esc(String(e.time||"").replace("T"," ").slice(0,19))}${e.room ? " · #"+esc(e.room) : ""}</div>
+    <div class="h small">${where}${opts.ctx ? `${where ? " · " : ""}<a href="#" data-ctx="${esc(e.id)}">context</a>` : ""}</div>
     ${(() => { const t = String(e.text ?? ""); return t.length > 900 && !diff
       ? `<details class="x"><summary>${mark(esc(t.slice(0,300)))}… <span class="small">(${t.length.toLocaleString()} chars, click to expand)</span></summary>${mark(highlight(t, why))}</details>`
       : `<div class="x">${mark(highlight(t, why))}</div>`; })()}
-    ${preds ? `<div class="why">matched: ${esc(preds)}</div>` : ""}
     <div class="ctxbox" id="ctx-${esc(e.id)}"></div></div>`;
 }
 
@@ -189,12 +190,11 @@ function groupHtml(g) {
   const ev = (g.events||[]).map((e,i) => [e, (g.explain||[])[i]]);
   const rm = ev.filter(([e]) => e.kind === "remove"), ad = ev.filter(([e]) => e.kind === "add");
   const oneSave = rm.length && ad.length && new Set(ev.map(([e]) => e.rev)).size === 1;
-  const html = xs => xs.map(([e,w]) => evHtml(e, w, {ctx:true})).join("");
-  if (oneSave && COLS) return `<div class="small">one save, ${esc(ev[0][0].rev)} — press c for one column</div>
-    <div class="cols"><div><div class="colh">removed</div>${html(rm)}</div><div><div class="colh">added</div>${html(ad)}</div></div>`;
-  if (ev.length > 1 && COLS) return `<div class="small">${ev.length} events, in order — press c for one column</div>
-    <div class="cols">${ev.map(([e,w],i) => `<div><div class="colh">event ${i+1}${e.kind ? " · "+esc(e.kind) : ""}</div>${evHtml(e, w, {ctx:true})}</div>`).join("")}</div>`;
-  return (ev.length > 1 ? `<div class="small">press c for columns</div>` : "") + html(oneSave ? [...rm, ...ad] : ev);
+  const html = (xs, inCol) => xs.map(([e,w]) => evHtml(e, w, {ctx:true, inCol})).join("");
+  if (oneSave && COLS) return `<div class="small">one save, ${esc(ev[0][0].rev)}</div>
+    <div class="cols"><div><div class="colh">removed</div>${html(rm, true)}</div><div><div class="colh">added</div>${html(ad, true)}</div></div>`;
+  if (ev.length > 1 && COLS) return `<div class="cols" style="grid-template-columns:repeat(${Math.min(ev.length, 4)},minmax(0,1fr))">${ev.map(([e,w],i) => `<div><div class="colh">${esc(e.role || (i+1) + (e.kind ? " · "+e.kind : ""))}</div>${evHtml(e, w, {ctx:true, inCol:true})}</div>`).join("")}</div>`;
+  return html(oneSave ? [...rm, ...ad] : ev);
 }
 function tallyHtml() {
   const t = Q.tally;
