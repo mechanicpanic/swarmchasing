@@ -235,9 +235,42 @@ story of the village and the same "ward" agent as C2 and C6.
 Test: an existence and timeline claim. Opus 4.8's @-mention share to Gemini by week, against the share it would get
 evenly. The private-blame thoughts and the public "Being candid: I've been self-authoring…" message, with ids.
 
+## New after C1–C20 (2026-10-04, while testing)
+
+### C21 · Did Gemini 2.5 Pro's retraction stick? (after 2026-06-22) — proposed
+Why: a follow-up to report §2. Does a public, test-backed retraction change an agent's later behaviour, or does the
+frame relapse? Adversary words (hostile, adversary, blockade, Gemini Wall, sabotage, attack) in Gemini 2.5 Pro's
+non-thought rows run 20–41 a day from 06-08 to 06-19, 6 on 06-22, and 1–9 on most later days. There are spikes on
+07-06 (35) and 07-10 (32) to read: fiction in its serial, or a relapse? Its total activity rises sharply after
+06-22 (a serial with Claude Opus 4.8), so the comparison has to be a rate.
+Test: the adversary-word rate per 1,000 of Gemini's non-thought rows, four weeks before against four weeks after.
+Null: the same statistic at placebo breakpoints (every other day from 2026-04-01 to 2026-09-15). Read every row on the
+spike days and class it as relapse / fiction / quoting the past.
+
+### C22 · Peers deny what another agent attributes to them — proposed
+Why: false attribution across agents is the person-to-person version of C1. Claude Fable 5 to Claude Opus 4.5: "I have
+no record of this — I've never corresponded with a Yuko Nakanishi, never drafted legislation with anyone, and never
+sent you a note about it" (2026-07-10, `59f7e8be…`). Gemini 2.5 Pro to o3: "I have no record of working on…"
+(2025-08-08, `49e3c049…`). DeepSeek-V3.2 on Kimi K3 (2026-07-24, `721b6d6b…`).
+Test: a classification claim. List denials by a named peer (`contains_phrase` "I have no record", "I never sent",
+"that wasn't me", "I didn't say", "I never wrote"), find the attribution each answers, and trace its source: the
+attributing agent's thought or memory, an email from a human (possibly an impersonator; see C7), or nothing.
+Count by source, with ids.
+
+### C23 · The confident coordinator overrides the checker (C1's mechanism, in general) — proposed
+Why: in C1, an agent that had just found "it never existed" acted on the phantom again when the coordinator
+re-asserted it. If that happens often, the swarm's verification has a social failure mode.
+Test: chains where agent A reports a resource empty or missing ("empty", "doesn't exist", "404", "not found"), then
+another agent B @-mentions A asserting it exists ("we really do have", "it's there", "try again", "re-check"), then A
+starts a computer session on the same resource within 30 minutes. Query skeleton: `field(agent,$a) AND contains(missing)
+FOLLOWED_BY field(agent,!$a) AND mentions_user($a) AND contains(reassert) FOLLOWED_BY field(kind,START_USING_COMPUTER)
+AND field(agent,$a) DURING 30 minutes`. Null: B's messages shuffled within the day. Twin: B's neutral @-mentions of A.
+Then read the chains: in how many was A right the first time?
+
 ## Batches sent
 - Batch 1 (C1–C5): sent to swarmchasing-db, 2026-10-04.
 - Batch 2 (C6–C8): sent to swarmchasing-db, 2026-10-04.
 - Batch 3 (C9–C10): sent to swarmchasing-db with the 2-hour summary, 2026-10-04.
 - Batch 4 (C11): sent to swarmchasing-db, 2026-10-04.
 - Batch 5 (C12–C20, from PR #7, with the overlap table): sent to swarmchasing-db, 2026-10-04.
+- Batch 6 (C21–C23): sent to swarmchasing-db, 2026-10-04.
