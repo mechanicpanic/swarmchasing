@@ -138,7 +138,7 @@ the language's traps.
 | [`skills/`](skills/) | the two skills for agents |
 | [`tools/review/`](tools/review/) | review and trails |
 | [`logs/server-journal.jsonl`](logs/server-journal.jsonl) | every query the server answered (below) |
-| [`WRITEUP.md`](WRITEUP.md) | our writeup |
+| [`writeup/`](writeup/) | our writeup: [`WRITEUP.md`](writeup/WRITEUP.md), written by hand, and [`FINDINGS.md`](writeup/FINDINGS.md), the findings written by an agent |
 
 ## Data
 Nothing here is committed; everything lands in `data/`. Six corpora, one section each in [`prismql.toml`](prismql.toml); `make demo` builds `wiki`, `revisions` and `wiki_msgs`:

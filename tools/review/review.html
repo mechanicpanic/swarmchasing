@@ -33,6 +33,10 @@ section#view{padding:16px 20px;overflow:auto;min-width:0}
 .meta{color:var(--muted);font-size:12px;margin-bottom:8px}
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
 .chip{background:var(--chip);border-radius:999px;padding:2px 9px;font-size:12px}
+/* each bound variable has a colour; its value is marked in the same colour wherever it appears in the card */
+.b0{background:#ffe7c2;border-radius:3px;padding:0 2px} .b1{background:#d6ecff;border-radius:3px;padding:0 2px}
+.b2{background:#e3f6d3;border-radius:3px;padding:0 2px} .b3{background:#f6dcf0;border-radius:3px;padding:0 2px}
+.chip.b0,.chip.b1,.chip.b2,.chip.b3{padding:2px 9px;border-radius:999px}
 .ev{border-left:3px solid var(--line);padding:6px 10px;margin:6px 0}
 .ev.anchor{border-left-color:var(--accent);background:var(--chip)}
 .ev .h{font-size:12px;color:var(--muted);overflow-wrap:anywhere} .ev .h b{color:var(--ink)}
@@ -120,15 +124,24 @@ function highlight(text, why) {
   for (const [s,e] of spans) { if (s < at) continue; out += esc(text.slice(at,s)) + "<mark>" + esc(text.slice(s,e)) + "</mark>"; at = e; }
   return out + esc(text.slice(at));
 }
+let BIND = [];  // [[value, colour index], ...] of the open group
+function bindMark(h) {
+  for (const [v, k] of BIND) {
+    const ev = esc(v); if (!ev) continue;
+    h = h.split(ev).join(`<span class="b${k}">${ev}</span>`);
+  }
+  return h;
+}
 function evHtml(e, why, opts={}) {
   const who = e.agent ?? e.actor ?? e.label ?? "", kind = e.kind ?? "";
-  const where = [e.page, e.add_type === "copy" && "copy of someone else's text"].filter(Boolean).map(esc).join(" · ");
+  const where = [e.page, e.add_type === "copy" && "copy of someone else's text",
+                 e.add_type === "readd" && "this text was on this page before (re-added)"].filter(Boolean).map(esc).join(" · ");
   const diff = kind === "add" || kind === "remove", sign = kind === "add" ? "+ " : "− ";
-  const mark = h => diff ? h.split("\n").map(l => `<span class="sign">${sign}</span>${l}`).join("\n") : h;
+  const mark = h => { h = bindMark(h); return diff ? h.split("\n").map(l => `<span class="sign">${sign}</span>${l}`).join("\n") : h; };
   if (e.none) return `<div class="ev none"><div class="x small">none</div></div>`;
   const showKind = kind && !diff && !opts.inCol;
   return `<div class="ev ${opts.anchor ? "anchor" : ""} ${diff ? kind : ""}">
-    <div class="h"><b>${esc(who)}</b>${showKind ? " · "+esc(kind) : ""} · ${esc(String(e.time||"").replace("T"," ").slice(0,19))}${e.room ? " · #"+esc(e.room) : ""}</div>
+    <div class="h"><b>${bindMark(esc(who))}</b>${showKind ? " · "+esc(kind) : ""} · ${esc(String(e.time||"").replace("T"," ").slice(0,19))}${e.room ? " · #"+esc(e.room) : ""}</div>
     <div class="h small">${where}${opts.ctx ? `${where ? " · " : ""}<a href="#" data-ctx="${esc(e.id)}">context</a>` : ""}</div>
     ${(() => { const t = String(e.text ?? ""); return t.length > 900 && !diff
       ? `<details class="x"><summary>${mark(esc(t.slice(0,300)))}… <span class="small">(${t.length.toLocaleString()} chars, click to expand)</span></summary>${mark(highlight(t, why))}</details>`
@@ -186,6 +199,16 @@ function hlQuery(q) {
   return out.replace(/^\s+/, "").replace(/ \n/g, "\n");
 }
 let COLS = true; try { COLS = localStorage.getItem("review-cols") !== "0"; } catch (e) {}
+function gap(ms) {
+  const s = Math.round(Math.abs(ms) / 1000), m = Math.round(s / 60), h = Math.floor(s / 3600), d = Math.floor(s / 86400);
+  const t = s < 60 ? `${s} s` : s < 3600 ? `${m} min` : s < 86400 ? `${h} h ${Math.round((s % 3600) / 60)} min` : `${d} d ${Math.floor((s % 86400) / 3600)} h`;
+  return ms < 0 ? `${t} earlier` : `${t} later`;
+}
+function colHead(ev, i) {
+  const t = Date.parse(ev[i][0].time), t0 = i ? Date.parse(ev[i-1][0].time) : NaN;
+  const clock = String(ev[i][0].time || "").slice(11, 19);
+  return `${i+1} · ${clock}${i && !isNaN(t) && !isNaN(t0) ? " · " + gap(t - t0) : ""}`;
+}
 function groupHtml(g) {
   const ev = (g.events||[]).map((e,i) => [e, (g.explain||[])[i]]);
   const rm = ev.filter(([e]) => e.kind === "remove"), ad = ev.filter(([e]) => e.kind === "add");
@@ -193,7 +216,7 @@ function groupHtml(g) {
   const html = (xs, inCol) => xs.map(([e,w]) => evHtml(e, w, {ctx:true, inCol})).join("");
   if (oneSave && COLS) return `<div class="small">one save, ${esc(ev[0][0].rev)}</div>
     <div class="cols"><div><div class="colh">removed</div>${html(rm, true)}</div><div><div class="colh">added</div>${html(ad, true)}</div></div>`;
-  if (ev.length > 1 && COLS) return `<div class="cols" style="grid-template-columns:repeat(${Math.min(ev.length, 4)},minmax(0,1fr))">${ev.map(([e,w],i) => `<div><div class="colh">${esc(e.role || (i+1) + (e.kind ? " · "+e.kind : ""))}</div>${evHtml(e, w, {ctx:true, inCol:true})}</div>`).join("")}</div>`;
+  if (ev.length > 1 && COLS) return `<div class="cols" style="grid-template-columns:repeat(${Math.min(ev.length, 4)},minmax(0,1fr))">${ev.map(([e,w],i) => `<div><div class="colh">${esc(e.role || colHead(ev, i))}</div>${evHtml(e, w, {ctx:true, inCol:true})}</div>`).join("")}</div>`;
   return html(oneSave ? [...rm, ...ad] : ev);
 }
 function tallyHtml() {
@@ -203,14 +226,17 @@ function tallyHtml() {
 
 function render() {
   if (!Q) return;
+  BIND = [];
   const it = Q.items[idx]; const v = it?.verdict;
   const dots = Q.items.map((x,i) => `<div class="dot ${x.verdict?.verdict||""} ${i===idx?"cur":""}" data-i="${i}" title="${i+1}"></div>`).join("");
   let body = "";
   if (!it) body = '<p class="small">Queue is empty.</p>';
   else if (Q.mode === "query") {
     const g = it.group, b = g.bindings || [];
-    body = `<div class="card"><div class="meta">group ${idx+1} of ${Q.items.length} (query found ${Q.total})</div>
-      ${b.length ? `<div class="chips">${b.map(a => Object.entries(a).map(([k,v]) => `<span class="chip">$${esc(k)} = ${esc(v)}</span>`).join("")).join('<span class="small">or</span>')}</div>` : ""}
+    const vars = b.length ? Object.entries(b[0]) : [];
+    BIND = vars.map(([k, v], i) => [String(v), i % 4]).filter(([v]) => v.length > 2);
+    body = `<div class="card"><div class="meta">group ${idx+1} of ${Q.items.length} · ${Q.total ?? Q.items.length} found</div>
+      ${vars.length ? `<div class="chips">${vars.map(([k,v], i) => `<span class="chip b${i % 4}">$${esc(k)} = ${esc(v)}</span>`).join("")}</div>` : ""}
       ${groupHtml(g)}</div>`;
   } else {
     const c = it.claim;
