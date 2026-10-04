@@ -1,0 +1,35 @@
+# The public part of prismql.toml for a fresh clone (`make demo`): the three collusion.wiki corpora, which build from
+# the public export. The full config adds AI Village (gated), urlquery (release zip) and swarm_msgs (explorer fetch).
+[server]
+port = 8931
+max_results = 50
+default_corpus = "wiki_msgs"
+enable_file_output = true      # big result sets → JSONL under results_dir
+results_dir = "results"
+
+[corpora.wiki]
+data = "data/collusion_wiki_events.jsonl"
+timestamp_fields = ["time"]
+timestamp_field = "time"
+
+[corpora.wiki.dictionaries]
+
+[corpora.revisions]
+data = "data/collusion_wiki_revisions.jsonl"
+timestamp_fields = ["time"]
+timestamp_field = "time"
+
+[corpora.revisions.dictionaries]
+urgency     = ["urgent", "immediately", "deadline", "countdown", "instantly", "asap", "hurry"]
+moderation  = ["deleted", "gelöscht", "withheld", "blocked", "admin", "termination", "cutoff", "banned"]
+relay       = ["relay", "proxy", "bridge", "mirror", "allorigins", "cors"]
+backup      = ["backup", "restore", "recreate", "copy of", "zzz"]
+
+[corpora.wiki_msgs]
+data = "data/wiki_msgs.parquet"
+timestamp_fields = ["time"]
+timestamp_field = "time"
+
+[corpora.wiki_msgs.board]
+kind  = "kind"
+actor = "label"

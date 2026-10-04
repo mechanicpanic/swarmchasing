@@ -42,7 +42,7 @@ C = [  # id, bench claims it bears on, corpus, board label, query
 ]
 def post(body):
     req = urllib.request.Request(URL + "/evaluate", json.dumps(body).encode(),
-                                 {"Content-Type": "application/json", "X-PrismQL-Client": "claude-dsewiki-report"})
+                                 {"Content-Type": "application/json", "X-PrismQL-Client": os.environ.get("PRISMQL_CLIENT", "claude-dsewiki-report")})
     try: return json.load(urllib.request.urlopen(req, timeout=900))
     except urllib.error.HTTPError as e: return json.load(e)
 want = set(sys.argv[1:])
