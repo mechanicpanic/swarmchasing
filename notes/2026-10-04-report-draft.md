@@ -802,7 +802,51 @@ request: `dse~AgentTestUniqueSep14@2#0:add` sends `'UserName': 'ResearchHelperSe
 **Limits.** Owner and borrowed definitions are heuristic. The same-hour control depends on how control labels are
 drawn (about 1.0× to 1.5×). There is one mechanism row. `runs/null_twin.py` was not used; the nulls are bespoke.
 
-## 14. … *(sections from further approved candidates)*
+## 14. Restores on the wiki were re-post loops, not retaliation (C26, R2 re-tested, wiki)
+*Status: did not hold. Approved by Aleph, 2026-10-04. Not yet cold-verified.*
+
+**Question.** R2 counted 705 cases where another label removed an author's text and the author put it back on the
+same page within a minute. The Codex review found them to be whole-page alternation on one page in one evening. With
+its fixes, is there any restore effect left?
+
+**Method** (`runs/c26_restore/c26.py`, on `wiki_msgs`).
+- The author is the latest label that added the text on that page before the removal (recomputed).
+- Units are distinct restoring saves.
+- "Whole page" means the removed or added text equals the full page body (bodies from the revisions export).
+- Variants: *all* pairs; *msg*, where neither side is a whole page; *msgR*, where the restoring save also overwrites
+  less than half the page.
+- Each runs with and without `dse~WillkommenImWiki` (noHub) and June 18 (noJ18).
+- Null: whole saves permuted over the save slots of the same (day, page), n = 1,000; sensitivity on (5-min, page). The
+  author is recomputed in every shuffle.
+- R2 reproduces: 705 matches, 618–619 distinct saves. Server label `c26-r2-baseline-1min`; without the hub,
+  `c26-r2-nohub-*` gives 12 / 22 / 27 saves at 1 min / 10 min / 1 h.
+
+| Variant, scope | 1 min | 10 min | 1 h | Verdict |
+|---|---|---|---|---|
+| all, full | 992 (null 277 / 294) | 1,026 | 1,037 | clears, but see the reading |
+| msg, full | 96 (19 / 25) | 101 | 108 | clears; 93 of 96 are the hub on June 18 |
+| msg, no hub, no June 18 | **1** (0 / 1) | **3** (1 / 2; 5-min null 2 / 3) | **5** (1 / 3; 5-min null 4 / 5) | 1 min inside the null; a tiny excess against the day null only |
+| msgR, no hub, no June 18 | 0 | — | — | nothing to test |
+
+**Reading.** 956 of the 992 one-minute "restores" drop every line the remover added and are ≥0.9 similar to the
+author's own earlier body. In 94% of them the author made 10 or more saves on that page within ±10 minutes. These are
+re-post loops or stale-page saves, which the data cannot tell apart. Of the "message-level" ones, 47 are one label
+(AgentRelent, edit summary "rel") and 26 another, both looping. A few keep the other label's text and re-append
+their own numbered block every 3–10 s (e.g. `dse~WillkommenImWiki@222`, "resolve17"), a responsive script.
+- Off the hub and off June 18, about five episodes remain. Only one reads as possibly deliberate: a slow back-and-forth
+  over an intro line on `ApiReferencesForResearch` on May 26 (`@20` → `@24`, 13 minutes).
+- The clearest deliberate restore in the data, "restore live cohort status" after "HELLO COORD TEST" overwrote a relay
+  post (`dse~DataUSAPovertyDec09Cohort2028@3`, June 19), is a one-line page restored after 61 s. It falls outside R2's
+  shape.
+
+**Wording for the writeup:** the June 18 "restore war" was scripts re-posting their own page, not agents defending
+messages. Deliberate restores exist but are rare (single episodes).
+
+**Limits.** Exact equality decides "whole page", so near-whole overwrites (a changed random header) pass as
+message-level, and the stricter msgR variant is empty off the hub. Pages do not record which version the editor
+loaded. A label is not an agent.
+
+## 15. … *(sections from further approved candidates)*
 
 ## Did not hold
 - **C2(a): an agent's adversary frame does not trigger other agents' frame words within hours.** When each agent's
@@ -815,6 +859,8 @@ drawn (about 1.0× to 1.5×). There is one mechanism row. `runs/null_twin.py` wa
 - **C20 as the lead told it: an 8-week covert takeover with mutual private blame.** The takeover was 3–4 days and
   partly disclosed, and the "blame" thoughts are about other things (§9).
 - **C1 "for weeks" (the official summary).** Acted on for about 3 days, named for about two weeks (§4).
+- **C26 (R2 re-tested): authors restore their removed text.** Off the June 18 hub page: 1 / 3 / 5 restoring saves at
+  1 min / 10 min / 1 h, inside or barely above the null; the hub "restores" are re-post loops (§14).
 - **C28: the "name box" (a borrowed label ~3× likelier right after its owner posts).** Reproduces against
   time shuffles, but a same-hour control matches it (20.7% median vs 17.9% real); what remains is the owner going quiet (§13).
 - **C2's starting hypothesis that one agent's adversary frame spreads to others.** The words spread as jargon; the frame did not (§2).

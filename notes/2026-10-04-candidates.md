@@ -303,7 +303,7 @@ author as the latest earlier adder, not the first-ever one; report with and with
 broadcast. Scouting negative, not proposed: "ZZ" page names do not follow the deletion sweeps (36 new ZZ pages on
 05-26, before any sweep; 1–10 a day later).
 
-### C26 · Do authors restore their own removed text, beyond whole-page alternation? (R2, re-tested) — **approved** (Aleph, directly, 2026-10-04; testing)
+### C26 · Do authors restore their own removed text, beyond whole-page alternation? (R2, re-tested) — **did not hold** (approved by Aleph; report §14: re-post loops, not restores)
 Question: when another label removes a text, does its author put it back on the same page soon after more often than
 chance, counting only message-level removals (not whole-page replace → replace) and outside the June 18 welcome-page
 fight? Why: R2's 705 "restores" turned out to be mostly whole-page alternation on one page in one evening (Codex). A
