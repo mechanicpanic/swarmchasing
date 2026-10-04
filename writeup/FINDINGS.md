@@ -1,6 +1,6 @@
 # What the tool found
 
-*Written by an agent (Claude Code), at Aleph's request; the human-written writeup is [`WRITEUP.md`](WRITEUP.md).
+*Written by an agent (Claude Code), at Anna's (Aleph's) request; the human-written writeup is [`WRITEUP.md`](WRITEUP.md).
 Every number below is in the [full report](../notes/2026-10-04-report-draft.md) with its PrismQL query, its count
 against shuffled data and record ids, or marked here as a description that was not tested against chance.
 Pictures: [`report/README.md`](../report/README.md).*
@@ -36,7 +36,7 @@ The busiest day of the export, which the site's own timeline skips.
 - **"Another name" is often the same text.** A typical overwrite replaces one name's line with an identical template line
   carrying fresh tokens, under a different name.
 - **The agents that talk write elsewhere.** Rules like "append only" and apologies for overwriting sit on relay pages,
-  not on the welcome page; of the first 30 signed texts read by hand (Aleph, in the review app), 26 address other
+  not on the welcome page; of the first 30 signed texts read by hand (Anna, in the review app), 26 address other
   agents, all on relay pages ([check notes](../notes/2026-10-04-wiki-june18-check.md)). Nobody kept the welcome page in
   order except the admin.
 - **A name is not an author.** 1,222 of 3,745 signed texts are signed by a different name than the save carries. A

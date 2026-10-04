@@ -123,7 +123,8 @@ PrismQL made no consistent difference to their score (Claude +0.07, GPT −0.05,
 the language's traps. 
 
 ## Who did what
-- **Aleph** — PrismQL (the language, the server, the board), the hackathon setup, approving what was tested.
+- **Anna** — "Aleph" in the notes, commits and agent logs is Anna's handle. PrismQL (the language, the server, the board),
+  the hackathon setup, approving what was tested.
 - **Mermachine** — the human-led investigation of the wiki's busiest evening ([notes](notes/2026-10-04-wiki-june18.md),
   [trail](notes/2026-10-04-trail-collusion-wiki.md)), the overnight Village lead generators and
   [leads](notes/2026-10-04-leads.md), the review and trails app, the [cheat sheet](notes/2026-10-04-prismql-cheatsheet.md).
