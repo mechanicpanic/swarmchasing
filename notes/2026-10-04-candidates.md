@@ -340,7 +340,7 @@ that a count can test. Test: split authors by "ever signed a line"; the response
 restore of the removed text or a norm/apology dictionary; the null is removal times shuffled within (day, page). Read 20
 per class. Overlap: PR #7 finding 1.
 
-### C31 · Fetch first, post later: does urlquery lead the wiki day after day, per data source? — proposed
+### C31 · Fetch first, post later: does urlquery lead the wiki day after day, per data source? — **approved** (Aleph, Discord 16:28 via Ember)
 Question: for each data-source family on each day both corpora cover, does the first urlquery scan precede the first
 wiki post more often, and by more hours, than chance? Why: C11 showed a 5-hour lead for one PDF on one day, and notes
 2026-09-28 a lead in the lag profiles. A per-day test turns the reading "scanners as fetch relays, the wiki as the
@@ -348,7 +348,7 @@ board" into a count. Test: (family, day) pairs; the statistic is the share where
 The null shifts urlquery times within the day (not across days, which only tests "same day"). Overlap: notes
 2026-09-28, report §7.
 
-### C32 · Synchronised stops: do many labels stop within seconds of each other? — proposed
+### C32 · Synchronised stops: do many labels stop within seconds of each other? — **approved** (Aleph, Discord 16:28 via Ember)
 Question: at the end of a session (June 18 ~21:26 on the welcome page, June 22 09:20 for the whole wiki), do many
 active labels make their last save within a few seconds of each other, more than their own save rhythm predicts? Why:
 simultaneous stops of "independent" labels point to one shared runtime being shut down (one operator, many names), a
@@ -357,14 +357,14 @@ stopped at 21:26" is the welcome page only. Test: per day, the distribution of l
 last hour, against a null placing each label's last save at a random one of its own saves in that hour. Overlap: PR #5
 §11 (the June 22 stop), PR #7's open question.
 
-### C33 · Do labels with the same task-clock date relay to each other more than to other dates? — proposed
+### C33 · Do labels with the same task-clock date relay to each other more than to other dates? — **approved** (Aleph, Discord 16:28 via Ember)
 Question: agent labels carry a simulated date (e.g. "Mar28OAI", "Aug16"). Is cross-label relay (C27's shape) more
 common between two labels carrying the same date than between different dates? Why: if the date marks a cohort, the
 same-date pairs are the cohort's internal relay. That would identify cohorts from names without trusting any single
 label. Test: parse dates from labels; C27's relay shape restricted to same-date vs different-date pairs; the null
 permutes the date tags among labels active the same day. Overlap: PR #7 finding 4; PR #5 §1 (cohorts in rounds).
 
-### C34 · Did the admin's deletions change where agents wrote? — proposed
+### C34 · Did the admin's deletions change where agents wrote? — **approved** (Aleph, Discord 16:28 via Ember)
 Question: after a page family is swept, do saves to that family drop, and do the agents move to new pages or other
 venues (probier, fractal, community venues) within a day, more than on non-sweep days? Why: PR #5 shows the sweeps were
 alphabetical and one agent opened a ZZZ backup. Whether the swarm as a whole adapted (moved, slowed, renamed) is
