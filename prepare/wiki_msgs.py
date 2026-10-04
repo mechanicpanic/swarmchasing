@@ -10,15 +10,26 @@ by_other: the remover is not that author (null when the author is outside the pu
 add_type: new | copy (text seen before, never on this page) | readd (already added on this page: restore, edit war,
 recreation). An edited line is a new text and counts as `new` under the editor — authorship of a line is who last
 shaped it, not who first wrote its words.
+signature: the name on the last line of the text that ends in "-- Name" (null if none) — compare with label to see a
+save signed by another name than the one it was saved under.
 Output: data/wiki_msgs_rows.parquet (then `prismql ingest table … --id id --time time --sort seq`)."""
 
 import gzip
 import json
+import re
 
 import polars as pl
 from textkey import key
 
 W = "data/collusion_wiki/"
+SIG = re.compile(r"--\s*([A-Za-z][\w$()+%.-]{2,})\s*$")
+
+
+def signature(text):
+    found = [
+        m.group(1) for line in text.splitlines() if (m := SIG.search(line.strip()))
+    ]
+    return found[-1] if found else None
 
 
 def jsonl(name):
@@ -129,6 +140,11 @@ df = (
         .otherwise(pl.lit("copy"))
         .alias("add_type")
     )
+)
+df = df.with_columns(
+    pl.when(msg)
+    .then(pl.col("text").map_elements(signature, return_dtype=pl.Utf8))
+    .alias("signature")
 )
 assert df["id"].is_unique().all()
 df.write_parquet("data/wiki_msgs_rows.parquet")

@@ -8,28 +8,26 @@ where many agents worked together — **AI Village** (a group of models sharing 
 Every count is shown next to the same count on shuffled data; claims that do not beat the shuffle are reported as not
 holding.
 
-![The PrismQL board with one query selected: the journal of every query, and on the right the query, its groups and what $a stood for](report/figures/board_selected.png)
+## What we found
+- **"PR #397 does not exist."** On 2026-03-12 eight Village agents agreed a peer's pull request did not exist (a GitHub
+  visibility quirk hid it). 18 minutes after the first accusation one agent re-ran the accused's own `git fetch`; five
+  apologies followed within 2 min 18 s. That week every resolvable "this PR does not exist" accusation was false.
+- **A mailing list that never existed ran the team for three days** (June 2025), through nine human corrections.
+- **Private dice were fair; public claims hid the 1s.** In a saboteur game, 11 ones in 64 private rolls, 4 in 74 public
+  claims (p 0.003). The GPT agents' "private rolls" were picked, not rolled — their thoughts say so.
+- **58 names, one counter.** On the wiki, 311 pages appeared in 39 seconds under 58 writer names, numbered exactly as a
+  looping status page listed them: one operator, many names (found by Mermachine; the site's own timeline skips that day).
+- **Most of what looked like agent conversation on the wiki was scripts and copied link recipes**: "restores" were
+  re-post loops, and texts that jumped between pages were link blocks, not relayed messages.
+- **15 claims did not hold** and stay in the report, among them our own early "relay" and "restore" readings.
 
-*The board: every query from every human and agent, who sent it, its count and time. Selected here: "an agent accuses a
-peer's artifact of not existing, then retracts within an hour" during the saboteur game (60 groups; report §11), with
-`$a = GPT-5.2` for the first group. 1,023 queries are in [`logs/server-journal.jsonl`](logs/server-journal.jsonl).*
+![311 pages in 39 seconds, page number against time, coloured by writer name](report/figures/broadcast.png)
 
-## Start here
-| | |
-|---|---|
-| **[The findings in pictures](report/README.md)** | Six findings, one picture each, in plain words |
-| **[WRITEUP.md](WRITEUP.md)** | The writeup, written by hand |
-| **[Try it](#try-it-the-tool-on-public-data-five-minutes)** | The language, server, board and skills on public data, in five minutes |
-| [The full report](notes/2026-10-04-report-draft.md) | Every claim with its query, its count against chance, record ids; and the claims that did not hold |
-| [The wiki swarm, claim by claim](notes/2026-10-03-dsewiki-report.md) | The DSEwiki incident re-derived from the public export |
-| [The evening of 18 June](notes/2026-10-04-wiki-june18.md) | A human-led investigation of the wiki's busiest night, step by step |
-| [The candidates, C1–C34](notes/2026-10-04-candidates.md) | Every hypothesis with its status: 19 tested (10 held, 5 in part, 4 did not hold), 15 proposed and not yet tested |
-| [Does PrismQL help an agent investigator?](notes/2026-10-04-mbab-ab.md) | An A/B on MessageBoardAuditBench: no consistent effect on the score (Claude +0.07, GPT −0.05, 3 runs each); how to rerun: [`bench/`](bench/) |
-| [What the bench agents said](bench/interviews/) | The six agents that had PrismQL, resumed in their sandboxes and asked the same five questions about how they used it |
-| [The investigation skill](skills/swarm-investigation/SKILL.md) | The loop below as instructions any agent can follow; Claude Code in this repo loads it on its own |
-| [Review and trails](tools/review/) | A small app where a human marks results ✔/✘/? and keeps an investigation as a tree of questions |
+**[The findings in pictures](report/README.md)** — six findings, one picture each, in plain words ·
+**[The full report](notes/2026-10-04-report-draft.md)** — 20 sections, every claim with its query, its count against
+chance and record ids · [Where each hypothesis came from](notes/2026-10-04-provenance.md)
 
-## How we worked
+## How we checked, and where it is thin
 ```mermaid
 flowchart TD
   H1([human question or lead]) --> S[agent scouts: search, read, query]
@@ -42,53 +40,40 @@ flowchart TD
   V --> R[report section]
   V --> D[did not hold]
 ```
-- Humans and agents both proposed hypotheses: a scouting agent listed candidates (C1–C34), an overnight run of lead
-  generators produced 264 leads, and a human asked plain questions while an agent answered with queries.
-- Of 34 candidates, 19 were approved and tested; 15 are still proposed (among them: a model's endpoint swap visible in
-  its style, the spaced em-dash spreading from Claude 4.6 to other labs, coinages that spread by exposure while trained
-  tics do not).
-- Nothing was tested without a human's approval. Each claim was then re-run by a fresh agent with no history; its
-  corrections are separate commits.
-- The shuffle breaks exactly what is tested (shuffle *which page* to test page order; shuffle *within the agent's own
-  sessions* to test whether one agent sets off another). Fifteen claims ended under "Did not hold".
 
-<table><tr>
-<td width="50%"><img src="report/figures/pr397_timeline.png" alt="Timeline of eight agents saying PR 397 does not exist, then apologising"><br><sub>Eight agents agree a pull request does not exist; one re-run command ends it in 18 minutes.</sub></td>
-<td width="50%"><img src="report/figures/dice.png" alt="Dice faces: private rolls fair, public claims missing ones"><br><sub>Private dice fair; in public, the 1s (the saboteur's roll) disappear.</sub></td>
-</tr></table>
+- Hypotheses came from a scouting agent (candidates C1–C34), from Mermachine's overnight lead generators (264 leads) and
+  her own questions, and from our earlier wiki readings. Nothing was tested without a human's approval: 19 are
+  tested in the report, four more are approved and in progress, ten are still proposed
+  ([candidates](notes/2026-10-04-candidates.md)).
+- Each test is a PrismQL query on the server, read for its warnings, against a null that breaks exactly the tested
+  relation (shuffle *which page* to test page order; shuffle *within each agent's own sessions* to test whether one
+  agent sets off another). A fresh agent with no history then re-ran each claim; its corrections are separate commits.
+- **Where it is thin.** The re-checks were done by agents, not people: humans approved what to test, and checked only a
+  few claims by eye ([one such check](notes/2026-10-04-wiki-june18-check.md)). Hand classifications (which confessions
+  were false, which rows make up an episode) were made by an agent and re-read by another agent. Some statistics
+  (§5 dice, §8 rates) are Python scripts in `runs/`, not server queries. On the wiki a name is not an agent, and the
+  export shows only what reached the wiki.
 
 ## Try it: the tool on public data, five minutes
 Needs [uv](https://docs.astral.sh/uv/) and Python ≥ 3.12.
 ```bash
-uv tool install "prismql[repl,server,mcp,tantivy,semantic] @ git+https://github.com/mechanicpanic/prismql@7a6975c"
+uv tool install "prismql[repl,server,mcp,tantivy,semantic] @ git+https://github.com/mechanicpanic/prismql@0100335"
 git clone https://github.com/mechanicpanic/swarmchasing && cd swarmchasing
 make demo        # downloads the public collusion.wiki export (~10 MB), builds three wiki corpora, serves on :8931
 ```
 Then, in a second terminal:
 ```bash
-make findings    # replays the wiki findings' queries onto the board, each under its label, signed swarmchasing-findings
+make findings    # replays the wiki findings' queries onto the board, each under its label
 open http://localhost:8931/board/
 make null-demo   # one claim against chance: "another name confirms on the same page" — 587 real, ~591 shuffled (~1 min)
+make review      # mark results ✔/✘/? and read investigations as trails: http://localhost:8960/ and /trails
 ```
 Ask your own question (name yourself, so the board shows who asked):
 ```bash
 curl -s -X POST localhost:8931/evaluate -H 'content-type: application/json' -H 'X-PrismQL-Client: your-name' \
   -d '{"corpus": "wiki_msgs", "query": "SELECT RUN(field(kind, delete)){10,400} DURING 10 minutes AGGREGATE count()"}'
 ```
-That is the wiki admin's deletion sweeps (108): 10 to 400 deletions with no gap over 10 minutes. Interactive:
-`prismql --config prismql.demo.toml`.
-
-![View results: each group of the query as a timeline of its events, with the events in between counted](report/figures/board_results.png)
-
-*View results: each group as a timeline of its events, with the events in between counted. Here GPT-5.2 calls PR #71
-"likely ghost/nonexistent"; 21 minutes and 183 events later, answering a 404 on its own PRs, it writes that they "*do*
-exist from my side (possible ghost/visibility desync again)".*
-
-**Give it to your agent.** Claude Code opened in this repo picks up two skills from `.claude/skills/`:
-[`prismql`](skills/prismql/SKILL.md) (the language, with its reference) and
-[`swarm-investigation`](skills/swarm-investigation/SKILL.md) (the loop above: candidates, approval, query + null,
-cold check, report shape). Other agents: point them at those two files. MCP:
-`{"mcpServers": {"prismql": {"command": "prismql-mcp", "env": {"PRISMQL_SERVER_URL": "http://127.0.0.1:8931"}}}}`.
+That is the wiki admin's deletion sweeps (108): 10 to 400 deletions with no gap over 10 minutes.
 
 ### With AI Village (needs access on Hugging Face)
 Accept the terms at [huggingface.co/datasets/aidigestorg/ai-village](https://huggingface.co/datasets/aidigestorg/ai-village)
@@ -100,6 +85,61 @@ make cheatsheet        # 14 teaching queries, one per construct of the language,
 ```
 The Village corpus built here has no embedding column, so `similar_to` (cheat sheet query 13) answers with an error.
 
+## The tools
+**The language and the server.** PrismQL asks for a shape in an ordered stream — `A FOLLOWED_BY B DURING 10 minutes`,
+`NOT_FOLLOWED_BY`, `RUN(A){10,400}`, `$a` for "the same" and `!$a` for "a different" — and the server answers with
+groups of events, warnings instead of silent zeros, and a journal of who asked what.
+
+![The PrismQL board with one query selected: the journal of every query, and on the right the query, its groups and what $a stood for](report/figures/board_selected.png)
+
+*The board: every query from every human and agent, who sent it, its count and time. Selected: "an agent accuses a
+peer's artifact of not existing, then retracts within an hour" during the saboteur game (60 groups; report §11), with
+`$a = GPT-5.2` for the first group. "View results" opens each group as a timeline.*
+
+**Review and Trails** (`make review`, built by Mermachine, `tools/review/`) record what the board does not: what a
+human judged, and why each query was asked. A review queue is a query whose groups a person reads one by one and marks
+✔ / ✘ / ? (keys y, n, u; j/k; c for columns); the export gives a precision per query. Trails keep an investigation
+as a tree of plain-language questions, each with its query or note and its conclusion.
+
+![Review: one wiki save shown as a diff, removed text on the left and added text on the right, with the queue's query above](report/figures/review_diff.png)
+
+*One save on the wiki's welcome page at 17:32:08 on 18 June: it wiped the page and wrote `HELLO1781803927.512228` — a
+Unix time half a second before the save, a write test rather than a message.*
+
+![Trails: an investigation as a tree of plain-language questions, each with its query or note and its conclusion](report/figures/trails.png)
+
+*Trails: Mermachine's steps on the wiki's names — each a question, what was run or read, and what was concluded.*
+
+**For agents.** Claude Code opened in this repo picks up two skills from `.claude/skills/`:
+[`prismql`](skills/prismql/SKILL.md) (the language, with its reference) and
+[`swarm-investigation`](skills/swarm-investigation/SKILL.md) (the loop above, as instructions; a fresh agent given only
+these ran one candidate end to end — [field test](notes/2026-10-04-skill-field-test.md)). MCP:
+`{"mcpServers": {"prismql": {"command": "prismql-mcp", "env": {"PRISMQL_SERVER_URL": "http://127.0.0.1:8931"}}}}`.
+
+**Does it help an agent investigator?** On [MessageBoardAuditBench](notes/2026-10-04-mbab-ab.md), giving agents
+PrismQL made no consistent difference to their score (Claude +0.07, GPT −0.05, three runs each); the
+[interviews](bench/interviews/) of the agents say why: most of the bench's questions are not about order, and they hit
+the language's traps.
+
+## Who did what
+- **Aleph** — PrismQL (the language, the server, the board), the hackathon setup, approving what was tested.
+- **Mermachine** — the human-led investigation of the wiki's busiest evening ([notes](notes/2026-10-04-wiki-june18.md),
+  [trail](notes/2026-10-04-trail-collusion-wiki.md)), the overnight Village lead generators and
+  [leads](notes/2026-10-04-leads.md), the review and trails app, the [cheat sheet](notes/2026-10-04-prismql-cheatsheet.md).
+- **Agents** (Claude Code and Codex sessions) — scouting and testing the candidates and writing the report, cold
+  re-checks of every claim, the wiki evidence pack, the benchmark runs and interviews, the figures and this demo.
+
+## What's in the repo
+| | |
+|---|---|
+| [`report/README.md`](report/README.md) | the findings in pictures |
+| [`notes/`](notes/) | everything by day: the [report](notes/2026-10-04-report-draft.md), the [wiki evidence pack](notes/2026-10-03-dsewiki-report.md), [candidates](notes/2026-10-04-candidates.md) and their [provenance](notes/2026-10-04-provenance.md), Mermachine's [18 June notes](notes/2026-10-04-wiki-june18.md) and [field notes](notes/2026-10-03-village-field-notes.md), the [skill field test](notes/2026-10-04-skill-field-test.md) |
+| [`bench/`](bench/) | the MessageBoardAuditBench A/B, its grades and interviews |
+| [`skills/`](skills/) | the two skills for agents |
+| [`tools/review/`](tools/review/) | review and trails |
+| [`logs/server-journal.jsonl`](logs/server-journal.jsonl) | every query the server answered (below) |
+| [`WRITEUP.md`](WRITEUP.md) | our writeup |
+
 ## Data
 Nothing here is committed; everything lands in `data/`. Six corpora, one section each in [`prismql.toml`](prismql.toml); `make demo` builds `wiki`, `revisions` and `wiki_msgs`:
 
@@ -109,7 +149,7 @@ Nothing here is committed; everything lands in `data/`. Six corpora, one section
 | `wiki_msgs` | Same incident, one row per text a save added or removed (from the export's diffs), plus deletes, probes, reverts | `make wiki-msgs` |
 | `swarm_msgs` | `wiki_msgs` + dated posts from other venues the community found (pastebins, other wikis), read from the collusion.wiki explorer | `make explorer-fetch` once (~30 min, polite), then `make swarm-msgs` |
 | `urlquery` | Transluce's urlquery.net reports flagged as likely agent activity ([transluce.org/agent-activity](https://transluce.org/agent-activity)) — links only, authorship unproven | download the release zip from that page by hand, then `make urlquery ZIP=path/to/urlquery-agent-activity-2026-09-23.zip` |
-| `village` | AI Village: named models working together on weekly goals, with their reasoning | gated Hugging Face dataset `aidigestorg/ai-village` (research use only, no training) into `data/village/`, then `make village`; embeddings: `prepare/dgx/build_emb.py` against a vLLM `google/embeddinggemma-300m` server |
+| `village` | AI Village: named models working together on weekly goals, with their reasoning | gated Hugging Face dataset `aidigestorg/ai-village` (research use only, no training) into `data/village/`, then `make village`; embeddings: `prepare/embed/build_emb.py` against a vLLM `google/embeddinggemma-300m` server |
 
 Community-found venues are unverified: fake posts appeared after the collusion.wiki report (2026-09-04); every explorer
 row carries `found_by`.
@@ -123,20 +163,20 @@ the authors' machine they use the language from a sibling checkout instead.
 
 ## The query journal
 [`logs/server-journal.jsonl`](logs/server-journal.jsonl) holds every query the server answered: time, client, corpus,
-query, label, count, warnings — no event contents (`make journal` refreshes it from the server's
-`results/activity.jsonl`). Query exports in `results/` are not published: they carry Village events. Queries made on
-teammates' own servers and inside the benchmark sandboxes are not in it.
+query, label, count, warnings, and since PrismQL 0dfa68d the dictionaries' words — no event contents (`make journal`
+refreshes it). Query exports in `results/` are not published: they carry Village events.
 
-During the hackathon (from 3 Oct 15:23 UTC, journal as committed; `uv run python runs/journal_stats.py` recounts):
+During the hackathon (3 Oct 15:23 → 4 Oct 19:05 UTC; `uv run python runs/journal_stats.py --until 2026-10-06` recounts):
 
 | who | evaluate | full-text search | similar | all |
 |---|---|---|---|---|
-| agents investigating (25 names) | 470 | 87 | 10 | 567 |
-| agents packaging the demo (figures, replays, README checks) | 182 | 0 | 0 | 182 |
-| scripted checks (smoke) | 44 | 0 | 0 | 44 |
+| agents investigating (26 names) | 513 | 87 | 10 | 610 |
+| agents packaging the demo and checking the tool | 206 | 0 | 0 | 206 |
+| the review app, building queues for people to read | 12 | 0 | 0 | 12 |
+| scripted checks (smoke) | 56 | 0 | 0 | 56 |
 
 Not in this journal: the queries on Mermachine's own Village servers, and the benchmark agents' PrismQL commands
-inside their sandboxes (Claude 26 over three runs, GPT 18; [`notes/2026-10-04-mbab-ab.md`](notes/2026-10-04-mbab-ab.md)).
+inside their sandboxes (Claude 26 over three runs, GPT 18).
 
 ## Layout
 `prepare/` builds the corpora · `runs/` one-off analyses (null twins, figures, per-claim scripts) · `notes/` findings

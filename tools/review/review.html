@@ -35,8 +35,19 @@ section#view{padding:16px 20px;overflow:auto;min-width:0}
 .chip{background:var(--chip);border-radius:999px;padding:2px 9px;font-size:12px}
 .ev{border-left:3px solid var(--line);padding:6px 10px;margin:6px 0}
 .ev.anchor{border-left-color:var(--accent);background:var(--chip)}
-.ev .h{font-size:12px;color:var(--muted)} .ev .h b{color:var(--ink)}
+.ev .h{font-size:12px;color:var(--muted);overflow-wrap:anywhere} .ev .h b{color:var(--ink)}
 .ev .x{white-space:pre-wrap;word-break:break-word;margin-top:2px}
+/* a wiki save's added / removed text, shown as a diff */
+.ev.add{border-left-color:#2f8f46} .ev.add .x{background:#e9f7ec}
+.ev.remove{border-left-color:#c0392b} .ev.remove .x{background:#fbeaea;color:#7a2a20}
+.ev .x .sign{user-select:none;color:var(--muted)}
+.qbox{font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;background:#f7f8fb;border:1px solid var(--line);border-radius:6px;padding:10px 12px;margin:0 0 10px;white-space:pre-wrap;word-break:break-word}
+.qbox .kw{color:#5b3cc4;font-weight:600} .qbox .op{color:#b4387a;font-weight:700} .qbox .fn{color:#1f6fb2}
+.qbox .var{color:#b35c00;font-weight:600} .qbox .str{color:#2f7d32} .qbox .num{color:#8a5a00}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:10px} .cols>div{min-width:0}
+.ev.none{border-left-style:dashed;opacity:.6}
+.cols .colh{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:800px){.cols{grid-template-columns:1fr !important}}
 .ev .why{font-size:11px;color:var(--muted);margin-top:3px}
 mark{background:var(--hl);color:inherit;border-radius:2px}
 .verdict{display:flex;gap:8px;align-items:center;flex-wrap:wrap;position:sticky;bottom:0;background:var(--bg);padding:10px 0}
@@ -60,7 +71,7 @@ details summary{cursor:pointer;color:var(--muted);font-size:12px}
   <span class="sp"></span>
   <a href="/trails" style="color:var(--accent)">Trails →</a>
   <label class="small">reviewer <input id="reviewer" size="10" placeholder="your name"></label>
-  <span class="small">keys: <b>y</b> true · <b>n</b> false · <b>u</b> unsure · <b>j/k</b> next/prev · <b>/</b> note</span>
+  <span class="small">keys: <b>y</b> true · <b>n</b> false · <b>u</b> unsure · <b>j/k</b> next/prev · <b>c</b> columns · <b>/</b> note</span>
 </header>
 <main>
 <aside>
@@ -110,15 +121,18 @@ function highlight(text, why) {
   return out + esc(text.slice(at));
 }
 function evHtml(e, why, opts={}) {
-  const who = e.agent ?? e.actor ?? "", kind = e.kind ?? "";
-  const preds = (why||[]).map(p => p.predicate + (p.score ? ` (${p.score})` : "")).join(" · ");
-  return `<div class="ev ${opts.anchor ? "anchor" : ""}">
-    <div class="h"><b>${esc(who)}</b> · ${esc(kind)} · ${esc(String(e.time||"").replace("T"," ").slice(0,19))}${e.room ? " · #"+esc(e.room) : ""}
-      ${opts.ctx ? ` · <a href="#" data-ctx="${esc(e.id)}">context</a>` : ""}</div>
-    ${(() => { const t = String(e.text ?? ""); return t.length > 900
-      ? `<details class="x"><summary>${esc(t.slice(0,300))}… <span class="small">(${t.length.toLocaleString()} chars, click to expand)</span></summary>${highlight(t, why)}</details>`
-      : `<div class="x">${highlight(t, why)}</div>`; })()}
-    ${preds ? `<div class="why">matched: ${esc(preds)}</div>` : ""}
+  const who = e.agent ?? e.actor ?? e.label ?? "", kind = e.kind ?? "";
+  const where = [e.page, e.add_type === "copy" && "copy of someone else's text"].filter(Boolean).map(esc).join(" · ");
+  const diff = kind === "add" || kind === "remove", sign = kind === "add" ? "+ " : "− ";
+  const mark = h => diff ? h.split("\n").map(l => `<span class="sign">${sign}</span>${l}`).join("\n") : h;
+  if (e.none) return `<div class="ev none"><div class="x small">none</div></div>`;
+  const showKind = kind && !diff && !opts.inCol;
+  return `<div class="ev ${opts.anchor ? "anchor" : ""} ${diff ? kind : ""}">
+    <div class="h"><b>${esc(who)}</b>${showKind ? " · "+esc(kind) : ""} · ${esc(String(e.time||"").replace("T"," ").slice(0,19))}${e.room ? " · #"+esc(e.room) : ""}</div>
+    <div class="h small">${where}${opts.ctx ? `${where ? " · " : ""}<a href="#" data-ctx="${esc(e.id)}">context</a>` : ""}</div>
+    ${(() => { const t = String(e.text ?? ""); return t.length > 900 && !diff
+      ? `<details class="x"><summary>${mark(esc(t.slice(0,300)))}… <span class="small">(${t.length.toLocaleString()} chars, click to expand)</span></summary>${mark(highlight(t, why))}</details>`
+      : `<div class="x">${mark(highlight(t, why))}</div>`; })()}
     <div class="ctxbox" id="ctx-${esc(e.id)}"></div></div>`;
 }
 
@@ -151,6 +165,37 @@ async function openQueue(id, at) {
   store.set("review.queue", id); render(); loadQueues();
 }
 
+// PrismQL query: one leg per line, keywords / sequence operators / functions / $variables / strings coloured
+function hlQuery(q) {
+  const OPS = /^(NOT_FOLLOWED_BY|NOT_PRECEDED_BY|FOLLOWED_BY|PRECEDED_BY)$/;
+  const KW = /^(SELECT|AND|OR|NOT|DURING|INWINDOW|BETWEEN|AFTER|BEFORE|RUN|GROUP|BY|AGGREGATE|seconds?|minutes?|hours?|days?|weeks?)$/;
+  const FN = /^(field|contains|contains_phrase|similar_to|mentions_user|from|is_question|count|min|max|sum|avg|DAYS|HOURS|MINUTES|month)$/i;
+  const tok = /("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')|(!?\$[A-Za-z_]\w*)|([A-Za-z_][\w]*)|(\d+(?:\.\d+)?)|(\s+)|(.)/g;
+  let out = "", m;
+  while ((m = tok.exec(q))) {
+    const [t, str, v, w, n, sp] = m;
+    if (str) out += `<span class="str">${esc(str)}</span>`;
+    else if (v) out += `<span class="var">${esc(v)}</span>`;
+    else if (w && OPS.test(w)) out += `\n<span class="op">${w}</span>`;
+    else if (w && KW.test(w)) out += (/^(DURING|INWINDOW|BETWEEN)$/.test(w) ? "\n  " : "") + `<span class="kw">${w}</span>`;
+    else if (w && FN.test(w)) out += `<span class="fn">${esc(w)}</span>`;
+    else if (n) out += `<span class="num">${n}</span>`;
+    else if (sp) out += " ";
+    else out += esc(t);
+  }
+  return out.replace(/^\s+/, "").replace(/ \n/g, "\n");
+}
+let COLS = true; try { COLS = localStorage.getItem("review-cols") !== "0"; } catch (e) {}
+function groupHtml(g) {
+  const ev = (g.events||[]).map((e,i) => [e, (g.explain||[])[i]]);
+  const rm = ev.filter(([e]) => e.kind === "remove"), ad = ev.filter(([e]) => e.kind === "add");
+  const oneSave = rm.length && ad.length && new Set(ev.map(([e]) => e.rev)).size === 1;
+  const html = (xs, inCol) => xs.map(([e,w]) => evHtml(e, w, {ctx:true, inCol})).join("");
+  if (oneSave && COLS) return `<div class="small">one save, ${esc(ev[0][0].rev)}</div>
+    <div class="cols"><div><div class="colh">removed</div>${html(rm, true)}</div><div><div class="colh">added</div>${html(ad, true)}</div></div>`;
+  if (ev.length > 1 && COLS) return `<div class="cols" style="grid-template-columns:repeat(${Math.min(ev.length, 4)},minmax(0,1fr))">${ev.map(([e,w],i) => `<div><div class="colh">${esc(e.role || (i+1) + (e.kind ? " · "+e.kind : ""))}</div>${evHtml(e, w, {ctx:true, inCol:true})}</div>`).join("")}</div>`;
+  return html(oneSave ? [...rm, ...ad] : ev);
+}
 function tallyHtml() {
   const t = Q.tally;
   return `<div class="tally"><span class="y">✔ ${t.yes}</span><span class="no">✘ ${t.no}</span><span class="u">? ${t.unsure}</span><span>${t.todo} left</span>${t.precision!=null ? `<span><b>precision ${Math.round(t.precision*100)}%</b></span>` : ""}</div>`;
@@ -166,7 +211,7 @@ function render() {
     const g = it.group, b = g.bindings || [];
     body = `<div class="card"><div class="meta">group ${idx+1} of ${Q.items.length} (query found ${Q.total})</div>
       ${b.length ? `<div class="chips">${b.map(a => Object.entries(a).map(([k,v]) => `<span class="chip">$${esc(k)} = ${esc(v)}</span>`).join("")).join('<span class="small">or</span>')}</div>` : ""}
-      ${(g.events||[]).map((e,i) => evHtml(e, (g.explain||[])[i], {ctx:true})).join("")}</div>`;
+      ${groupHtml(g)}</div>`;
   } else {
     const c = it.claim;
     body = `<div class="card"><div class="meta">claim ${idx+1} of ${Q.items.length} · ${esc(c.id||"")} · ${esc(c.generator||"")} · ${esc(c.type||"")} · confidence ${esc(c.confidence||"?")}</div>
@@ -185,7 +230,7 @@ function render() {
   }
   $("#view").innerHTML = `<div class="bar"><b>${esc(Q.name)}</b> ${tallyHtml()} <span style="flex:1"></span>
       <a href="/api/export/${Q.id}" target="_blank">export</a></div>
-    ${Q.mode==="query" ? `<div class="small" style="margin-bottom:8px"><code>${esc(Q.query)}</code></div>` : ""}
+    ${Q.mode==="query" ? `<pre class="qbox">${hlQuery(Q.query)}</pre>` : ""}
     <div class="dots">${dots}</div>${body}
     <div class="verdict">
       <button class="yes ${v?.verdict==="yes"?"on":""}" data-v="yes">✔ true (y)</button>
@@ -254,7 +299,9 @@ $("#view").addEventListener("submit", async e => {
 document.addEventListener("keydown", e => {
   if (!Q || ["INPUT","TEXTAREA","SELECT"].includes(document.activeElement.tagName)) {
     if (e.key === "Escape") document.activeElement.blur(); return; }
-  const k = e.key.toLowerCase();
+  // by physical key, so the shortcuts work in any keyboard layout (e.g. Cyrillic)
+  const k = ({KeyY: "y", KeyN: "n", KeyU: "u", KeyJ: "j", KeyK: "k", KeyC: "c", Slash: "/"})[e.code] || e.key.toLowerCase();
+  if (k === "c") { COLS = !COLS; try { localStorage.setItem("review-cols", COLS ? "1" : "0"); } catch (err) {} render(); return; }
   if (k === "y" || k === "1") verdict("yes");
   else if (k === "n" || k === "2") verdict("no");
   else if (k === "u" || k === "3") verdict("unsure");

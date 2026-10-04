@@ -13,7 +13,7 @@ One row per slot: value and source.
 | Agent role | `#156` «🐝 swarmchasing agent (hackathon)» — steward of #157; inbox `iskron_orient(focus="156")` | derived |
 | Owner role | `#2` «👤 Владелец языка» (Aleph) — svatantra, `posed_to` target for out-of-mandate questions | derived |
 | Teammate role | `#136` «👤 Мермейд» (Mermachine) — svatantra, bound to her account; writer in the graph | derived |
-| Stack | Python ≥3.12 on uv; polars, pyarrow; PrismQL (`prismql[server,repl,highlighting,tantivy]`) editable from `../../vibes/prismql`; vLLM containers on the DGX for embeddings | derived |
+| Stack | Python ≥3.12 on uv; polars, pyarrow; PrismQL (`prismql[server,repl,highlighting,tantivy]`) editable from `../../vibes/prismql`; vLLM containers on a GPU machine for embeddings | derived |
 | Gate | `make check` | derived |
 | Consumers | Aleph and Mermachine (teammate; shares this repo and the graph — her sessions may still lack `iskron_*` tools; gets data via Google Drive `gdrive:swarmchasing/`); the hackathon report and demo in `../prismql-research/hackathon/swarmchasing/`; the prismql session (language gaps are sent there) | agreed: Aleph |
 | Cost of breakage | a wrong finding in the report in front of judges from METR / AI Village; everything else is cheap — except exporting other people's data and loading third-party services, which is expensive | agreed: Aleph |
@@ -91,7 +91,7 @@ The trunk is `master`. One branch until it is merged — follow-ups go into it. 
 6. **Goal-driven execution.** A bug — by a failing test before the patch. Multi-step — `step → check` pairs. Runtime — in the real environment. The falsifier before the look; observe the carrier (`REALITY.md`), not the source.
 7. **Read before answering an open question.** Discuss, think through, design, "what do you think" — from what is recorded (`notes/`, the graph via `entry`), not from training data.
 8. **Think in the graph, speak the project's language.** Graph vocabulary (kriya, phenomenon, holon, role, vimarsha, modes) is for reasoning; to humans — the project's words until they use the term first. About the work — no ticket, task, sprint, backlog, story, done: a question, a change, what is open, what it unblocks.
-9. **Heavy compute goes to the DGX, not the laptop.** Before any GPU or long job: an honest time estimate (model loading and real input lengths included) and Aleph's word; one GPU job at a time; every expensive output (embedding matrices) written to disk and reused. Access and services: `@aleph/mind` card «DGX Spark».
+9. **Heavy compute goes to the GPU machine, not the laptop.** Before any GPU or long job: an honest time estimate (model loading and real input lengths included) and Aleph's word; one GPU job at a time; every expensive output (embedding matrices) written to disk and reused. Access and services: ask Aleph.
 10. **Outside the machine: public data, read-only, by Aleph's word.** Never submit scans to scanning services, never follow short-link chains, never publish or retell other people's exported data (personal data, medical statistics, user images) — a finding of that kind goes to Aleph. Service keys are files `~/.config/<service>/api_key` (0600): read from there, never copy into code, logs, messages or the graph.
 
 ## Integration field — only from the graph
@@ -147,12 +147,12 @@ The carrier table is in `REALITY.md` at the root, read when a claim is made. Bef
 
 - Query the server signed: header `X-PrismQL-Client: claude` (or your own name) and a `"label"` on anything worth finding again; `runs/ask.py CORPUS < queries` does both and prints `warnings`. Read `warnings` before reporting a number.
 - The query method: `.claude/skills/prismql/SKILL.md` — `GET /schema` first, then `POST /evaluate`; totals via `AGGREGATE count()`; big result sets via `"output": "file"` (files land in `results/`). Language cheat sheet: `../../vibes/prismql/docs/MENTAL_MODEL.md`.
-- Embeddings for Village (`data/village.parquet`, embeddinggemma-300m, 768-d) are built on the DGX: `prepare/dgx/build_emb.py` + `embed_client.py` against a vLLM container; the query prefix is stamped in the Parquet metadata and applied by the server.
+- Embeddings for Village (`data/village.parquet`, embeddinggemma-300m, 768-d) are built on a GPU machine: `prepare/embed/build_emb.py` + `embed_client.py` against a vLLM container; the query prefix is stamped in the Parquet metadata and applied by the server.
 
 ## Project structure
 | Path | What |
 |---|---|
-| `prepare/` | data pipeline: export tables → one stream per corpus (`village.py`, `wiki_events.py`, `urlquery.py`, `uq_wiki.py`, `wiki_msgs.py`, `explorer_sites.py`, `swarm_msgs.py`, `textkey.py`; `dgx/` — embedding run) |
+| `prepare/` | data pipeline: export tables → one stream per corpus (`village.py`, `wiki_events.py`, `urlquery.py`, `uq_wiki.py`, `wiki_msgs.py`, `explorer_sites.py`, `swarm_msgs.py`, `textkey.py`; `embed/` — embedding run) |
 | `runs/` | exploratory query and analysis scripts (null twins, lag profiles, mention graph, embedding evals) |
 | `notes/` | findings by day — the record of what was found and its limits |
 | `keenable/` | SQL of public-page searches (Keenable SELECT) |
@@ -182,7 +182,7 @@ The carrier table is in `REALITY.md` at the root, read when a claim is made. Bef
 - **Commit trailers**: keep the `Co-Authored-By` / `Claude-Session` lines the harness adds — the history carries them.
 - **Gate — one call**: `make check`; call it by name, do not assemble the steps by hand.
 - **`WRITEUP.md` is written by humans only** (the hackathon writeup, checked with Pangram; graph #166): agents never write, edit, reformat or commit changes to it — a hook blocks Write/Edit. Agents may read it, and give ideas, facts, numbers and code examples in chat, notes or PR bodies, never prose for it.
-- **Never commit data**: `data/`, `results/` and exports stay gitignored; they travel via `gdrive:swarmchasing/`. Never commit keys or the DGX's service tokens.
+- **Never commit data**: `data/`, `results/` and exports stay gitignored; they travel via `gdrive:swarmchasing/`. Never commit keys or service tokens.
 - **Forge**: GitHub, CLI `gh` (`gh pr create`, `gh pr checks <n> --watch`); a branch per change, and a pushed branch gets a PR in the same move.
 - **Definition of done**: a finding is written in `notes/` with its query, count and null twin; code is merged into `master` with `make check` green.
 - **Never** `--no-verify`, `--force`, `--no-gpg-sign`, `git reset --hard` without an explicit instruction.
