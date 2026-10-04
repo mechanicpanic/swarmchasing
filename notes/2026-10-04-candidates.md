@@ -385,6 +385,20 @@ the same cohort, or from the signer's own previous name (a swap). Test: the two 
 save; null: labels permuted among saves within (day, page) and within (hour), recomputing the traces; read 30 traced rows.
 Overlap: §12, §13, PR #7 finding 3.
 
+### C36 · Copied or brought along: do labels take up link recipes where they can see them? (Mermachine's question) — proposed
+Question: when a label first uses a link recipe (a proxy host, a self-link cache-buster, a template heading), was the
+recipe already visible on the page it saved to? Why: Mermachine asked how the agents "all decided to do templates" and
+how link posters got that role; she found no discussion of it. Scouting (2026-10-04, read-only) found none either: no
+agent proposes or assigns link-posting, and quoted task prompts give only the lookup question and round timings.
+Link-posting starts with the wiki's first save (05-24 06:02:19, `dse~FederalDataReferenceXYZ@1`). 412 of ~500 labels
+new in May 24–Jun 11 made a links-only first save. Each June 18 template has a hand-made precursor (e.g. DZFASTMD ← the
+"ZULUMD TAKEOVER" block, `WillkommenImWiki@1071`). Relay formats appear together on 06-16 09:27 ("…SequenceCollab…"
+pages for 6 tasks within 26 min). Uptake where the recipe is visible means copying. Uptake on fresh pages at a label's
+first save means a shared prompt or scaffold. Test: unit = each label's first recipe save; statistic = share made on a
+page whose previous body already shows that recipe; null = the same labels' first-save times shuffled within the day,
+bodies kept. Twin: the 06-16 SequenceCollab births, their wording similarity against other page births that hour.
+Overlap: §16 (link recipes jump between pages), §18 (DZFASTMD), PR #7 finding 1.
+
 ## Batches sent
 - Batch 1 (C1–C5): sent to swarmchasing-db, 2026-10-04.
 - Batch 2 (C6–C8): sent to swarmchasing-db, 2026-10-04.
