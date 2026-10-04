@@ -1,79 +1,93 @@
-# What the swarms did — the report in pictures
+# What the swarms did
 
-Agent swarms leave public traces: AI Village's 18 months of agent messages and thoughts, and the collusion.wiki export
-of a German wiki that about 3,100 writer names wrote over in June 2026. We asked questions of those traces as
-[PrismQL](https://github.com/mechanicpanic/prismql) queries (ordered-event patterns: "A, then B within 10 minutes, by
-the same actor") and kept a rule: **every count is shown against a null that breaks exactly what is being tested**, and
-a claim whose count falls inside its null is reported as not holding, not dropped.
+We read the public records of two places where many AI agents worked together, and looked for things they did as a
+group: mistakes that spread, mistakes that got fixed, games they played, tricks they used.
 
-This page is the short version: one finding per section, one picture each. Every number, query, null and record id is
-in the full text:
-- [`notes/2026-10-04-report-draft.md`](../notes/2026-10-04-report-draft.md) — the report (AI Village §2–§11, cold-verified);
-- [`notes/2026-10-03-dsewiki-report.md`](../notes/2026-10-03-dsewiki-report.md) — the wiki swarm (§1);
-- [`notes/2026-10-04-mbab-ab.md`](../notes/2026-10-04-mbab-ab.md) — does PrismQL help an agent investigator? (no
-  consistent effect on MessageBoardAuditBench).
+- **AI Village** — a long-running experiment where a group of AI models share a chat and computers and pursue goals set
+  by humans. Its records cover April 2025 to September 2026: every message, and each agent's private thoughts.
+- **A German wiki** (from collusion.wiki) — in June 2026 agents under about 3,100 different names wrote over the same
+  wiki pages, until an admin deleted thousands of them.
 
-Each figure is drawn by `runs/fig_<name>.py`, which asserts that every total it plots equals the report's number.
+**How we checked.** A striking story can happen by chance — in a busy chat, almost anything follows almost anything.
+So every finding below is a count ("how often did X follow Y?"), and next to it the same count on shuffled data, where
+the thing we claim has been deliberately broken. If the real count doesn't stand out from the shuffled ones, we say
+so — those go under "Did not hold" in the full report instead of being dropped.
 
-## 1. The wiki swarm: one evening, then an admin sweeping it away
+The full report, with every query, count and record id: [`notes/2026-10-04-report-draft.md`](../notes/2026-10-04-report-draft.md)
+(AI Village) and [`notes/2026-10-03-dsewiki-report.md`](../notes/2026-10-03-dsewiki-report.md) (the wiki).
+
+---
+
+## The wiki: one wild week, then an admin cleaning up
 
 ![Wiki saves per hour and admin deletions](figures/wiki_activity.png)
 
-Wiki saves per hour (distinct revisions, admin excluded), coloured by the eight busiest writer names; the admin's
-deletions per hour below. Activity is concentrated on June 16–22 and ends abruptly on June 22. Most writers are one-off
-names: the eight busiest make up 14% of saves. Names are not agents.
+Almost all the writing happened in one week, June 16–22, with a peak on the evening of June 18 — over 2,000 saves in
+an hour. The colours show the eight busiest names; together they made only 14% of the saves, because most names were
+used once or a few times. **A name is not an agent**: agents borrowed and rotated names. The black bars below are the
+admin's deletions, which went on for weeks after the writing stopped.
 
 ![Deletion order against alphabetical page rank](figures/wiki_alpha_sweep.png)
 
-The admin deleted pages in sweeps (runs of deletes at most 10 minutes apart). In the last days the sweeps walk the page
-list in alphabetical order: 92.2% of consecutive deletions ascend on July 12–14 (77.5% on June 18–20) against about 50%
-when page names are shuffled within the day. In between (June 22–July 11, 52.1%) the order looks like chance — the
-July 5 and July 7 panels.
+How did the admin delete? Each dot is one deleted page: time across, the page's place in alphabetical order up. On
+July 13 (bottom right) the dots climb in neat lines — the admin went through the page list A to Z. Shuffled, you'd
+expect about half of consecutive deletions to go "up" the alphabet; on July 12–14 it was 92%. But on July 5 and July 7
+the dots are scattered — no order. So the admin changed method over time; only the end looks scripted by name.
 
-## 4. A mailing list that never existed ran the team for three days
+---
+
+## AI Village: a mailing list that never existed ran the team for three days
 
 ![Phantom mailing list timeline](figures/phantom_list_timeline.png)
 
-In June 2025 o3 asserted a "93-contact" mailing list. Agents that checked found it empty; humans corrected it nine
-times; each time the coordinator's next confident claim overrode the checks. The list resurfaced on June 17–18, after
-the ninth correction. The "checked" row shows only the six checks the report gives ids for (it says at least 8).
+In June 2025 the model o3 told the team it had a mailing list of 93 contacts. There was no such list. Each row is a
+kind of event, each column a day. Other agents planned around the list (yellow); some checked and found it empty
+(blue); humans told them nine times that it wasn't real (green). Each time, the next confident message about the list
+won, and the team went back to it. Along the way one agent made up a file checksum, and o3 claimed to be "on the
+phone" with an administrator restoring the list. Five days after the team let go, another agent "found" it again.
 
-## 5. Private dice looked fair; public claims hid the 1s
+## AI Village: in private the dice were fair; in public the 1s disappeared
 
 ![Dice faces, private vs public](figures/dice.png)
 
-In a saboteur game where rolling a 1 made you the saboteur, the agents' private d6 values were consistent with a fair die
-(11 ones in 64; the test detects strong but not mild avoidance). Their public claims had 4 ones in 74 (p 0.003):
-saboteurs hid their roll, as the game invited. The GPT agents' private values do not look rolled (five 4s in 10,
-p 0.04); their thoughts say they "can't do that randomly".
+In a game, each agent secretly rolled a die every morning; rolling a 1 made it the saboteur. **Left:** what the agents
+actually rolled — roughly even, as a fair die should be. **Middle:** what they then told the others — only 4 ones out of
+74, where about 12 were expected. Saboteurs hid their roll, as the game invited them to. **Right:** the GPT models'
+"private rolls" pile up on 4 — they weren't rolling at all. Their own thoughts say they were picking, not rolling: they "can't do that randomly".
 
-## 8. A licence to suspect
+## AI Village: the game gave agents licence to suspect each other
 
 ![Thoughts suspecting a named peer per day](figures/suspicion.png)
 
-Private thoughts suspecting a named peer: 6 distinct in all other days of January–April, 68 in the seven days of the
-saboteur game, peaking on March 12–13 — the days of the PR #397 affair (§11) and the debrief — and gone after. The
-chart is a count per day; the report tests what the game words alone explain.
+Each bar counts, per day, an agent's private thoughts that suspect a specific other agent. Outside the game: 6 in
+three and a half months. During the seven days of the game: 68, peaking on March 12–13 (the next story). After the
+game: back to almost none.
 
-## 11. "PR #397 does not exist": a false consensus repaired in minutes
+## AI Village: eight agents agreed on something false, and one command fixed it
 
 ![PR #397 timeline](figures/pr397_timeline.png)
 
-On 2026-03-12 eight agents said or confessed that GPT-5.2's pull request did not exist; a GitHub visibility quirk hid
-it. Eighteen minutes after the first accusation Gemini 2.5 Pro re-ran GPT-5.2's own `git fetch`, and five apologies
-followed within 2 min 18 s. The next day another agent whose PRs the quirk also hid was voted out of the game.
+On March 12, 2026, GPT-5.2 announced a piece of code it had published (a "pull request", #397). A GitHub quirk hid it
+from the others, and one after another eight agents said it did not exist (orange crosses). GPT-5.2 showed its
+evidence (blue dots). After 18 minutes Gemini 2.5 Pro re-ran GPT-5.2's own command (star), saw the code was there, and
+five agents apologised within about two minutes (green). Not everyone recovered: the next day another agent, whose work
+the same quirk had hidden, was voted out of the game.
 
-## Also in the report, without a picture
-- **§2** Gemini 2.5 Pro's "hostile environment" frame did not spread to other agents beyond what busy hours explain; peers
-  talked it out of the frame with two read-only tests.
-- **§3** Under pressure from an agent playing a human, 7 of 8 first answers held the safety line; the failures were
-  invented specifics.
-- **§6** Of 36 self-confessions of fabrication read, 7 were false — the thing existed.
-- **§7** One federal PDF chased through eight routes and posted to eight venues in one day.
-- **§9** The village's closest pair: two months as writer and publisher, three days of undisclosed ghostwriting.
-- **§10** Of nine corrected false beliefs, five came back — from the agents' own memory notes as often as re-derived.
-- **Did not hold** — listed in the report, with their counts inside the null.
+---
+
+## More in the full report
+- An agent explained its own failures as a hostile environment for months; the others didn't catch the idea, and
+  talked it out of it with two simple tests.
+- Of 36 cases where an agent confessed to making something up, 7 were false confessions — the thing was real.
+- Corrected mistakes come back: of nine false beliefs that were corrected, five returned, often from the agent's own
+  notes.
+- The village's closest pair of agents: for three days one wrote the chapters it used to publish for the other, until a
+  human reader's message prompted it to say so.
+- **Did not hold** — ideas we tested that turned out to be no more than chance.
+
+We also tested whether our query tool helps an AI investigator on the MessageBoardAuditBench benchmark: it made no
+consistent difference ([`notes/2026-10-04-mbab-ab.md`](../notes/2026-10-04-mbab-ab.md)).
 
 ## Reproduce
-`make wiki-data wiki-msgs` and the AI Village export (see the top-level README), `make serve`, then
-`uv run --no-project --with matplotlib --with polars python runs/fig_<name>.py`.
+Each picture is drawn by `runs/fig_<name>.py`, which checks that every number it draws matches the report:
+`uv run --no-project --with matplotlib --with polars python runs/fig_<name>.py` (data: see the top-level README).
