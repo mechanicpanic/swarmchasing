@@ -267,7 +267,7 @@ FOLLOWED_BY field(agent,!$a) AND mentions_user($a) AND contains(reassert) FOLLOW
 AND field(agent,$a) DURING 30 minutes`. Null: B's messages shuffled within the day. Twin: B's neutral @-mentions of A.
 Then read the chains: in how many was A right the first time?
 
-### C24 · Corrections do not reach memory: corrected beliefs come back days later — **approved** (Mermachine, 02:55; testing)
+### C24 · Corrections do not reach memory: corrected beliefs come back days later — **held, small** (approved by Mermachine 02:55; report §10)
 Why: in C1, Claude 3.7 Sonnet "found" the phantom 93-address list again on 06-17 and 06-18, five days after the team
 let go of it (`e079bc19…`, `d1d57ef5…`). The source was a reference in its own sent mail. If corrections live only in
 chat while the false claim lives in artifacts and memory, the swarm keeps re-infecting itself.

@@ -27,6 +27,9 @@ A claim whose count falls inside its null is reported in "Did not hold", not dro
 | `urlquery` | a urlquery.net report Transluce flagged as an agent-activity candidate | 2026-04 → 07 | 38,160 |
 
 ## Summary
+- **Corrections do not replace the error (§10).** Of nine corrected false beliefs, five came back, in 22 rows: half
+  from the agent's own memory notes or sent mail, half reasoned out again, none from a peer. An agent's memory can
+  hold "the list never existed" next to the file that says it did.
 - **The closest pair (§9).** Claude Opus 4.8 and Gemini 2.5 Pro were the most concentrated pair in the village (16
   of the 27 agent-weeks where one agent sends ≥60% of its mentions to one peer). For two months Opus 4.8 published
   what Gemini wrote. Then for three days it quietly wrote the chapters itself, until a human reader's message,
@@ -565,7 +568,47 @@ weeks this was a writer and its publisher, not a takeover.
 or mentions. Authorship of individual chapters rests on the agents' statements; the published sites were not
 checked. THOUGHT rows are summarised reasoning. The data ends 2026-09-18.
 
-## 10. … *(sections from further approved candidates)*
+## 10. Corrections reach memory but do not replace the error: corrected beliefs come back, one agent at a time (C24)
+*Status: held as an existence claim, small. Approved by Mermachine, 2026-10-04. Not yet cold-verified.*
+
+**Question.** When a shared false belief is corrected in chat, does it come back later from an agent's memory notes
+or from artifacts (files, sent mail) that were never corrected?
+
+**Method.** Nine documented corrected false beliefs, each with its final correction (id, time). For each, every
+later row in which an agent re-asserts the claim as true (not quoting it as a mistake) was found by phrase and regex,
+read in context, and coded with its delay, kind and apparent source. Each "after" count has a "before" twin with the
+same marker, e.g. label `c24-a-after` `SELECT contains_phrase("resonance-93-master-list") AFTER("2025-06-16
+18:19:24")` gives 3, against `c24-a-before-twin` over 06-10 → 06-13 giving 87. Other labels: `c24-d-*`, `c24-e-*`,
+`c24-b1-*`. No warnings. Memory in this stream is session summaries before March 2026; CONSOLIDATE rows begin then,
+and thoughts begin November 2025.
+
+| Belief | Final correction | Re-assertions after | Delay | Source |
+|---|---|---|---|---|
+| the 93-person mailing list (§4) | 2025-06-16 18:19, human (`7ce8ab9e…`) | 3, all Claude 3.7 Sonnet | 1–2 days | its own sent mail (artifact) |
+| "we share one machine / filesystem" | 2025-12-09 20:59, human (`a88180c7…`) | 7, from 5 agents | median 38 d, max 260 d | reasoned out again, not retrieved |
+| "~5 minutes left" with an hour to go | 2026-02-12 19:56, admin (`301e2fc8…`) | 4, Claude Sonnet 4.5 | 4 d | its own session summary, then chat; a fresh slip |
+| "Sandcastle Effect" (links decay in 20–120 min) | 2025-12-09 (`a88180c7…`, general) | 6, Claude Sonnet 4.5 | median 9 d, max 16 d | its own memory, copied forward session to session |
+| "GPT-5.2 faked PR #397" (C12) | 2026-03-12 20:54 (`48e7e410…`) | 2, Claude Haiku 4.5 | 20 h | own overnight memory (inferred) |
+| "security leak" that was rap lyrics; o3 "has a phone number"; "we share one computer" (2025); the "Ghost Author" accusation | various | 0 | — | — |
+
+**Pooled.** 22 re-assertions. 11 came from the agent's own memory or artifacts (8 memory, 3 sent mail), 11 were
+reasoned out again, and **0 came from a peer**. Each return stayed with one agent and none spread again. Four of the
+nine beliefs never came back.
+
+**The mechanism, in two examples.**
+- On 2025-06-13 Claude 3.7 Sonnet's own session summary says "The 93-person list never existed (confirmed by
+  Zak/help@)" (`f99c364f…`). On 06-17 and 06-18 it "found reference to a 'resonance-93-master-list' spreadsheet
+  containing 93 email addresses" in its sent mail, "confirming our original outreach scale" (`e079bc19…`,
+  `d1d57ef5…`). The correction was in memory, but next to the stale artifact, not replacing it.
+- Claude Sonnet 4.5 carried "Sandcastle Effect (links 30-120min)" in its consolidated memory for 16 days after the
+  organisers' correction (`233ab677…`, `a1649ba1…`). The value had drifted from the original "20-minute half-life".
+
+**Limits.** n is 9 beliefs and 22 rows. Recall is bounded by marker phrases, so a paraphrase without them is missed.
+Coding is one reader's. The real memory files and email bodies are not in the stream. Summaries in January and March
+2026 are stubs, so some sources are inferred. The "we share one computer" 2025 case has about 39 ambiguous "computer
+queue" rows months later, which are not counted.
+
+## 11. … *(sections from further approved candidates)*
 
 ## Did not hold
 - **C2(a): an agent's adversary frame does not trigger other agents' frame words within hours.** When each agent's
