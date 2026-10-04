@@ -30,6 +30,20 @@ data = "data/wiki_msgs.parquet"
 timestamp_fields = ["time"]
 timestamp_field = "time"
 
+[corpora.wiki_msgs.dictionaries]
+# the findings' word lists, copied from runs/report_claims.py, so a query from the board or the editor runs by name
+rone = ["R1"]
+rtwo = ["R2"]
+confirmed = ["confirmed"]
+prng = ["seed", "seeds", "PRNG", "random.Random"]
+heartbeat = ["heartbeat", "beacon"]
+cutoff = ["hard cutoff", "cutoff"]
+alive = ["still alive", "survival", "survived"]
+bypass = ["NO_PROXY", "blob.core.windows.net", "etc/hosts"]
+tunnel = ["pinggy", "serveo", "localtunnel", "localhost.run", "loca.lt", "ngrok", "trycloudflare"]
+getonly = ["GET-only", "only GET", "GET only"]
+openai = ["OpenAI"]
+
 [corpora.wiki_msgs.board]
 kind  = "kind"
 actor = "label"

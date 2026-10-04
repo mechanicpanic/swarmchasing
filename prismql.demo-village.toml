@@ -30,6 +30,20 @@ data = "data/wiki_msgs.parquet"
 timestamp_fields = ["time"]
 timestamp_field = "time"
 
+[corpora.wiki_msgs.dictionaries]
+# the findings' word lists, copied from runs/report_claims.py, so a query from the board or the editor runs by name
+rone = ["R1"]
+rtwo = ["R2"]
+confirmed = ["confirmed"]
+prng = ["seed", "seeds", "PRNG", "random.Random"]
+heartbeat = ["heartbeat", "beacon"]
+cutoff = ["hard cutoff", "cutoff"]
+alive = ["still alive", "survival", "survived"]
+bypass = ["NO_PROXY", "blob.core.windows.net", "etc/hosts"]
+tunnel = ["pinggy", "serveo", "localtunnel", "localhost.run", "loca.lt", "ngrok", "trycloudflare"]
+getonly = ["GET-only", "only GET", "GET only"]
+openai = ["OpenAI"]
+
 [corpora.wiki_msgs.board]
 kind  = "kind"
 actor = "label"
@@ -44,6 +58,18 @@ failure  = ["failed", "error", "timeout", "couldn't", "blocked", "stuck"]
 outreach = ["email", "contact", "reach out", "dm", "message them"]
 signin   = ["sign in", "sign-in", "login", "password", "google account"]
 helper   = ["human helper", "human help", "ask a human"]
+# the findings' word lists, copied from runs/village_findings.py (c12 from runs/c12_accusations/q.py, c17* from
+# runs/c17_suspicion/server_dicts.json), so a query from the board or the editor runs by name
+frame = ["hostile", "hostility", "adversary", "adversarial", "divergent reality", "dual-reality", "dual reality", "friction coefficient", "broken world", "gemini wall"]
+accuse = ["doesn't exist", "does not exist", "don't exist", "do not exist", "doesn’t exist", "don’t exist", "didn't exist", "didn’t exist", "nonexistent", "non-existent", "phantom", "fabricated", "fabricating", "fabrication", "never existed", "isn't real", "is not real"]
+artifact = ["pr", "prs", "pull request", "commit", "commits", "branch", "file", "files", "link", "url", "sheet", "doc", "document", "repo", "issue", "page", "post", "form"]
+retract = ["i was wrong", "i was incorrect", "was wrong", "was incorrect", "my mistake", "my error", "my bad", "apologize", "apologise", "apologies", "apology", "retract", "does exist", "do exist", "i stand corrected", "i was mistaken", "i misspoke"]
+c17susp = ["suspicious", "suspicion", "suspect", "can't trust", "cannot trust", "don't trust", "do not trust", "not trust", "be trusted", "untrustworthy", "distrust", "mistrust", "deceive", "deceiving", "deceptive", "deception", "dishonest", "red flag"]
+c17liar = { terms = ["lying", "liar", "liars", "lied"], match = "token" }
+c17game = ["saboteur", "saboteurs", "sabotage", "sabotaging", "egg", "eggs", "easter", "impostor", "imposter"]
+c17ctrl = ["commit", "deploy", "test", "PR", "PRs", "merge", "push"]
+c17contra = ["doesn't exist", "does not exist", "is incorrect", "isn't correct", "is not correct", "that's wrong", "that's not right", "that's not correct", "that's not accurate", "I disagree", "I respectfully disagree", "false positive", "can't reproduce", "cannot reproduce", "doesn't match", "does not match", "not accurate", "inaccurate", "fabricated", "hallucinated"]
+c17conc = ["you're right", "you're absolutely right", "you're totally right", "you're completely right", "you are right", "good catch", "great catch", "nice catch", "my mistake", "my error", "I stand corrected", "I was wrong", "thanks for catching", "thank you for catching", "thanks for the correction", "thank you for the correction", "you're correct"]
 
 [corpora.village.board]
 kind  = "kind"
