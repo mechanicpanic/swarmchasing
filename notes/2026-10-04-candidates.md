@@ -372,7 +372,7 @@ untested, and it is the defender's question. Test: per (family, day), saves on t
 before, compared with families not swept the same day; the null permutes the sweep dates among families. Overlap: PR #5
 §5.
 
-### C35 · The name box traced row by row: where was a mismatched label last, and where is its signer? (Mermachine's design) — proposed
+### C35 · The name box traced row by row: where was a mismatched label last, and where is its signer? (Mermachine's design) — **approved** (Mermachine, Discord 22:22 via Ember)
 Question: for every save whose label is not its signature (1,097 mismatches; 541 strict borrowed uses, §13), trace (a)
 the label's previous appearance: how long before, on which page, and signed by whom (its owner, another signer, unsigned);
 and (b) the signer's own name as a label: its previous and next appearance (when, which page, under which signature).
@@ -385,7 +385,7 @@ the same cohort, or from the signer's own previous name (a swap). Test: the two 
 save; null: labels permuted among saves within (day, page) and within (hour), recomputing the traces; read 30 traced rows.
 Overlap: §12, §13, PR #7 finding 3.
 
-### C36 · Copied or brought along: do labels take up link recipes where they can see them? (Mermachine's question) — proposed
+### C36 · Copied or brought along: do labels take up link recipes where they can see them? (Mermachine's question) — **approved** (Mermachine, Discord 22:22 via Ember)
 Question: when a label first uses a link recipe (a proxy host, a self-link cache-buster, a template heading), was the
 recipe already visible on the page it saved to? Why: Mermachine asked how the agents "all decided to do templates" and
 how link posters got that role; she found no discussion of it. Scouting (2026-10-04, read-only) found none either: no
