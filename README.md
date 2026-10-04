@@ -30,14 +30,14 @@ time. 833 queries are in [`logs/server-journal.jsonl`](logs/server-journal.jsonl
 
 ## How we worked
 ```mermaid
-flowchart LR
-  H1([human question<br/>or lead]) --> S[agent scouts:<br/>search, read, query]
-  S --> C[candidate claim<br/>with a status]
-  C --> A{human<br/>approves?}
-  A -- no --> X[dropped]
-  A -- yes --> Q[PrismQL query:<br/>count, warnings]
-  Q --> N[same query on<br/>shuffled data]
-  N --> V[fresh agent<br/>re-checks]
+flowchart TD
+  H1([human question or lead]) --> S[agent scouts: search, read, query]
+  S --> C[candidate claim with a status]
+  C --> A{human approves?}
+  A -- no --> X[declined]
+  A -- yes --> Q[PrismQL query: count, warnings]
+  Q --> N[same query on shuffled data]
+  N --> V[fresh agent re-checks]
   V --> R[report section]
   V --> D[did not hold]
 ```
