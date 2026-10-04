@@ -3,8 +3,9 @@ labelled query on the running server, printed next to the number the report stat
 usage: PRISMQL_URL=… uv run python runs/village_findings.py [ENTRY_ID ...]   (no ids = all)
 Needs the `village` corpus loaded (no embeddings: nothing here uses similar_to). Dictionaries are passed in-band.
 Null twins are not run here (see runs/c2_nulls.py, runs/c12_accusations/nulls.py). Left out: §7 (corpora swarm_msgs
-and urlquery, not village); §8 (its server dictionaries were sent ad hoc and are not committed — runs/c17_suspicion/
-dicts.py holds regexes for the Python pipeline — and its headline numbers are per-1,000 rates and ranks from it)."""
+and urlquery, not village). §8: its table (rates per 1,000 rows, ranks against 56 placebo windows) comes from the
+Python pipeline in runs/c17_suspicion/; the entries here are the server's per-day counts that cross-check it, with the
+dictionaries and values the C17 run recorded (runs/c17_suspicion/server_dicts.json, server_queries.json)."""
 import json, os, sys, urllib.request
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "c12_accusations"))
@@ -17,6 +18,12 @@ D = {
               "friction coefficient", "broken world", "gemini wall"],
     **C12,
 }
+with open(os.path.join(HERE, "c17_suspicion", "server_dicts.json")) as f:
+    D.update(json.load(f))  # §8: c17susp, c17liar, c17game, c17ctrl, c17contra, c17conc, exactly as the C17 run sent them
+with open(os.path.join(HERE, "c17_suspicion", "server_queries.json")) as f:
+    C17 = json.load(f)
+def c17(label, lo="2026-03-05", hi="2026-03-13"):  # the C17 run's own per-day values, game days only
+    return label, C17["queries"][label], {d: n for d, n in C17["by_day"][label].items() if lo <= d <= hi}
 with open(os.path.join(HERE, "c13_confessions", "confession_rows_query.json")) as f:
     C13_ROWS = json.load(f)["query"]  # the 36 kept self-confessions, by id
 G25, ROOM = '"Gemini 2.5 Pro"', '"d45ec7c6-6adb-49cb-8c40-dc5d18c37d84"'
@@ -58,6 +65,10 @@ C = [
      f'SELECT field(kind, AGENT_TALK) AND field(agent, {G25}) AND mentions_user("Claude Opus 4.8")', 1526),
     ("c24-93-after", "§10", "the 93-person list named after its final correction (all Claude 3.7 Sonnet)", "c24-a-after",
      'SELECT contains_phrase("resonance-93-master-list") AFTER("2025-06-16 18:19:24")', 3),
+    ("c17-susp", "§8", "thoughts suspecting someone, without game words, per day of the saboteur game",
+     *c17("c17-susp-core-nogame-by-day")),
+    ("c17-contra", "§8", "chat messages contradicting another named agent, per game day", *c17("c17-contra-directed-by-day")),
+    ("c17-conc", "§8", "chat messages conceding a point, per game day", *c17("c17-conc-by-day")),
     ("c12-acc-game", "§11", "accusations that a peer's artifact does not exist / is fabricated, game week", "c12-acc-game",
      f"SELECT {ACC} {GAME}", 170),
     ("c12-acc-ret-game", "§11", "…followed by the same agent's retraction within 1 h, game week", "c12-acc_ret-game",
