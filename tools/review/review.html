@@ -41,6 +41,9 @@ section#view{padding:16px 20px;overflow:auto;min-width:0}
 .ev.add{border-left-color:#2f8f46} .ev.add .x{background:#e9f7ec}
 .ev.remove{border-left-color:#c0392b} .ev.remove .x{background:#fbeaea;color:#7a2a20}
 .ev .x .sign{user-select:none;color:var(--muted)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:10px} .cols>div{min-width:0}
+.cols .colh{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:800px){.cols{grid-template-columns:1fr}}
 .ev .why{font-size:11px;color:var(--muted);margin-top:3px}
 mark{background:var(--hl);color:inherit;border-radius:2px}
 .verdict{display:flex;gap:8px;align-items:center;flex-wrap:wrap;position:sticky;bottom:0;background:var(--bg);padding:10px 0}
@@ -64,7 +67,7 @@ details summary{cursor:pointer;color:var(--muted);font-size:12px}
   <span class="sp"></span>
   <a href="/trails" style="color:var(--accent)">Trails →</a>
   <label class="small">reviewer <input id="reviewer" size="10" placeholder="your name"></label>
-  <span class="small">keys: <b>y</b> true · <b>n</b> false · <b>u</b> unsure · <b>j/k</b> next/prev · <b>/</b> note</span>
+  <span class="small">keys: <b>y</b> true · <b>n</b> false · <b>u</b> unsure · <b>j/k</b> next/prev · <b>c</b> columns · <b>/</b> note</span>
 </header>
 <main>
 <aside>
@@ -121,7 +124,7 @@ function evHtml(e, why, opts={}) {
   return `<div class="ev ${opts.anchor ? "anchor" : ""} ${diff ? kind : ""}">
     <div class="h"><b>${esc(who)}</b> · ${esc(kind)} · ${esc(String(e.time||"").replace("T"," ").slice(0,19))}${e.room ? " · #"+esc(e.room) : ""}
       ${opts.ctx ? ` · <a href="#" data-ctx="${esc(e.id)}">context</a>` : ""}</div>
-    ${(() => { const t = String(e.text ?? ""); return t.length > 900
+    ${(() => { const t = String(e.text ?? ""); return t.length > 900 && !diff
       ? `<details class="x"><summary>${mark(esc(t.slice(0,300)))}… <span class="small">(${t.length.toLocaleString()} chars, click to expand)</span></summary>${mark(highlight(t, why))}</details>`
       : `<div class="x">${mark(highlight(t, why))}</div>`; })()}
     ${preds ? `<div class="why">matched: ${esc(preds)}</div>` : ""}
@@ -157,6 +160,16 @@ async function openQueue(id, at) {
   store.set("review.queue", id); render(); loadQueues();
 }
 
+let COLS = true; try { COLS = localStorage.getItem("review-cols") !== "0"; } catch (e) {}
+function groupHtml(g) {
+  const ev = (g.events||[]).map((e,i) => [e, (g.explain||[])[i]]);
+  const rm = ev.filter(([e]) => e.kind === "remove"), ad = ev.filter(([e]) => e.kind === "add");
+  const oneSave = rm.length && ad.length && new Set(ev.map(([e]) => e.rev)).size === 1;
+  const html = xs => xs.map(([e,w]) => evHtml(e, w, {ctx:true})).join("");
+  if (oneSave && COLS) return `<div class="small">one save, ${esc(ev[0][0].rev)} — press c for one column</div>
+    <div class="cols"><div><div class="colh">removed</div>${html(rm)}</div><div><div class="colh">added</div>${html(ad)}</div></div>`;
+  return (oneSave ? `<div class="small">one save, ${esc(ev[0][0].rev)} — press c for columns</div>` : "") + html(oneSave ? [...rm, ...ad] : ev);
+}
 function tallyHtml() {
   const t = Q.tally;
   return `<div class="tally"><span class="y">✔ ${t.yes}</span><span class="no">✘ ${t.no}</span><span class="u">? ${t.unsure}</span><span>${t.todo} left</span>${t.precision!=null ? `<span><b>precision ${Math.round(t.precision*100)}%</b></span>` : ""}</div>`;
@@ -172,8 +185,7 @@ function render() {
     const g = it.group, b = g.bindings || [];
     body = `<div class="card"><div class="meta">group ${idx+1} of ${Q.items.length} (query found ${Q.total})</div>
       ${b.length ? `<div class="chips">${b.map(a => Object.entries(a).map(([k,v]) => `<span class="chip">$${esc(k)} = ${esc(v)}</span>`).join("")).join('<span class="small">or</span>')}</div>` : ""}
-      ${(g.events||[]).map((e,i) => [e, (g.explain||[])[i]]).sort((x,y) => (x[0].rev && x[0].rev===y[0].rev) ? (x[0].kind==="remove" ? -1 : y[0].kind==="remove" ? 1 : 0) : 0)
-          .map(([e,w]) => evHtml(e, w, {ctx:true})).join("")}</div>`;
+      ${groupHtml(g)}</div>`;
   } else {
     const c = it.claim;
     body = `<div class="card"><div class="meta">claim ${idx+1} of ${Q.items.length} · ${esc(c.id||"")} · ${esc(c.generator||"")} · ${esc(c.type||"")} · confidence ${esc(c.confidence||"?")}</div>
@@ -262,7 +274,8 @@ document.addEventListener("keydown", e => {
   if (!Q || ["INPUT","TEXTAREA","SELECT"].includes(document.activeElement.tagName)) {
     if (e.key === "Escape") document.activeElement.blur(); return; }
   // by physical key, so the shortcuts work in any keyboard layout (e.g. Cyrillic)
-  const k = ({KeyY: "y", KeyN: "n", KeyU: "u", KeyJ: "j", KeyK: "k", Slash: "/"})[e.code] || e.key.toLowerCase();
+  const k = ({KeyY: "y", KeyN: "n", KeyU: "u", KeyJ: "j", KeyK: "k", KeyC: "c", Slash: "/"})[e.code] || e.key.toLowerCase();
+  if (k === "c") { COLS = !COLS; try { localStorage.setItem("review-cols", COLS ? "1" : "0"); } catch (err) {} render(); return; }
   if (k === "y" || k === "1") verdict("yes");
   else if (k === "n" || k === "2") verdict("no");
   else if (k === "u" || k === "3") verdict("unsure");
