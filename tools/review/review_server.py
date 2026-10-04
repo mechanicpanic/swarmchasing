@@ -8,13 +8,14 @@ Two kinds of queue:
   each item shows the claim and finds the quoted message in the corpus, with
   the events around it, plus a search box over that time window.
 
-Run:  uv run --project ~/projects/prismql python review_server.py [--port 8960]
+Run:  make review (from the repo root), or: uv run --project <prismql checkout> python review_server.py [--port 8960]
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import time
 import tomllib
@@ -35,11 +36,13 @@ QUEUES = HERE / "queues"
 VERDICTS = HERE / "verdicts.jsonl"
 CLIENT = "review-page"
 
-# name -> (base url, prismql.toml that server runs)
-SERVERS: dict[str, tuple[str, Path]] = {
-    "village": ("http://127.0.0.1:8942", Path.home() / "projects/prismql-data/ai-village/corpus/prismql.toml"),
-    "swarms": ("http://127.0.0.1:8953", Path.home() / "projects/prismql-data/ai-village/corpus/analysis/datasets/prismql.toml"),
-}
+# name -> (base url, prismql.toml that server runs). Default: one server, PRISMQL_URL (this repo's :8931) with
+# PRISMQL_CONFIG (this repo's prismql.toml). REVIEW_SERVERS='{"name": ["url", "path/to/prismql.toml"], ...}' replaces it.
+if os.environ.get("REVIEW_SERVERS"):
+    SERVERS: dict[str, tuple[str, Path]] = {k: (u, Path(c).expanduser()) for k, (u, c) in json.loads(os.environ["REVIEW_SERVERS"]).items()}
+else:
+    SERVERS = {"local": (os.environ.get("PRISMQL_URL", "http://127.0.0.1:8931"),
+                         Path(os.environ.get("PRISMQL_CONFIG", HERE.parent.parent / "prismql.toml")))}
 PAGE = 50  # the servers' max_results
 
 
@@ -164,7 +167,7 @@ def create_claims_queue(body: dict) -> dict:
         claims = [c for c in claims if c.get("id") in want]
     items = [{"key": str(c.get("id") or i), "claim": c} for i, c in enumerate(claims)]
     q = {"id": uuid.uuid4().hex[:8], "name": body.get("name") or path.stem, "mode": "claims",
-         "server": body.get("server", "village"), "corpus": body.get("corpus", "village"),
+         "server": body.get("server", next(iter(SERVERS))), "corpus": body.get("corpus", "village"),
          "source": str(path), "created": time.time(), "items": items}
     _save(q)
     return {"id": q["id"], "items": len(items)}
