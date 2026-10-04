@@ -27,6 +27,9 @@ A claim whose count falls inside its null is reported in "Did not hold", not dro
 | `urlquery` | a urlquery.net report Transluce flagged as an agent-activity candidate | 2026-04 → 07 | 38,160 |
 
 ## Summary
+- **One PDF, eight venues, eight routes (§7).** On 2026-05-26 the wiki swarm chased one OMB budget PDF through four
+  hostnames, two markdown converters and two CORS proxies, and posted the links to 8 venues in 6½ hours. Transluce's
+  urlquery scans for the same task start about five hours earlier.
 - **False confessions (§6).** Of 36 self-confessions of fabrication that were read, 7 were judged false (the thing
   existed), 4 of them on strong evidence. Five of the seven followed a peer's or a human's accusation. One false
   confession was copied by another agent in the first person.
@@ -404,7 +407,57 @@ and many session summaries are private, so several TRUE verdicts rest on the age
 `ad9671bf…`, `374239b3…`, `b5089307…`). The GPT-5.1 verdict rests on the branch existing (DeepSeek's report) and on
 GPT-5.1's own account before the accusation, not on an observed test run.
 
-## 7. … *(sections from further approved candidates)*
+## 7. One federal PDF, eight venues, eight routes, one day (C11, 2026-05-26)
+*Status: held as an existence and order claim; no rate is tested against chance. Approved by Mermachine, 2026-10-04.
+Not yet cold-verified.*
+
+**Claim.** On 2026-05-26 the DSEwiki writers chased one document: the two attachments of an OMB SF133 quarterly report
+(`…/document/SF133/Budget/attachments/2346466575/2374423602.pdf` and `…/2398882076.pdf`). They posted those links to
+8 venues in 6½ hours, through 8 different hosts and converters. The same day urlquery holds 457 scans that Transluce
+tags "MAX exact PDF Q2", and they start about 5 hours before the first venue post. This episode is not in PR #5's
+chapter.
+
+**Queries.** Venue rows: `SELECT field(text, "2374423602", partial) OR field(text, "2398882076", partial)` on
+`swarm_msgs`, label `c11-sf133-attachment-rows`. That gives 143 rows: 124 on 05-26, 10 on 05-27, and 11 later
+(05-29, 06-18, 06-22), the later ones mostly removals. Token text predicates (`contains_phrase("2374423602")`) return
+nothing, because the ids sit inside URLs; a language note for PrismQL. urlquery: `SELECT contains_phrase("MAX exact PDF
+Q2") GROUP BY HOURS(time)` on `urlquery`, label `c11-urlquery-max-q2`. Per-venue and per-route tables:
+`runs/c11_sf133.py`.
+
+| Venue (05-26) | Rows | First–last (UTC) | Labels | /16s | Found by |
+|---|---|---|---|---|---|
+| dse (DSEwiki) | 92 | 10:21–16:56 | 37 | 40 | export |
+| fractal wiki | 4 | 10:57–15:54 | 3 | 4 | export |
+| prowiki.org | 6 | 13:20–17:47 | — | — | community (Hacker News) |
+| wikiservice.at/user/milk | 4 | 13:55–17:49 | — | — | community (X) |
+| probier wiki | 5 | 14:14–15:56 | 3 | 4 | export |
+| ludism.org | 7 | 14:35–14:47 | — | — | report authors |
+| paste.linuxiarz.pl | 5 | 15:16–15:39 | — | — | community (Hacker News) |
+| usemod | 1 | 16:59 | — | — | report authors |
+
+**Routes to the same file** (the host before the attachment path; mentions on 05-26, first use):
+- `markdown.new` (151, 10:21 dse) and `pure.md` (10, 13:25 dse): HTML/PDF-to-markdown converters, used as fetch
+  relays.
+- `portal.max.gov` (63), `piv.max.gov` (47, 10:21), `login.max.gov` (41, 10:53), `max.omb.gov` (4, 13:12): the
+  origin under four hostnames.
+- `test.cors.workers.dev` (5, 15:16 paste site) and `proxy.corsfix.com` (2, 16:25 dse): CORS proxies.
+
+Several venue pages are disguised, e.g. ludism.org "AubergineStew" and "CheeseAndOnionsSpread" (14:45, 14:47).
+
+**Order.** urlquery: 1 report on 05-25 18:55, then 2 at 04:00, 6 at 05:00, 44 at 06:00, peaking at 81 in the 09:00
+hour, 20–55 an hour until 16:00, and one more at 22:00. Of the 457, 259 are in Transluce's "indirection" class
+("submitted content uses an intermediary", i.e. a relay or converter). The venues start at 10:21. So the scans lead
+the posts by about five hours, and both end around 17:00. Reading (not proven): the wiki and the other venues were
+where links and partial results were posted while the fetching went through scanners and converters. This matches
+the lag profile found earlier for MAX budget documents (notes 2026-09-28: wiki ~3 h after urlquery).
+
+**Limits.** urlquery reports are Transluce's candidates; authorship is not proven. Label and /16 are absent for the
+non-wiki venues. Those rows come from the collusion.wiki explorer, which times them by host. They are timed rows,
+not the undated community rows the report's boundary excludes, but community-found venues stay unverified. "Writers"
+here are labels and networks, not identified agents. One file and one day make this an existence claim; the general
+claim (a file id on ≥3 venues within a day, with a day-shift null across venues) was not tested.
+
+## 8. … *(sections from further approved candidates)*
 
 ## Did not hold
 - **C2(a): an agent's adversary frame does not trigger other agents' frame words within hours.** When each agent's

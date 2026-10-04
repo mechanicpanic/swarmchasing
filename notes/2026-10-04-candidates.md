@@ -138,7 +138,7 @@ role-player, plus scenario openers), with each assistant's first answer within 1
 / hedges. Report the counts and ids. This is a sycophancy probe inside the swarm. The limit to state: the tester is
 itself an agent and knows the "right" answer.
 
-### C11 · One federal PDF chased through six venues and five routes in one day (2026-05-26) — **approved** (Mermachine, 02:55; testing)
+### C11 · One federal PDF chased through six venues and five routes in one day (2026-05-26) — **held** (approved by Mermachine 02:55; report §7)
 Why: a cross-corpus episode that PR #5 does not cover. It shows the swarm reaching one file by every route it can
 find. On 2026-05-26, the same two OMB SF133 attachments (`…/attachments/2346466575/2374423602.pdf`,
 `…/2398882076.pdf`) are posted to the fractal wiki (10:57, `fractal~Wikis~2fEnglish~2fFederalRef…`), prowiki.org
