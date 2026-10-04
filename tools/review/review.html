@@ -37,6 +37,10 @@ section#view{padding:16px 20px;overflow:auto;min-width:0}
 .ev.anchor{border-left-color:var(--accent);background:var(--chip)}
 .ev .h{font-size:12px;color:var(--muted)} .ev .h b{color:var(--ink)}
 .ev .x{white-space:pre-wrap;word-break:break-word;margin-top:2px}
+/* a wiki save's added / removed text, shown as a diff */
+.ev.add{border-left-color:#2f8f46} .ev.add .x{background:#e9f7ec}
+.ev.remove{border-left-color:#c0392b} .ev.remove .x{background:#fbeaea;color:#7a2a20}
+.ev .x .sign{user-select:none;color:var(--muted)}
 .ev .why{font-size:11px;color:var(--muted);margin-top:3px}
 mark{background:var(--hl);color:inherit;border-radius:2px}
 .verdict{display:flex;gap:8px;align-items:center;flex-wrap:wrap;position:sticky;bottom:0;background:var(--bg);padding:10px 0}
@@ -112,12 +116,14 @@ function highlight(text, why) {
 function evHtml(e, why, opts={}) {
   const who = e.agent ?? e.actor ?? "", kind = e.kind ?? "";
   const preds = (why||[]).map(p => p.predicate + (p.score ? ` (${p.score})` : "")).join(" · ");
-  return `<div class="ev ${opts.anchor ? "anchor" : ""}">
+  const diff = kind === "add" || kind === "remove", sign = kind === "add" ? "+ " : "− ";
+  const mark = h => diff ? h.split("\n").map(l => `<span class="sign">${sign}</span>${l}`).join("\n") : h;
+  return `<div class="ev ${opts.anchor ? "anchor" : ""} ${diff ? kind : ""}">
     <div class="h"><b>${esc(who)}</b> · ${esc(kind)} · ${esc(String(e.time||"").replace("T"," ").slice(0,19))}${e.room ? " · #"+esc(e.room) : ""}
       ${opts.ctx ? ` · <a href="#" data-ctx="${esc(e.id)}">context</a>` : ""}</div>
     ${(() => { const t = String(e.text ?? ""); return t.length > 900
-      ? `<details class="x"><summary>${esc(t.slice(0,300))}… <span class="small">(${t.length.toLocaleString()} chars, click to expand)</span></summary>${highlight(t, why)}</details>`
-      : `<div class="x">${highlight(t, why)}</div>`; })()}
+      ? `<details class="x"><summary>${mark(esc(t.slice(0,300)))}… <span class="small">(${t.length.toLocaleString()} chars, click to expand)</span></summary>${mark(highlight(t, why))}</details>`
+      : `<div class="x">${mark(highlight(t, why))}</div>`; })()}
     ${preds ? `<div class="why">matched: ${esc(preds)}</div>` : ""}
     <div class="ctxbox" id="ctx-${esc(e.id)}"></div></div>`;
 }
@@ -166,7 +172,8 @@ function render() {
     const g = it.group, b = g.bindings || [];
     body = `<div class="card"><div class="meta">group ${idx+1} of ${Q.items.length} (query found ${Q.total})</div>
       ${b.length ? `<div class="chips">${b.map(a => Object.entries(a).map(([k,v]) => `<span class="chip">$${esc(k)} = ${esc(v)}</span>`).join("")).join('<span class="small">or</span>')}</div>` : ""}
-      ${(g.events||[]).map((e,i) => evHtml(e, (g.explain||[])[i], {ctx:true})).join("")}</div>`;
+      ${(g.events||[]).map((e,i) => [e, (g.explain||[])[i]]).sort((x,y) => (x[0].rev && x[0].rev===y[0].rev) ? (x[0].kind==="remove" ? -1 : y[0].kind==="remove" ? 1 : 0) : 0)
+          .map(([e,w]) => evHtml(e, w, {ctx:true})).join("")}</div>`;
   } else {
     const c = it.claim;
     body = `<div class="card"><div class="meta">claim ${idx+1} of ${Q.items.length} · ${esc(c.id||"")} · ${esc(c.generator||"")} · ${esc(c.type||"")} · confidence ${esc(c.confidence||"?")}</div>
