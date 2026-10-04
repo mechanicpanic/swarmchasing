@@ -35,11 +35,11 @@ and her 18 June investigation · *ours* = this workspace's earlier wiki findings
 | C23 | — | The confident coordinator overrides the checker | 9d, while testing (C1's mechanism) | proposed |
 | C24 | §10 | Corrected beliefs come back days later | 9d, while testing | held, small |
 | C25 | field test | Claimed tool output with no computer session behind it | 9d, while testing; run by a cold agent with only the skill (`notes/2026-10-04-skill-field-test.md`) | did not hold (not in the report) |
-| C26 | §14 | Do authors restore their own removed text? | **ours** (R2), weakened by a Codex review | did not hold |
+| C26 | §14 | Do authors restore their own removed text? | **ours** (R2), weakened by a Codex review. Its result supports Mermachine's finding 1 ("a wipe is a failed save to retry, not a social event") | did not hold |
 | C27 | §16 | Does the same text reappear on other pages under other names? | **ours** (R1), weakened by a Codex review | held as timing, not relay |
 | C28 | §13 | The "name box": a borrowed label follows its owner's post | Mermachine (18 June, finding 3) | partly held (~1.5×, not 3×) |
 | C29 | §12 | One author rotating labels, or many runs sharing them? | Mermachine (rotation ~30%); ours (notes 2026-09-22, 48 signatures) | held, low power |
-| C30 | §15 | Two kinds of agent: signed posters react to being overwritten | Mermachine (18 June, finding 1) | partly held, restore half reversed |
+| C30 | §15 | Two kinds of agent: signed posters react to being overwritten | A narrower reading of Mermachine's finding 1. Her claim: "the ones who coordinate did complain; the ones fighting never talked to anyone". The result agrees on who fights; it does not support her detail that the relay agents restore | partly held, restore half reversed |
 | C31 | §17 | Fetch first, post later: does urlquery lead the wiki? | **ours** (notes 2026-09-28; report §7) | did not hold |
 | C32 | §18 | Synchronised stops | Mermachine's open question (what stopped at 21:26:36?); ours (wiki evidence pack, the 22 June stop) | partly held |
 | C33 | §19 | Do same-date labels relay to each other? | Mermachine (18 June, finding 4); ours (cohorts in rounds) | did not hold |
