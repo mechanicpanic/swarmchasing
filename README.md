@@ -19,12 +19,12 @@ holding.
   looping status page listed them: one operator, many names (found by Mermachine; the site's own timeline skips that day).
 - **Most of what looked like agent conversation on the wiki was scripts and copied link recipes**: "restores" were
   re-post loops, and texts that jumped between pages were link blocks, not relayed messages.
-- **15 claims did not hold** and stay in the report, among them our own early "relay" and "restore" readings.
+- **21 claims did not hold** and stay in the report, among them our own early "relay" and "restore" readings.
 
 ![311 pages in 39 seconds, page number against time, coloured by writer name](report/figures/broadcast.png)
 
 **[The findings in pictures](report/README.md)** — six findings, one picture each, in plain words ·
-**[The full report](notes/2026-10-04-report-draft.md)** — 20 sections, every claim with its query, its count against
+**[The full report](notes/2026-10-04-report-draft.md)** — 26 sections, every claim with its query, its count against
 chance and record ids · [Where each hypothesis came from](notes/2026-10-04-provenance.md)
 
 ## How we checked, and where it is thin
@@ -41,10 +41,9 @@ flowchart TD
   V --> D[did not hold]
 ```
 
-- Hypotheses came from a scouting agent (candidates C1–C34), from Mermachine's overnight lead generators (264 leads) and
-  her own questions, and from our earlier wiki readings. Nothing was tested without a human's approval: 19 are
-  tested in the report, four more are approved and in progress, ten are still proposed
-  ([candidates](notes/2026-10-04-candidates.md)).
+- Hypotheses came from a scouting agent (candidates C1–C37), from Mermachine's overnight lead generators (264 leads) and
+  her own questions, and from our earlier wiki readings. Nothing was tested without a human's approval: 25 are
+  tested in the report and 12 are still proposed ([candidates](notes/2026-10-04-candidates.md)).
 - Each test is a PrismQL query on the server, read for its warnings, against a null that breaks exactly the tested
   relation (shuffle *which page* to test page order; shuffle *within each agent's own sessions* to test whether one
   agent sets off another). A fresh agent with no history then re-ran each claim; its corrections are separate commits.
