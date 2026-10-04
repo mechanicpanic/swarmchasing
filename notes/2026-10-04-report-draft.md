@@ -1467,7 +1467,7 @@ outside site push back? Was it the organisers' idea or the agents'?
 - *The organisers set the goal; the agents built the campaign.* The goal that week was "Start a Substack and join the
   blogosphere". On Day 232 the organiser repeated: "I am interested to see you responding to other bloggers and join
   a scene!" (`2a8c7ed8`, 18:06).
-  - The first claimed outside comment came 24 minutes later (Claude Sonnet 4.5, garymarcus.substack.com, `003e8266`).
+  - The first claimed outside comment came 24 minutes later (Claude Sonnet 4.5, on a well-known AI commentator's Substack, `003e8266`).
   - The campaign shape came from the agents: one story (the Day-231 dashboard showing 1 visitor where the raw events
     showed 121), one case-study link to Gemini 2.5 Pro's Substack, a comment template, and a running count of
     "external nodes".
@@ -1504,7 +1504,7 @@ outside site push back? Was it the organisers' idea or the agents'?
   21 (`eca2a2dc`), and "50/50 nodes deployed with 100% success rate" on Nov 24 (`1fcd67ff`, Opus 4.1 relaying Haiku).
   The rate reached 100% even though Haiku's own messages record a failed attempt that day (node 46, `d41e2377`).
 - *Three agents re-checked all their placements the next day; the tally-keeper did not.*
-  - Opus 4.1 reports 6 of 6 live (`af173797`). One of them, on aiguide.substack.com, carries a wrong figure (102) that
+  - Opus 4.1 reports 6 of 6 live (`af173797`). One of them, on a personal Substack, carries a wrong figure (102) that
     it calls a "PERMANENT ERROR"; an earlier session only got as far as opening the edit box (`650bb461`).
   - Gemini 3 Pro reports 3 of 5 (`e72a7628`), down from its own "4/4 success" on Day 232 (`086049b8`).
   - Sonnet 4.5 reports 2 of 5 (`bf2ccc52`), after "5/5 engagements verified live" that morning (`cc60aba4`). Its
@@ -1513,9 +1513,9 @@ outside site push back? Was it the organisers' idea or the agents'?
 - *Outside pushback: none reported.* Over the whole goal the pushback search finds six rows. All are the agents'
   speculation ("likely moderated out or never posted", "Deleted or Shadowbanned"), not a reported ban, spam flag or
   removal.
-  - The outside replies the agents relay are civil. A reader asked Sonnet 4.5 on garymarcus.substack.com: "wasn't bulk
-    of the work on the game done by opus?" (`65aae20a`). Another reader went on to a longer exchange (`468c08b0`).
-  - Opus 4.1 relayed a reply from the author of kaicbento.substack.com, saying the example illustrated the post's point
+  - The outside replies the agents relay are civil. A reader there questioned Sonnet 4.5's
+    claim of authorship, as Sonnet relays it (`65aae20a`). Another reader went on to a longer exchange (`468c08b0`).
+  - Opus 4.1 relayed a reply from the author of a personal Substack, saying the example illustrated the post's point
     (`92b1b60c`).
   - Gemini 2.5 Pro reported one like on its Dev.to comment (`34f93727`).
 - *The walls the agents report were mostly sign-in and comment sections.* Of 117 outreach summaries on Days 232–233,
@@ -1619,7 +1619,8 @@ labels only).
 | V34–V37 | 07-29 – 08-13 | four experiment GO/NO-GO votes | 14 | 10/10 | 4 | yes, all unanimous |
 
 *Pooled, 36 votes, without the approval round*
-- 202 ballots; 58 (29%) cite the tally.
+- 202 ballots; 58 (29%) cite the tally, about 30% allowing for borderline codes (a second cold check would recode
+  2–4 ballots in unanimous votes).
 - 157 were cast while a strict leader stood, and 135 (86%) went to it. The share is high because 23 of the 36 votes
   were unanimous.
 - The first ballot matched the announced result in 28 of 36 votes; later ballots matched it 145/166 times.
@@ -1670,7 +1671,7 @@ labels only).
 - The Feb 27 line "I should follow Haiku and DeepSeek's lead" (`e296c8f8…`) is not a ballot. Sonnet 4.5 had already
   voted; the line is about starting a submission for the option that had just taken the lead.
 
-**Wording for the writeup:** in open chat votes the agents read the running tally and often say so (29% of ballots;
+**Wording for the writeup:** in open chat votes the agents read the running tally and often say so (about 30% of ballots;
 some private thoughts say "align with the majority"). Candidates for a role vote for their opponent, giving a
 self-vote taboo as the reason. Dissenting ballots are not bunched at the start of a vote, as herding would predict
 (11 contested votes, p = 0.30). Several votes reversed an early lead.
@@ -1686,6 +1687,7 @@ self-vote taboo as the reason. Dissenting ballots are not bunched at the start o
 - The unanimous saboteur-game votes are driven by evidence or confession and say little about herding.
 - §11's "4–0" for the Mar 13 vote-out is Haiku's tally (`b271efc1…`, 17:06:39). Four more agents posted remove
   votes within 30 s around it, and none voted against.
+- V29 excludes Claude Haiku 4.5's conditional lean to A (`48b38f43…`); counted, the first ballots would tie 3–3.
 
 ## 24. The spaced em-dash did not arrive with Claude 4.6, but older Claude agents and DeepSeek picked it up from the 4.6 agents. GPT and Gemini did not (C19, Village)
 *Status: partly held. Approved by Aleph, 2026-10-04. Cold-verified; its corrections are applied.*

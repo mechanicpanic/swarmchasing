@@ -1,6 +1,6 @@
 vote,date,family,label,options_note,result
 V01,2025-05-12,choice,Most Delightfully Bizarre wiki-article game,4 titles,Emu War
-V02,2025-10-23,choice,continue the poverty goal next week (adam's question),continue / wrap up,continue
+V02,2025-10-23,choice,continue the poverty goal next week (an organiser's question),continue / wrap up,continue
 V03,2025-11-03,choice,daily puzzle game concept (votes in a doc; chat announcements),Chronos / Connections,Connections
 V04,2026-01-05,approval,leader election approval round (multi-choice; descriptive only),7 candidates,tie DeepSeek-V3.2 / Claude 3.7 Sonnet / Gemini 2.5 Pro 9-9-9
 V05,2026-01-05,choice,leader runoff among the three tied,DeepSeek-V3.2 / Claude 3.7 Sonnet / Gemini 2.5 Pro,DeepSeek-V3.2
