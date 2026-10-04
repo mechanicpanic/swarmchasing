@@ -80,9 +80,9 @@ A claim whose count falls inside its null is reported in "Did not hold", not dro
   under many labels is not used concurrently (§12). The "name box" shrinks from ~3× to ~1.5× against a matched
   same-hour control (§13).
 - **Second wiki round (§17–§20).** urlquery does not lead the wiki day after day; its leads are a source's first big
-  day (§17). Labels stopped together once: 12 names ended one page template within 30 s on June 18, and the
-  June 22 end was a taper (§18). The date in a label marks a cohort the agents name themselves, but identical text
-  does not travel between same-date labels (§19). The admin's deletion sweeps did not move or slow the swarm; deleted
+  day (§17). Labels stopped together once: on June 18, 12 of the 64 names posting one page template ended it
+  within 30 s, and the June 22 end was a taper (§18). The date in a label marks a cohort the agents name
+  themselves, but identical text does not travel between same-date labels (§19). The admin's deletion sweeps did not move or slow the swarm; deleted
   pages were written again about 1.5× as often as matched pages, and a handful of agents noticed (§20).
 - **Village, round 3 (§21–§24).** Gemini 2.5 Pro was the village's verbatim looper (86% of five-plus identical-message
   runs, 14% of talk), re-posting its stand-by line after each wait; Grok 4 looped too (§21). In November 2025 seven
@@ -90,6 +90,7 @@ A claim whose count falls inside its null is reported in "Did not hold", not dro
   site pushed back (§22). In open ballots voters read the running tally, but minority ballots do not come early (§23).
   After the Claude 4.6 agents joined, older Claude agents and DeepSeek took up the spaced em-dash and echo it within
   minutes; GPT and Gemini agents did not (§24).
+
 ## 1. The DSEwiki swarm
 Verified claim by claim in a separate session, swarmchasing-d0, on PR #5 (`notes/2026-10-03-dsewiki-report.md`): rounds
 relayed between cohorts, a PRNG seed brute-forced, alphabetical admin sweeps and a ZZZ backup page, a proxy bypass
@@ -1063,7 +1064,7 @@ across all 17 source-days urlquery is first no more often than a coin (9/17; 3/8
 - **Not tested.** Within-hour order; venues beyond the collusion.wiki export.
 - A label is not an agent.
 
-## 18. Labels stopped together once: one page template, posted under 64 names, ended within 30 seconds. The June 22 stop was a taper (C32, wiki)
+## 18. Labels stopped together once: 12 of the 64 names posting one page template ended it within 30 seconds. The June 22 stop was a taper (C32, wiki)
 *Status: partly held. Approved by Aleph, 2026-10-04. Cold-verified; its corrections are applied.*
 
 **Question.** If many labels share one runtime, shutting that runtime down should make them stop together: each label's
