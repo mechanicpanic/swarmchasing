@@ -310,6 +310,8 @@ def trails() -> dict:
     v = _verdicts()
     by: dict[str, list] = {}
     for st in _steps().values():
+        if st.get("deleted"):
+            continue
         if st.get("queue"):
             try:
                 st["tally"] = _tally(_load(st["queue"]), v)
@@ -350,7 +352,9 @@ def add_step(body: dict) -> dict:
 def update_step(sid: str, body: dict) -> dict:
     if sid not in _steps():
         raise HTTPException(404, "no such step")
-    upd = {"id": sid, **{k: body[k] for k in ("conclusion", "question", "note") if k in body}}
+    if body.get("parent") == sid:
+        raise HTTPException(422, "a step can't follow up on itself")
+    upd = {"id": sid, **{k: body[k] for k in ("conclusion", "question", "note", "parent", "deleted") if k in body}}
     _write_step(upd)
     return _steps()[sid]
 
@@ -370,6 +374,37 @@ def export(qid: str) -> str:
         mark = {"yes": "✔", "no": "✘", "unsure": "?"}.get(v.get("verdict"), "·")
         label = it["claim"].get("hook", "")[:140] if q["mode"] == "claims" else it["key"][:80]
         lines.append(f"- {mark} `{it['key']}` {label}" + (f" — {v['note']}" if v.get("note") else ""))
+    return "\n".join(lines) + "\n"
+
+
+@app.get("/api/trails/export", response_class=PlainTextResponse)
+def export_trail(name: str) -> str:
+    """One trail as nested markdown: question, query or note, size, verdicts, conclusion."""
+    steps = trails().get(name)
+    if not steps:
+        raise HTTPException(404, "no such trail")
+    ids = {s["id"] for s in steps}
+    kids: dict[str | None, list] = {}
+    for s in steps:
+        kids.setdefault(s.get("parent") if s.get("parent") in ids else None, []).append(s)
+    lines = [f"# Trail: {name}", "", "Each step: the question, what was run or read, and the conclusion.",
+             "Indented steps follow up on the step above them.", ""]
+
+    def walk(pid: str | None, depth: int) -> None:
+        for s in kids.get(pid, []):
+            ind = "  " * depth
+            lines.append(f"{ind}- **{s['question']}**" + (f" _({s['author']}, {s['at'][:16]})_" if s.get("author") else f" _({s['at'][:16]})_"))
+            if s.get("query"):
+                lines.append(f"{ind}  - query on `{s.get('server')}/{s.get('corpus')}`: `{s['query']}` → {s.get('total')} groups")
+            if s.get("tally"):
+                t = s["tally"]
+                lines.append(f"{ind}  - review: ✔ {t['yes']} · ✘ {t['no']} · ? {t['unsure']} · not yet {t['todo']}")
+            if s.get("note"):
+                lines.append(f"{ind}  - note: {s['note']}")
+            lines.append(f"{ind}  - **conclusion:** {s.get('conclusion') or '_open_'}")
+            walk(s["id"], depth + 1)
+
+    walk(None, 0)
     return "\n".join(lines) + "\n"
 
 

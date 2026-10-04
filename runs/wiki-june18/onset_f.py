@@ -1,0 +1,22 @@
+import polars as pl
+pl.Config.set_tbl_rows(120); pl.Config.set_fmt_str_lengths(70); pl.Config.set_tbl_width_chars(250)
+s=pl.read_parquet('s.parquet')
+r=pl.read_parquet('r.parquet')
+generic={'(unsigned)'}
+r=r.with_columns((pl.col('t1')-pl.col('t0')).dt.total_seconds().alias('dur'))
+S1=r.filter((pl.col('n')>=5)&~pl.col('actor').is_in(generic))
+S2=r.filter((pl.col('n')>=20)&~pl.col('actor').is_in(generic))
+s=s.join(S1.select('actor','run',pl.lit(True).alias('s1')),on=['actor','run'],how='left').join(S2.select('actor','run',pl.lit(True).alias('s2')),on=['actor','run'],how='left')
+# fan-out: identical text (block) on >=10 distinct pages within 120s
+s=s.with_columns(pl.col('time').dt.truncate('2m').alias('w2'))
+fo=s.filter(pl.col('block').is_not_null()).group_by('block','w2').agg(pl.col('page').n_unique().alias('np'))
+fo=fo.filter(pl.col('np')>=10)
+s=s.join(fo.select('block','w2',pl.lit(True).alias('s3')),on=['block','w2'],how='left')
+s=s.with_columns([pl.col(c).fill_null(False) for c in ['s1','s2','s3']])
+s=s.with_columns((pl.col('s1')|pl.col('s3')).alias('any'))
+print('first S1:'); print(S1.sort('t0').head(5).select('actor','n','t0','dur','npage','ntext','summary'))
+print('first S2:'); print(S2.sort('t0').head(8).select('actor','n','t0','dur','npage','ntext','summary'))
+print('first S3:'); print(s.filter('s3').sort('time').head(5).select('time','actor','page','block'))
+day=s.group_by('d').agg(pl.len().alias('all'),pl.col('s1').sum(),pl.col('s2').sum(),pl.col('s3').sum(),pl.col('any').sum(),((pl.col('gap')<=10)).sum().alias('gap<=10')).sort('d')
+print(day)
+s.write_parquet('s2.parquet')

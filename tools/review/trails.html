@@ -97,19 +97,49 @@ function stepHtml(s, kids) {
     ${s.query ? `<pre>${esc(s.query)}</pre>` : ""}
     ${s.note ? `<div style="margin-top:6px;white-space:pre-wrap">${esc(s.note)}</div>` : ""}
     <div class="concl ${s.conclusion?"":"empty"}" data-concl="${s.id}" title="click to edit">${s.conclusion ? "<b>Concluded:</b> " + esc(s.conclusion) : "no conclusion yet (click to add)"}</div>
-    <div class="small" style="margin-top:6px"><a href="#" data-follow="${s.id}">+ follow-up question</a></div>
+    <div class="small" style="margin-top:6px"><a href="#" data-follow="${s.id}">+ follow-up question</a> · <a href="#" data-edit="${s.id}">edit</a> · <a href="#" data-del="${s.id}">delete</a></div>
+    <div class="editbox" id="edit-${s.id}"></div>
   </div><div class="kids">${kids}</div></div>`;
 }
 function render() {
   const steps = T[cur] || []; const by = {};
   for (const s of steps) (by[s.parent || ""] ||= []).push(s);
   const tree = p => (by[p] || []).map(s => stepHtml(s, tree(s.id))).join("");
-  $("#view").innerHTML = `<h2 style="margin-top:0">${esc(cur)}</h2>${tree("") || '<p class="small">no steps</p>'}`;
+  $("#view").innerHTML = `<h2 style="margin-top:0">${esc(cur)} <a class="small" style="font-weight:normal" href="/api/trails/export?name=${encodeURIComponent(cur)}" target="_blank">as markdown</a></h2>${tree("") || '<p class="small">no steps</p>'}`;
 }
 $("#view").onclick = async e => {
   const t = e.target;
   if (t.dataset.follow) { e.preventDefault(); $("#trail").value = cur; fillParents(); $("#parent").value = t.dataset.follow; $("#question").focus(); }
   if (t.dataset.open) store.set("review.queue", t.dataset.open);
+  if (t.dataset.edit || t.dataset.del) {
+    e.preventDefault();
+    const id = t.dataset.edit || t.dataset.del, s = (T[cur]||[]).find(x => x.id === id), box = document.getElementById("edit-" + id);
+    if (box.innerHTML) { box.innerHTML = ""; return; }
+    if (t.dataset.del) {
+      const kids = (T[cur]||[]).filter(x => x.parent === id).length;
+      box.innerHTML = `<div class="concl">Delete this step?${kids ? ` Its ${kids} follow-up(s) will move up one level.` : ""} <button class="primary" data-yes>delete</button> <button data-no>keep</button></div>`;
+      box.querySelector("[data-no]").onclick = ev => { ev.stopPropagation(); box.innerHTML = ""; };
+      box.querySelector("[data-yes]").onclick = async ev => { ev.stopPropagation();
+        for (const k of (T[cur]||[]).filter(x => x.parent === id))
+          await api("/api/steps/" + k.id, {method:"POST", body: JSON.stringify({parent: s.parent || ""})});
+        await api("/api/steps/" + id, {method:"POST", body: JSON.stringify({deleted: true})}); load(); };
+      return;
+    }
+    const under = (T[cur]||[]).filter(x => x.id !== id).map(x => `<option value="${x.id}" ${x.id===s.parent?"selected":""}>${esc(x.question.slice(0,70))}</option>`).join("");
+    box.innerHTML = `<div style="display:grid;gap:6px;margin-top:8px">
+      <label class="small">question<textarea data-f="question">${esc(s.question)}</textarea></label>
+      <label class="small">note<textarea data-f="note">${esc(s.note||"")}</textarea></label>
+      <label class="small">conclusion<textarea data-f="conclusion">${esc(s.conclusion||"")}</textarea></label>
+      <label class="small">follows up on<select data-f="parent"><option value="">(nothing: a starting question)</option>${under}</select></label>
+      <div><button class="primary" data-save>save</button> <button data-cancel>cancel</button></div></div>`;
+    box.querySelector("[data-cancel]").onclick = ev => { ev.stopPropagation(); box.innerHTML = ""; };
+    box.querySelector("[data-save]").onclick = async ev => { ev.stopPropagation();
+      const body = {}; box.querySelectorAll("[data-f]").forEach(el => body[el.dataset.f] = el.value);
+      try { await api("/api/steps/" + id, {method:"POST", body: JSON.stringify(body)}); load(); }
+      catch (err) { alert(err.message); } };
+    return;
+  }
+  if (t.closest(".editbox")) return;
   const c = t.closest("[data-concl]");
   if (c && !c.querySelector("textarea")) {
     const id = c.dataset.concl, s = (T[cur]||[]).find(x => x.id === id);

@@ -1,0 +1,12 @@
+import polars as pl, datetime as dt
+pl.Config.set_tbl_rows(400); pl.Config.set_fmt_str_lengths(90); pl.Config.set_tbl_width_chars(260)
+d=pl.read_parquet('/Users/phosphorus/projects/prismql-data/collusion-wiki/collusion.parquet')
+b=d.filter(pl.col('page').str.contains('^(LoopNextWord|CachePokeWord)')).sort('time','position')
+print(b.height, b['kind'].value_counts())
+bs=b.filter(pl.col('kind')=='save')
+print(bs.select('time','position','actor','page','ip16','seq','body_len').head(15))
+print(bs.select('time','actor','page','ip16').tail(5))
+print(b.filter(pl.col('kind')!='save').select('time','kind','actor','page','summary','text'))
+print(bs.filter(pl.col('time')>dt.datetime(2026,6,18,20,11,tzinfo=dt.timezone.utc)).select('time','actor','page','summary','text'))
+print(repr(bs['text'][0]))
+print(bs['summary'].value_counts())
