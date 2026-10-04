@@ -46,6 +46,9 @@ if "village" in corpora:
           ("/api/queues/claims", {"corpus": "village", "path": "notes/2026-10-04-leads/summaries.jsonl",
            "ids": [json.loads(line)["id"] for line in open("notes/2026-10-04-leads/summary_links.jsonl")],
            "name": "Leads that dispute the official Village summaries"})]
+import subprocess  # Swarm 8 is built from the data, not from one query
+if not os.path.exists("tools/review/queues/swarm8.json") and os.path.exists("data/wiki_msgs.parquet"):
+    subprocess.run([sys.executable, os.path.join(HERE, "swarm8_queue.py")], check=False)
 for path, body in Q:
     body["server"] = SERVER
     if body["name"] in have: print("have  ", body["name"]); continue
