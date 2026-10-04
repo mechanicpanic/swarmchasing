@@ -21,22 +21,20 @@ SELECT field(kind, REQUEST_HUMAN_HELPER) AND field(agent, $a)
        DURING 1 hour
 ```
 
-The server is a simple HTTP server that loads the ingested datasets, precomputed embeddings, and full-text search. The necessary schema is id, timestamp and optionally, text. Its endpoints are `/evaluate` — runs a PrismQL query with validation; `/search` — full-text search; and `/similar` which is embedding-based search. The latter two are intended to give agents well-built exploratory tools since they rarely reach for them otherwise.
+The server is a simple HTTP server that loads the ingested datasets, precomputed embeddings, and full-text search. The necessary schema is id, timestamp and optionally, text, and it exposes three endpoints: `/evaluate` for PrismQL queries; `/search` for tantivy-based full-text search; and `/similar` which is embedding-based search. The latter two are intended to give agents ready-made exploratory tools since they rarely reach for them spontaneously.
 
-The dashboard is the "low-level" observability for PrismQL. It logs all sent queries and displays the group results as chains; it also shows all necessary information (query source, word lists, and so on). It doesn't hold the actual hypothesis loop, however: the Review and Trails tool does and it's the experimentation workspace.
-## Workflow
+The dashboard is the "low-level" observability for PrismQL. It logs all sent queries and displays the group results as chains; it also shows all necessary information (query source, word lists, and so on). It doesn't hold the actual hypothesis loop, however. The Review and Trails tool does and it's the experimentation workspace.
+## Workflow and hackathon experience :)
 
-???
+We've tried many things during the weekend, and quickly found that having just an observability board is not enough: there needs to be at least a basic space to record your hypotheses and test the queries aganst them, even if Claude is the one writing. This is what we tentatively refer to as the "manual workflow".
 
-Just having an observability board is not enough: there needs to be at least a basic space to record your hypotheses and test the queries aganst them, even if Claude is the one writing. 
+Mermachine was chasing down questions in the Collusion wiki export; for this, she implemented an auxiliary tool with two purposes. In the Review part of it, the user writes down a question they want to investigate (e.g., **a signed text ('-- name') — is it addressed to other agents?**), run a query against it and annotate or just make note whether it makes sense at all. The Trails screen allows to save chains of questions in the investigation with their answers. This is how she investigated the question of June 18th Collusion wiki activity: first, manually sifting through data to find anomalies, running into the June 18th 311 pages with the same text, asking questions and follow-up questions and pinning them to the board. Mermachine found out that agents have identity issues: the spike seemed to be looping behaviour of one agent, but there are 58 names in total in the text. 
 
-Mermachine implemented a tool with two screens: on the Review screen, the user writes down a question they want to investigate (e.g., **a signed text ('-- name') — is it addressed to other agents?**), run a query against it and annotate or just make note whether it makes sense at all. The Trails screen allows to save chains of questions in the investigation with their answers. This is how we investigated the question of June 18th Collusion wiki activity: first, manually sifting through data to find anomalies, running into the June 18th spike, asking questions and follow-up questions and pinning them to the board. 
+Manual work with PrismQL is the hardest in hypothesis nomination --- whether swarms exhibit any kind of regular shapes in their logs that can't be found otherwise. They do, but this fine-grained analysis is hard: humans don't natively think in such shapes. The agents might, however, so we also let them work autonomously, as follows: they proposed questions using the `/search` and `/similar`, we manually approved some of them, and they ran a loop:
 
-Manual work with PrismQL is the hardest in hypothesis nomination --- whether swarms exhibit any kind of regular shapes in their logs that can't be found otherwise. They do, but this fine-grained analysis is hard: humans don't natively think in such shapes. The agents might, however, so we also let them work autonomously: they proposed questions after using the `/search` and `/similar` endpoints, we manually approved some of them, and they ran a loop. 
+`write a query and run it->find patterns->shuffle the chat data and run the query again, many times->see whether the count of hits is about the same->give the claim to a verifier agent who replicates it and settles whether it holds or not`.
 
-`write a query and run it->find patterns->shuffle the log data and run the query again, many times->see whether the count is similar->give the claim to a verifier agent who replicates it and settles whether it holds or not`.
+Our repo holds the results and the first version of the agentic skill that followed.
 
-Out repo holds the results and the first version of the agentic skill. 
-
-We also tried to give PrismQL to agents running **MessageBoardAuditBench**: it didn't make a difference, but most of the questions on the benchmark were not about event order, as reported by agents themselves in a post-bench interview.
+## Conclusion
 
