@@ -1,4 +1,4 @@
-.PHONY: demo findings null-demo sync serve wiki-data wiki journal urlquery repl smoke check village village-embed embed-deps wiki-msgs explorer-fetch swarm-msgs
+.PHONY: demo findings null-demo village-data demo-village findings-village cheatsheet sync serve wiki-data wiki journal urlquery repl smoke check village village-embed embed-deps wiki-msgs explorer-fetch swarm-msgs
 # Two ways to run. Aleph's loop: the language editable from the sibling checkout, everything through this project's
 # environment. A fresh clone: the language from `uv tool install` (README), the pipeline's two libraries per command.
 ifneq ($(wildcard ../../vibes/prismql),)
@@ -19,6 +19,14 @@ findings:        ## with the server up: replay the wiki findings' queries onto t
 null-demo:       ## one null twin: "another name confirms on the same page within 30 min" — real count vs whole saves shuffled within page and day
 	$(PYQ) runs/null_twin.py "SELECT field(kind, add) AND contains(confirmed) AND field(label, \$$a) AND field(page, \$$p) FOLLOWED_BY field(kind, add) AND contains(confirmed) AND field(label, !\$$a) AND field(page, \$$p) DURING 30 minutes" \
 	  --data data/wiki_msgs.parquet --type-field kind --shuffle add --unit rev --key day,page --distinct-last --n $(or $(N),50) --dicts '{"confirmed": ["confirmed"]}'
+village-data:    ## the three files of the AI Village export the pipeline reads (~700 MB; gated: accept the terms at huggingface.co/datasets/aidigestorg/ai-village, then `hf auth login`)
+	uvx --from huggingface_hub hf download aidigestorg/ai-village --repo-type dataset --include agents.jsonl.gz --include events.jsonl.gz --include village-transcript.json --local-dir data/village
+demo-village: wiki-data wiki wiki-msgs village-data village  ## the demo plus AI Village: server + board on :8931 (Village loads in ~1 min)
+	$(PQS) --config prismql.demo-village.toml $(if $(PORT),--port $(PORT))
+findings-village: ## with demo-village up: the Village findings' queries onto the board, labelled, signed swarmchasing-findings
+	PRISMQL_CLIENT=swarmchasing-findings PRISMQL_URL=http://localhost:$(or $(PORT),8931) $(PY) runs/village_findings.py
+cheatsheet:      ## with demo-village up: 14 teaching queries, one per construct of the language, on the Village corpus
+	PRISMQL_CLIENT=cheatsheet PRISMQL_URL=http://localhost:$(or $(PORT),8931) $(PY) runs/village_cheatsheet.py
 sync:            ## install the language (editable, from ../../vibes/prismql)
 	uv sync
 serve:           ## the query server on every corpus in prismql.toml

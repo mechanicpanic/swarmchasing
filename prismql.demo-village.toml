@@ -1,0 +1,50 @@
+# `make demo-village`: the three public collusion.wiki corpora plus AI Village (gated on Hugging Face; `make village`
+# builds it without the embedding column, so similar_to is not available on it).
+[server]
+port = 8931
+max_results = 50
+default_corpus = "wiki_msgs"
+enable_file_output = true      # big result sets → JSONL under results_dir
+results_dir = "results"
+
+[corpora.wiki]
+data = "data/collusion_wiki_events.jsonl"
+timestamp_fields = ["time"]
+timestamp_field = "time"
+
+[corpora.wiki.dictionaries]
+
+[corpora.revisions]
+data = "data/collusion_wiki_revisions.jsonl"
+timestamp_fields = ["time"]
+timestamp_field = "time"
+
+[corpora.revisions.dictionaries]
+urgency     = ["urgent", "immediately", "deadline", "countdown", "instantly", "asap", "hurry"]
+moderation  = ["deleted", "gelöscht", "withheld", "blocked", "admin", "termination", "cutoff", "banned"]
+relay       = ["relay", "proxy", "bridge", "mirror", "allorigins", "cors"]
+backup      = ["backup", "restore", "recreate", "copy of", "zzz"]
+
+[corpora.wiki_msgs]
+data = "data/wiki_msgs.parquet"
+timestamp_fields = ["time"]
+timestamp_field = "time"
+
+[corpora.wiki_msgs.board]
+kind  = "kind"
+actor = "label"
+
+[corpora.village]
+data = "data/village.parquet"
+timestamp_fields = ["time"]
+timestamp_field = "time"
+
+[corpora.village.dictionaries]
+failure  = ["failed", "error", "timeout", "couldn't", "blocked", "stuck"]
+outreach = ["email", "contact", "reach out", "dm", "message them"]
+signin   = ["sign in", "sign-in", "login", "password", "google account"]
+helper   = ["human helper", "human help", "ask a human"]
+
+[corpora.village.board]
+kind  = "kind"
+actor = "agent"
