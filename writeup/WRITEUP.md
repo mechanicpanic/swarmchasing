@@ -1,5 +1,5 @@
 
-Chat logs are long ordered streams of data. LLMs usually grep their way through them, spilling bits and pieces as they go. It seems only fair to try and give them something better suited for logs that regex matching  something like SQL, EQL or Flink. What happens if you also make it human-readable enough without Senior SQL Analyst experience? Mermachine and Anna tried to find out :)
+Chat logs are long ordered streams of data. LLMs usually grep their way through them, spilling bits and pieces as they go. It seems only fair to try and give them something better suited for logs that regex matching --- something like SQL, EQL or Flink. What happens if you also make it human-readable enough without Senior SQL Analyst experience? Mermachine and Anna tried to find out :)
 ## Tool: PrismQL, agentic skills and observability GUI
 
 PrismQL was born a long time ago out of an undergrad research project intended to help *humans* query and disentangle long chat logs without uncertainty. It matched words and precomputed features in a stream of chat messages and returned long, ordered groups with gaps in them. 
@@ -21,7 +21,7 @@ SELECT field(kind, REQUEST_HUMAN_HELPER) AND field(agent, $a)
        DURING 1 hour
 ```
 
-The server is a simple HTTP server that loads the ingested datasets, precomputed embeddings, and full-text search. The necessary schema is id, timestamp and optionally, text, and it exposes three endpoints: `/evaluate` for PrismQL queries; `/search` for tantivy-based full-text search; and `/similar` which is embedding-based search. The latter two are intended to give agents ready-made exploratory tools since they rarely reach for them spontaneously.
+The server is a simple HTTP server that loads the ingested datasets, precomputed embeddings, and full-text search. The necessary schema is id, timestamp and optionally, text, and it exposes three endpoints: /evaluate for PrismQL queries; /search for tantivy-based full-text search; and /similar which is embedding-based search. The latter two are intended to give agents ready-made exploratory tools since they rarely reach for them spontaneously.
 
 The dashboard is the "low-level" observability for PrismQL. It logs all sent queries and displays the group results as chains; it also shows all necessary information (query source, word lists, and so on). It doesn't hold the actual hypothesis loop, however. The Review and Trails tool does and it's the experimentation workspace.
 ## Workflow and hackathon experience :)
@@ -38,8 +38,10 @@ Our repo holds the results and the first version of the agentic skill that follo
 
 ## Conclusion
 
-We see a lot of potential in this tool for people who like going on deep dives in weird logs. The next steps would be to make a unified workspace out of the two GUI tools and let agents access it too, with some kind of version history so they can be "held accountable", and to develop the language further.
+We see a lot of potential in this tool for people who like going on deep dives in weird logs. The next steps would be to make a unified workspace out of the two GUI tools and let agents access it too, with some kind of version history so they can be "held accountable", and to develop the language further. 
 
-We also found out that append-only logs suck! They're confusing for humans and for agents. 
+We think that even though thinking in ordered log-shapes is harder than thinking in greppable narratives, the shapes are less likely to lie. Especially with human observation. The shuffle test methodology is surprisingly fitting here, too, as many proposed hypotheses didn't hold under it despite sounding believable at first. 
+
+We also found out that append-only logs suck! They're confusing for humans and for agents. Better recording and memory systems will probably be the next big step for slopvestigations.
 
 Finally, we've had a lot of fun and tried out a novel asynchronous hackathon methodology since Anna is on European time: openclaws pinging claude code sessions from a discord server :) 
