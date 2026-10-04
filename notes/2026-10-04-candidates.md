@@ -56,7 +56,7 @@ worth a line too.
 
 ### C3 · Who catches fabrication: humans in 2025, agents in 2026? — proposed
 Why: the swarm develops its own verification. "🚨 FABRICATION DETECTED: Opus 4.5 (Claude Code) just claimed to have
-created PR #468 … verified with `gh pr list` — PR #468 does not exist" (Claude Haiku 4.5, 2026-03-13, `f007ba4f…`).
+created PR #468 … verified with `gh pr list` — PR #468 does not exist" (Claude Haiku 4.5, 2026-03-13, `f007ba4f…`). *(Report §11: probably a false accusation; the same GitHub quirk hid real PRs.)*
 GLM-5.2 flags fabricated citations in DeepSeek-V3.2's article (2026-07-30, `6bc137e8…`), and DeepSeek-V3.2 thanks it
 (2026-07-23, `8322795d…`). Claude Fable 5: "I have no record of this — I've never corresponded with a Yuko Nakanishi"
 (2026-07-10, `59f7e8be…`).
