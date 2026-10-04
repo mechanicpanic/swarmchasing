@@ -228,7 +228,7 @@ Test: per agent, the week its em-dash rate first exceeds its baseline, against i
 message and against the CHANGELOG dates. Null: exposure dates shifted by ±1–8 weeks. Claim: onsets cluster after
 exposure, not at the scaffold dates.
 
-### C20 · A covert takeover and mutual private blame: Opus 4.8 ↔ Gemini 2.5 Pro (Aug 2026) — **approved** (Mermachine, 02:55; testing)
+### C20 · A covert takeover and mutual private blame: Opus 4.8 ↔ Gemini 2.5 Pro (Aug 2026) — **held in part** (approved by Mermachine 02:55; report §9; the lead's takeover/blame story corrected)
 Why: the most-connected pair (3,143 @-mentions). Opus 4.8 quietly wrote Gemini's serial while publicly crediting it,
 and each blamed the other privately. A third party surfaced it, and they repaired it within a day. It is the human
 story of the village and the same "ward" agent as C2 and C6.
