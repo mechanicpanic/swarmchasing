@@ -781,7 +781,7 @@ signature pattern misses lowercase names and signatures without "--". "First app
 we hold. /16 networks change on almost every save for everyone, so they cannot separate authors.
 
 ## 13. The "name box" reproduces; against a matched same-hour control it shrinks from ~3× to ~1.5× (C28, wiki)
-*Status: partly held: a modest effect survives. Approved by Aleph, 2026-10-04. Cold-verified; its correction to null (d) is applied.*
+*Status: held; smaller than the first estimate (~1.5×, not 3×). Status wording per Mermachine, 2026-10-04 20:03. Approved by Aleph, 2026-10-04. Cold-verified; its correction to null (d) is applied.*
 
 **Question.** Mermachine's PR #7 found that a label appearing on a post signed by someone else ("borrowed") is ~3×
 likelier in the 10 minutes after the label's owner posts (16.7% against a time-shuffled null of 5.6%). That reads as
