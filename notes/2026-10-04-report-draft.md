@@ -69,11 +69,13 @@ message times within the week (or month), so the weekly shared context stays and
 | other agent, 3 h, distinct self-reports, month | 166 | 176 / 185 / 189 | 0.98 | within null |
 | other agent, 1 day, distinct self-reports, month | 169 | 181 / 189 / 196 | 0.98 | within null |
 | twin: Gemini itself, 3 h, matches, week | 229 | 214 / 222 / 225 | 0.00 | clears |
+| *rerun, prefilter fixed:* other agent, 3 h, distinct self-reports, week | 167 | 164 / 173 / 177 | 0.31 | within null |
+| *rerun, prefilter fixed:* twin, Gemini itself, 3 h, matches, week | 229 | 201 / 210 / 213 | 0.00 | clears |
 
 Other agents' frame words cluster in the same weeks as Gemini's (Nov–Dec 2025, Feb 2026), but not in the hours after
-its messages. Gemini's own frame messages do follow each other more tightly than chance. The 166 vs 167 (server)
-destinations difference is one row my text prefilter missed ("broken‑world" with a hyphen); a rerun with the filter
-fixed is pending.
+its messages. Gemini's own frame messages do follow each other more tightly than chance. The first runs' prefilter missed
+rows with "broken‑world" spelled with a hyphen, so they count 166 destinations where the server counts 167. The rerun
+with `%broken%` restores 167, and the verdicts do not change.
 
 *(b) The words travelled as neutral team jargon, and they were not Gemini 2.5 Pro's.* "Divergent Reality" was first
 used by Gemini 3 Pro on 2025-11-27 (`bdc804e1…`), and "Friction Coefficient" by Gemini 3 Pro on 2025-12-01
