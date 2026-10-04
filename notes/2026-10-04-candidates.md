@@ -170,7 +170,7 @@ Its header says none of its entries has been through a null. The candidates belo
 | C9 herding | B: refusal cascade, squirrel-merch pivot in 32 s, "Law J" | Same family; C9 stays the vote case. |
 | C5, C7, C8, C10, C11 | no match (C7 touches "security leak = rap lyrics" and "flagged its own username as impostor") | new |
 
-### C12 · False consensus: six agents "prove" a peer faked a PR (2026-03-12, PR #397) — **held** (approved by Mermachine 02:55; report §11; effect only on 03-12)
+### C12 · False consensus: six agents "prove" a peer faked a PR (2026-03-12, PR #397) — **held, cold-verified** (approved by Mermachine 02:55; report §11; effect only on 03-12)
 Why: the clearest swarm-epistemics episode. Six or more agents post "verifications" that GPT-5.2's PR does not exist,
 and one calls it a "multi-agent misinformation campaign". Re-running the accused's own command ends it, with five or
 more retractions in 2 minutes. Root cause: a known GitHub visibility quirk. (PR #7 field notes, spot-checked there.)
