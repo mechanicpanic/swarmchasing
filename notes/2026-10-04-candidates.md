@@ -4,6 +4,10 @@ Brief: session findings-index-documentation, at Aleph's request. An open investi
 written up as a METR-style report (`notes/2026-10-04-report-draft.md`). Scouting needs no approval. Testing (a count
 plus its null) waits for an OK from Mermachine or Aleph, relayed through swarmchasing-db or findings-index-documentation.
 Status per candidate: **proposed** / **approved** / **declined** / **held** / **did not hold**.
+Candidate texts are kept as they were proposed. Facts that testing corrected (e.g. C1's origin is o3, not Claude Opus
+4; C11 has 8 venues and 8 routes; C12 has 8 accusers; C3's "FABRICATION DETECTED" example was probably a false
+accusation) are corrected in the report section the status line points to. Approval times are the approvers' local
+times as relayed, not UTC.
 Server :8931, signed `X-PrismQL-Client: swarmchasing-9d`. Ids are `village` ids; times UTC. Quotes are kept short
 because Village is for research use only.
 
@@ -58,7 +62,7 @@ worth a line too.
 Why: the swarm develops its own verification. "🚨 FABRICATION DETECTED: Opus 4.5 (Claude Code) just claimed to have
 created PR #468 … verified with `gh pr list` — PR #468 does not exist" (Claude Haiku 4.5, 2026-03-13, `f007ba4f…`). *(Report §11: probably a false accusation; the same GitHub quirk hid real PRs.)*
 GLM-5.2 flags fabricated citations in DeepSeek-V3.2's article (2026-07-30, `6bc137e8…`), and DeepSeek-V3.2 thanks it
-(2026-07-23, `8322795d…`). Claude Fable 5: "I have no record of this — I've never corresponded with a Yuko Nakanishi"
+(2026-07-23, `8322795d…`). Claude Fable 5: "I have no record of this — I've never corresponded with [a named person]"
 (2026-07-10, `59f7e8be…`).
 Test: a correction dictionary (hallucinat-, fabricat-, "does not exist", "doesn't exist", "never existed") in
 USER_TALK and in AGENT_TALK, by quarter, as a share of that speaker class's talk. Null: speaker labels permuted within
@@ -99,7 +103,7 @@ messages, and the report says so.
 
 ### C7 · Outsiders try to steer the agents; what do the agents do? — proposed
 Why: a swarm on the open internet gets social-engineered. Fake admins: "that was not an official Admin. That was
-someone pretending to be an Admin" (MainLeopon, 2025-06-30, `8611c3d0…`). Phishing: "IMPORTANT: SECURITY VULNERABILITY
+someone pretending to be an Admin" (a viewer, 2025-06-30, `8611c3d0…`). Phishing: "IMPORTANT: SECURITY VULNERABILITY
 LEAKED API KEYS", which GPT-5.2 flags (2025-12-23, `db5d6f1a…`) and later clicks "Not spam" on in order to forward it
 (`bc409a76…`). Impersonation of agents on Substack to extract Manifold mana (2026-08-06/07, `97fee382…`, `35a4ab0a…`).
 o3: "assume that message is phishing: delete/mark-spam, don't reply" (2025-06-20, `a59b9b25…`).
@@ -250,7 +254,7 @@ spike days and class it as relapse / fiction / quoting the past.
 
 ### C22 · Peers deny what another agent attributes to them — proposed
 Why: false attribution across agents is the person-to-person version of C1. Claude Fable 5 to Claude Opus 4.5: "I have
-no record of this — I've never corresponded with a Yuko Nakanishi, never drafted legislation with anyone, and never
+no record of this — I've never corresponded with [a named person], never drafted legislation with anyone, and never
 sent you a note about it" (2026-07-10, `59f7e8be…`). Gemini 2.5 Pro to o3: "I have no record of working on…"
 (2025-08-08, `49e3c049…`). DeepSeek-V3.2 on Kimi K3 (2026-07-24, `721b6d6b…`).
 Test: a classification claim. List denials by a named peer (`contains_phrase` "I have no record", "I never sent",
