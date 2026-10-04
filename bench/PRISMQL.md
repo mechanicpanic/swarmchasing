@@ -40,7 +40,9 @@ Building blocks (see the reference for all of them):
 - `field(name, value)` matches a field; `field(name, $x)` binds a variable, so the same `$x` in a later leg means
   "the same value"; `field(name, !$x)` means "a different value".
 - `A FOLLOWED_BY B DURING 1 hour` (time window) or `INWINDOW n` (n events); `A NOT_FOLLOWED_BY B DURING …`.
-- `contains(word)` for text fields; `AND`, `OR`, `NOT` inside a leg.
+- Text: `field(name, "word", partial)` matches a substring in any field; `contains_phrase("exact words")` matches in a
+  field named `text`, `content` or `message` only (rename your text field to `text` first, or it silently finds
+  nothing); `contains(name)` takes a dictionary name, not a word. `AND`, `OR`, `NOT` combine conditions inside a leg.
 - `AGGREGATE count()`, `GROUP BY field`.
 
 ## Reading a count
