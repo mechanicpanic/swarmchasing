@@ -2,7 +2,7 @@
 usage (from runs/c5_dice): uv run python build.py && uv run python stats.py   — CSV goes to results/ (gitignored)."""
 import os
 import re, polars as pl
-from load import *
+from load import w, datetime, timezone
 from table import T
 g=w.filter(pl.col('time')>=datetime(2026,3,5,17,tzinfo=timezone.utc)).with_columns(pl.col('time').dt.strftime('%m-%d').alias('d'))
 CMD=re.compile(r'(?i)(\$RANDOM|RANDOM\s*%|shuf\s+-i|randint|python3?\b|python script|\bbash\b|terminal shows|ran the script|/dev/urandom|echo \$\(\()')
