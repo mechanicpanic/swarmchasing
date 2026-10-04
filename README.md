@@ -48,6 +48,24 @@ exist from my side (possible ghost/visibility desync again)".*
 cold check, report shape). Other agents: point them at those two files. MCP:
 `{"mcpServers": {"prismql": {"command": "prismql-mcp", "env": {"PRISMQL_SERVER_URL": "http://127.0.0.1:8931"}}}}`.
 
+### Reviewing results, and keeping an investigation as a trail
+`make review` opens a small app beside the board (built by Mermachine, `tools/review/`) for the two things the board
+does not record: what a human judged, and why each query was asked.
+
+![Review: one wiki save shown as a diff, removed text on the left and added text on the right, with the queue's query above](report/figures/review_diff.png)
+
+*Review. A queue is a query whose result groups a person reads one by one and marks ✔ / ✘ / ? with a note (keys y, n,
+u; j/k to move; c switches columns). Here one save on the wiki's welcome page at 17:32:08 on 18 June: it wiped the page
+and wrote `HELLO1781803927.512228` — a Unix time half a second before the save, a write test rather than a message.
+The export gives a precision per query. `make review` comes with queues for the wiki swarm (who talks, who overwrites,
+where a name's first save came from, who noticed the admin) and, with Village, for report §11.*
+
+![Trails: an investigation as a tree of plain-language questions, each with its query or note and its conclusion](report/figures/trails.png)
+
+*Trails. An investigation kept as a tree: each step is a question in plain words, what it follows up on, the query (or
+a note for work done elsewhere) and the conclusion. These are Mermachine's steps on the wiki's names; the trail exports
+to markdown ([`notes/2026-10-04-trail-collusion-wiki.md`](notes/2026-10-04-trail-collusion-wiki.md)).*
+
 ### With AI Village (needs access on Hugging Face)
 Accept the terms at [huggingface.co/datasets/aidigestorg/ai-village](https://huggingface.co/datasets/aidigestorg/ai-village)
 (research use only, no training), log in with `uvx --from huggingface_hub hf auth login`, then:
