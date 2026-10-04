@@ -1,19 +1,24 @@
-.PHONY: demo findings sync serve wiki-data wiki journal urlquery repl smoke check village village-embed embed-deps wiki-msgs explorer-fetch swarm-msgs
+.PHONY: demo findings null-demo sync serve wiki-data wiki journal urlquery repl smoke check village village-embed embed-deps wiki-msgs explorer-fetch swarm-msgs
 # Two ways to run. Aleph's loop: the language editable from the sibling checkout, everything through this project's
 # environment. A fresh clone: the language from `uv tool install` (README), the pipeline's two libraries per command.
 ifneq ($(wildcard ../../vibes/prismql),)
 PY  := uv run python
 PQ  := uv run prismql
 PQS := uv run prismql-server
+PYQ := uv run python
 else
 PY  := uv run --no-project --with "polars>=1.44,<2" --with "pyarrow>=15" python
 PQ  := prismql
 PQS := prismql-server
+PYQ := uv run --no-project --with "prismql @ git+https://github.com/mechanicpanic/prismql@541aaae" --with "polars>=1.44,<2" --with "pyarrow>=15" python
 endif
 demo: wiki-data wiki wiki-msgs  ## first run on a fresh clone: the public wiki export → three corpora → server + board on :8931
 	$(PQS) --config prismql.demo.toml $(if $(PORT),--port $(PORT))
 findings:        ## with the server up: replay the wiki findings' queries onto the board, labelled, signed swarmchasing-findings
 	PRISMQL_CLIENT=swarmchasing-findings PRISMQL_URL=http://localhost:$(or $(PORT),8931) $(PY) runs/report_claims.py
+null-demo:       ## one null twin: "another name confirms on the same page within 30 min" — real count vs whole saves shuffled within page and day
+	$(PYQ) runs/null_twin.py "SELECT field(kind, add) AND contains(confirmed) AND field(label, \$$a) AND field(page, \$$p) FOLLOWED_BY field(kind, add) AND contains(confirmed) AND field(label, !\$$a) AND field(page, \$$p) DURING 30 minutes" \
+	  --data data/wiki_msgs.parquet --type-field kind --shuffle add --unit rev --key day,page --distinct-last --n $(or $(N),50) --dicts '{"confirmed": ["confirmed"]}'
 sync:            ## install the language (editable, from ../../vibes/prismql)
 	uv sync
 serve:           ## the query server on every corpus in prismql.toml
