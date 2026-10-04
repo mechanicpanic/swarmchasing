@@ -461,7 +461,9 @@ chapter.
 **Queries.** Venue rows: `SELECT field(text, "2374423602", partial) OR field(text, "2398882076", partial)` on
 `swarm_msgs`, label `c11-sf133-attachment-rows`. That gives 143 rows: 124 on 05-26, 10 on 05-27, and 9 later
 (05-29, 06-18, 06-22), 8 of them removals. Token text predicates (`contains_phrase("2374423602")`) return
-nothing, because the ids sit inside URLs; a language note for PrismQL. urlquery: `SELECT contains_phrase("MAX exact PDF
+nothing, because the tokenizer keeps a URL whole. The prismql session confirmed this and recorded the options as
+graph #169. `partial` is a substring match on the memory backend the server runs, but not on tantivy, so this query
+reproduces only on a memory corpus. urlquery: `SELECT contains_phrase("MAX exact PDF
 Q2") GROUP BY HOURS(time)` on `urlquery`, label `c11-urlquery-max-q2`. Per-venue and per-route tables:
 `runs/c11_sf133.py`.
 
@@ -685,15 +687,20 @@ gaps where #468, #469 and #472 would sit. That does not hold for #475/#476: GPT-
 **The general test.** An accusation is an agent's message saying a peer's artifact does not exist or is fabricated
 (in-band dictionaries `accuse` and `artifact`). A retraction is the same agent within 1 h saying it was wrong or
 apologising (`retract`). The twin is accusation → any message by the accuser within 1 h. The time-shuffle null
-permutes each agent's message times within agent × day (`runs/village_null.py`, n = 200). Queries and labels
+permutes each agent's message times within agent × day (n = 200; details under the table). Queries and labels
 `c12-acc-*`, `c12-acc_ret-*`, `c12-acc_any-*`, `c12-talk_*` are in `runs/c12_accusations/run1.py`; no warnings.
 
-| Window | Accusations (dictionary) | → retraction / → any | Accuser base rate | Real vs null median / 95th | Verdict |
-|---|---|---|---|---|---|
-| 02-05 → 03-05 | 171 | 22 / 169 (13%) | 10.4% | 22 vs 23 / 30 | within null |
-| game 03-05 → 03-13 | 170 | 60 / 169 (36%) | 16.0% | 60 vs 34 / 43 | clears |
-| game without 03-12 | 87 | 17 / 86 (20%) | 15.0% | 17 vs 12 / 18 | within null |
-| 03-14 → 04-10 | 82 | 5 / 77 (6.5%) | 3.3% | 5 vs 5 / 8 | within null |
+| Window | Accusations (dictionary) | → retraction / → any | Accuser base rate | → retraction: real vs null median / 95th | Twin → any: real vs null median / 95th | Verdict |
+|---|---|---|---|---|---|---|
+| 02-05 → 03-05 | 171 | 22 / 169 (13%) | 10.4% | 22 vs 23 / 30 | 169 vs 167 / 170 | within null |
+| game 03-05 → 03-13 | 170 | 60 / 169 (36%) | 16.0% | **60 vs 34 / 43** | 169 vs 166 / 169 | clears; twin within |
+| game without 03-12 | 87 | 17 / 86 (20%) | 15.0% | 17 vs 12 / 18 | 86 vs 85 / 87 | within null |
+| 03-14 → 04-10 | 82 | 5 / 77 (6.5%) | 3.3% | 5 vs 5 / 8 | 77 vs 79 / 81 | within null |
+
+The null keeps every AGENT_TALK row in the window and permutes each agent's message times within (agent, day): the
+times an agent spoke stay, and only which message sits where moves. n = 200, `runs/c12_accusations/nulls.py`, which
+prints each exact command. The twin, "accusation → any message by the accuser within 1 h", is inside its null in every
+window. So the game-window excess is about what the accuser says next (a retraction), not about bursty talk.
 
 **Hand-read layer** (one reader; `labels.py`). The labeller marked 112 game-window messages as accusations against a
 peer's artifact. The cold verifier found that the set also holds some non-accusations (own code, apologies,
