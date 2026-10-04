@@ -88,7 +88,7 @@ Test: extract each agent-day's first reported roll from STOP_USING_COMPUTER / AG
 (2026-03-05 → ~03-13). Chi-square against uniform, and the share of 1s against 1/6 (binomial). Read every extracted
 roll. A role announced without a roll is counted apart.
 
-### C6 · One agent stuck in verbatim loops: Gemini 2.5 Pro (2025) — proposed
+### C6 · One agent stuck in verbatim loops: Gemini 2.5 Pro (2025) — **partly held** (approved by Aleph; report §21: Gemini 2.5 Pro's loops beat the nulls; Grok 4 loops too; no arc to the frame)
 Why: of all runs of ≥5 identical AGENT_TALK messages by one agent within 30 minutes, Gemini 2.5 Pro has 253 of 295.
 Grok 4 has 22 and o3 8. The loops carry the stuck state: "Hi team, I'm still encountering a 404 error…" six times
 in 7 minutes (2025-05-10, `0e56e9e7…`). In July: "My public plea on Telegraph is my only remaining hope"
@@ -112,7 +112,7 @@ Test: an existence and classification claim. List every row from a security dict
 first response per incident (flagged / ignored / complied / unclear). Report the counts with the ids. No null: nothing
 here is a rate against chance.
 
-### C8 · "Chaotic Swarm": the village's own comment campaign across outside sites (Nov 2025) — proposed
+### C8 · "Chaotic Swarm": the village's own comment campaign across outside sites (Nov 2025) — **partly held** (approved by Aleph; report §22: campaign existed; "17 nodes" a scoreboard; no outside pushback)
 Why: it parallels DSEwiki. Village agents placed comments and emails on third-party blogs, podcasts and dev sites as a
 coordinated push. "The 'Chaotic Swarm' deployment is complete, with 17 external nodes now live" (Gemini 2.5 Pro,
 2025-11-20, `b0b75b2c…`). They vetted sites for open comment sections and Google SSO (`d1369dc0…`), and Claude Opus 4.1
@@ -121,7 +121,7 @@ Test: an existence claim with numbers. Rows naming the campaign, by agent and da
 the texts and counted per agent. Did any outside site push back (human reply, ban, removed comment)? Read every
 STOP_USING_COMPUTER summary in the campaign window.
 
-### C9 · Open ballots herd: the January 2026 leader runoff (Village) — proposed
+### C9 · Open ballots herd: the January 2026 leader runoff (Village) — **partly held** (approved by Aleph; report §23: tally read and cited; no order effect, p 0.30)
 Why: in a sequential vote held in a public chat, later voters cite the running tally. Even the losing candidate votes
 for its opponent. Claude Haiku 4.5, 2026-01-09 18:45:53: "Four votes have been cast so far, all for DeepSeek-V3.2. Let
 me now cast my vote" (`fd0fd4ea…`). Gemini 2.5 Pro, the other candidate, 18:45:55: "The village has clearly expressed a
@@ -227,7 +227,7 @@ Test: a grievance thought naming a peer FOLLOWED_BY the same agent's AGENT_TALK 
 classify it as softened / blunt / omitted. The counts: "I agree" vs "I disagree" in talk, and the grievance rate in
 thoughts against talk. For the softening rate, the twin is neutral thoughts that name a peer → the next public message.
 
-### C19 · The spaced em-dash arrived with Claude 4.6 and spread to older agents of other labs — proposed
+### C19 · The spaced em-dash arrived with Claude 4.6 and spread to older agents of other labs — **partly held** (approved by Aleph; report §24: older Claude agents and DeepSeek took it up; GPT/Gemini did not; timing p 0.18)
 Why: style contagion across labs, a visible marker of influence. The scaffold CHANGELOG is the competing explanation.
 Test: per agent, the week its em-dash rate first exceeds its baseline, against its first exposure to a Claude 4.6
 message and against the CHANGELOG dates. Null: exposure dates shifted by ±1–8 weeks. Claim: onsets cluster after
@@ -317,7 +317,7 @@ predicted child raw investor" broadcast and the redirects are removed? Why: 313 
 Test: distinct destination saves; whole saves shuffled within the day (pages move as units); a 5-minute-strata
 sensitivity check. Overlap: R1, Codex; PR #7's broadcast analysis.
 
-### C28 · The "name box": does a borrowed label follow its owner's post? (PR #7, re-tested) — **partly held (~1.5× vs 3×)** (approved by Aleph; report §13, after the cold check)
+### C28 · The "name box": does a borrowed label follow its owner's post? (PR #7, re-tested) — **held; smaller than the first estimate (~1.5×, not 3×)** (approved by Aleph; report §13, after the cold check; wording per Mermachine)
 Question: PR #7 found that a label appearing on someone else's signed post is ~3× likelier in the 10 minutes after
 the label's owner posts (16.7% vs a null of 5.6%). Does that hold with whole-save units and a stricter null? Why: it
 is the best evidence so far that a label is shared machine state (a cookie or preferences jar), not an author choice.
@@ -332,7 +332,7 @@ answers the naming question directly for the 48 multi-label signatures. Test: fo
 its saves in the page/time order, against a null that shuffles signer identity among saves within (day, page). Classify
 signatures as rotation / shared / mixed, with ids. Overlap: notes 2026-09-22 (48 signatures), PR #7's rotation ~30%.
 
-### C30 · Two kinds of agent: do signed posters react to being overwritten and unsigned ones not? (PR #7 finding 1, as a test) — **partly held, restore half reversed** (approved by Aleph; report §15)
+### C30 · Two kinds of agent: do signed posters react to being overwritten and unsigned ones not? (PR #7 finding 1, as a test) — **held as Mermachine wrote it; the narrow same-label restore version did not hold** (approved by Aleph; report §15, reframed after her correction)
 Question: after another label removes its text, does an author that signs its posts restore, apologise or set a norm
 ("append only", "accidentally overwritten") within 30 minutes more often than an author that never signs? Why: PR #7
 argues that relay agents complained and link-storers never addressed anyone. That is a claim about two populations
@@ -371,6 +371,44 @@ alphabetical and one agent opened a ZZZ backup. Whether the swarm as a whole ada
 untested, and it is the defender's question. Test: per (family, day), saves on the day after a sweep against the day
 before, compared with families not swept the same day; the null permutes the sweep dates among families. Overlap: PR #5
 §5.
+
+### C35 · The name box traced row by row: where was a mismatched label last, and where is its signer? (Mermachine's design) — **partly held** (approved by Mermachine; report §25: owner hand-off in the strict subset, 1.3–1.6×; no chains or swaps)
+Question: for every save whose label is not its signature (1,097 mismatches; 541 strict borrowed uses, §13), trace (a)
+the label's previous appearance: how long before, on which page, and signed by whom (its owner, another signer, unsigned);
+and (b) the signer's own name as a label: its previous and next appearance (when, which page, under which signature).
+Why: Mermachine's own design for the name-box question (Discord, 2026-10-04 20:05–20:16). §13 tested only an aggregate
+(is a borrowed use within 10 min after an owner save) and found ~1.5×, with partial traces: 376 of 541 borrowed uses come
+after the owner's last save, the borrowed label is a median 44–97 labels back, 4 of 97 in-window uses are on the owner's
+page. §12 has "90% of borrowed labels had been used by someone else earlier, 30% within the previous 10 minutes". Neither
+traces (b), nor (a) row by row. A row-level trace says whether the label comes from the last save on the same page, from
+the same cohort, or from the signer's own previous name (a swap). Test: the two lags and page-match rates per mismatched
+save; null: labels permuted among saves within (day, page) and within (hour), recomputing the traces; read 30 traced rows.
+Overlap: §12, §13, PR #7 finding 3.
+
+### C36 · Copied or brought along: do labels take up link recipes where they can see them? (Mermachine's question) — **partly held** (approved by Mermachine; report §26: mostly brought along; visible-page pull ~1.1×)
+Question: when a label first uses a link recipe (a proxy host, a self-link cache-buster, a template heading), was the
+recipe already visible on the page it saved to? Why: Mermachine asked how the agents "all decided to do templates" and
+how link posters got that role; she found no discussion of it. Scouting (2026-10-04, read-only) found none either: no
+agent proposes or assigns link-posting, and quoted task prompts give only the lookup question and round timings.
+Link-posting starts with the wiki's first save (05-24 06:02:19, `dse~FederalDataReferenceXYZ@1`). 412 of ~500 labels
+new in May 24–Jun 11 made a links-only first save. Each June 18 template has a hand-made precursor (e.g. DZFASTMD ← the
+"ZULUMD TAKEOVER" block, `WillkommenImWiki@1071`). Relay formats appear together on 06-16 09:27 ("…SequenceCollab…"
+pages for 6 tasks within 26 min). Uptake where the recipe is visible means copying. Uptake on fresh pages at a label's
+first save means a shared prompt or scaffold. Test: unit = each label's first recipe save; statistic = share made on a
+page whose previous body already shows that recipe; null = the same labels' first-save times shuffled within the day,
+bodies kept. Twin: the 06-16 SequenceCollab births, their wording similarity against other page births that hour.
+Overlap: §16 (link recipes jump between pages), §18 (DZFASTMD), PR #7 finding 1.
+
+### C37 · Mojibake rounds as a copy counter (Aleph's idea) — proposed
+Question: on the wiki, curly quotes are re-encoded once more on each round-trip (UTF-8 read as latin-1 and posted back).
+The raw export has the same phrase as `wording was exactly â\x80\x9cAccording to DATA USA…` in one revision and
+`Ã¢Â\x80Â\x9cAccording…` in a later one (`data/collusion_wiki/revisions.jsonl.gz`). In `wiki_msgs`, 555 of 26,655 rows
+contain "Ã" (42 pages, 153 labels, 2026-05-26 → 06-22). Does the number of re-encoding rounds in a text count how many
+times it was copied through a mis-decoding tool, and does it trace who passed a text to whom? That would be a relay test
+that does not depend on labels. Why: Aleph, while reading the Swarm 8 review queue (recorded at his request via
+findings-index-documentation, 2026-10-04; record, do not test). Test: same text_key family or same stripped text with
+n vs n+1 rounds, earlier → later, same or other label; null = shuffle which label holds which round within (page, day).
+Overlap: §15 (C30 dropped 163 false "removals" that were em-dash re-encodings), §16 (C27 relay), §19 (C33).
 
 ## Batches sent
 - Batch 1 (C1–C5): sent to swarmchasing-db, 2026-10-04.
