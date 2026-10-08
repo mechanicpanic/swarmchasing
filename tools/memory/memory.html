@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Village Memory Reader</title>
+<style>
+:root{--bg:#f7f6f3;--panel:#fff;--ink:#1d1d1f;--muted:#6b6b70;--line:#e3e1dc;--accent:#5b4bd6;--chip:#eeeaff;
+  --addbg:#e6f6ea;--addink:#1d6b34;--addmark:#b8e6c4;--delbg:#fbeaea;--delink:#8a2a20;--delmark:#f3c0b8;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#141416;--panel:#1d1d21;--ink:#ececf0;--muted:#9a9aa3;--line:#2e2e35;--accent:#9d8fff;--chip:#2c2850;
+  --addbg:#14301d;--addink:#9fe0b0;--addmark:#24603a;--delbg:#3a1a17;--delink:#ffb3a8;--delmark:#7a2f27;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);height:100vh;display:flex;flex-direction:column}
+header{display:flex;gap:10px;align-items:center;padding:8px 14px;border-bottom:1px solid var(--line);background:var(--panel);flex-wrap:wrap}
+header h1{font-size:15px;margin:0;font-weight:650} .sp{flex:1}
+input,button{font:inherit;color:inherit} input{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:5px 8px}
+button{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:5px 10px;cursor:pointer} button:hover{border-color:var(--accent)}
+button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+main{flex:1;display:grid;grid-template-columns:230px minmax(0,1fr) 340px;min-height:0}
+aside,section{overflow:auto;min-height:0} aside{background:var(--panel);padding:10px}
+#agents{border-right:1px solid var(--line)} #ctx{border-left:1px solid var(--line)}
+h2{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:4px 0 8px;font-weight:600}
+.ag{display:flex;gap:6px;align-items:baseline;padding:5px 7px;border-radius:7px;cursor:pointer;border:1px solid transparent}
+.ag:hover{border-color:var(--line)} .ag.on{background:var(--chip);border-color:var(--accent)}
+.ag .n{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .ag .c{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+section{padding:12px 16px;display:flex;flex-direction:column;gap:10px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap} .muted{color:var(--muted);font-size:12px}
+#spark{width:100%;height:44px;display:block;cursor:pointer} #slider{width:100%;margin:4px 0}
+.num{font-variant-numeric:tabular-nums} .w5{width:80px}
+#results .t{padding:6px 8px;border-left:3px solid var(--line);margin:4px 0;cursor:pointer;border-radius:0 6px 6px 0}
+#results .t:hover{background:var(--chip)} #results .appears,#results .reappears{border-left-color:var(--addink)} #results .disappears{border-left-color:var(--delink)}
+.snip{font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-break:break-word;color:var(--muted)}
+#diff{font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;padding:6px 0;overflow-x:auto}
+.l{white-space:pre-wrap;word-break:break-word;padding:0 10px 0 22px;position:relative;min-height:1.5em}
+.l::before{position:absolute;left:7px;color:var(--muted);content:" "} .l.add{background:var(--addbg);color:var(--addink)} .l.add::before{content:"+"}
+.l.del{background:var(--delbg);color:var(--delink)} .l.del::before{content:"−"}
+.l ins{background:var(--addmark);text-decoration:none;border-radius:2px} .l del{background:var(--delmark);text-decoration:none;border-radius:2px}
+.fold{margin:2px 10px;padding:2px 8px;font-size:12px;color:var(--muted);border:1px dashed var(--line);border-radius:6px;cursor:pointer;font-family:-apple-system,system-ui,sans-serif}
+.fold:hover{border-color:var(--accent);color:var(--ink)}
+.ev{border-left:3px solid var(--line);padding:4px 8px;margin:6px 0} .ev.THOUGHT{border-left-color:#b7791f} .ev.AGENT_TALK{border-left-color:var(--accent)} .ev.CONSOLIDATE{border-left-color:var(--addink)}
+.ev .h{font-size:11px;color:var(--muted)} .ev .x{white-space:pre-wrap;word-break:break-word;max-height:12em;overflow:hidden;cursor:pointer} .ev .x.open{max-height:none}
+@media (max-width:1100px){main{grid-template-columns:200px minmax(0,1fr)} #ctx{grid-column:1/-1;border-left:0;border-top:1px solid var(--line)}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Village memory reader</h1><span class="muted">AI Village export · research use only · local</span><span class="sp"></span>
+  <input id="q" placeholder="search a phrase in this agent's memory…" size="32">
+  <span class="muted">compare</span><input id="ca" class="w5 num" placeholder="v a"><input id="cb" class="w5 num" placeholder="v b"><button id="cmp">diff</button>
+</header>
+<main>
+  <aside id="agents"><h2>Agents</h2><div id="alist"></div></aside>
+  <section>
+    <div class="card">
+      <div class="row"><b id="aname">—</b><span class="muted" id="model"></span><span class="sp"></span>
+        <button id="prev" title="←">◀</button><span class="num" id="vlabel">v —</span><button id="next" title="→">▶</button>
+        <button id="full">full text</button></div>
+      <canvas id="spark"></canvas><input type="range" id="slider" min="0" max="0" value="0">
+      <div class="row muted"><span id="tfirst"></span><span class="sp"></span><span id="tcur" class="num"></span><span class="sp"></span><span id="tlast"></span></div>
+    </div>
+    <div class="card" id="results" hidden></div>
+    <div class="card"><div class="row muted" id="dhead"></div><div id="diff"></div></div>
+  </section>
+  <aside id="ctx"><h2>Before this rewrite</h2>
+    <div class="row muted">talk, thoughts, consolidations in the last <input id="mins" class="num" value="30" size="3"> min</div>
+    <div id="clist"></div></aside>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+const api = async (path, params) => { const r = await fetch(path + '?' + new URLSearchParams(params)); if (!r.ok) throw new Error((await r.json()).detail || r.status); return r.json(); };
+const ts = iso => iso.replace('T', ' ').slice(0, 19) + ' UTC';
+const S = {agent: null, idx: null, v: 0, full: false, pair: null, agents: []};
+let timer = null, seq = 0;
+
+async function loadAgents() {
+  S.agents = await api('/api/agents', {});
+  const box = $('#alist'); box.replaceChildren();
+  for (const a of S.agents) {
+    const d = el('div', 'ag'); d.dataset.agent = a.agent; d.title = `${a.model_string}\n${ts(a.first)} → ${ts(a.last)}`;
+    d.append(el('span', '', a.emoji), el('span', 'n', a.agent), el('span', 'c', a.versions.toLocaleString()));
+    d.onclick = () => selectAgent(a.agent, null); box.append(d);
+  }
+}
+
+async function selectAgent(name, v) {
+  S.agent = name; S.idx = await api('/api/versions', {agent: name});
+  document.querySelectorAll('.ag').forEach(d => d.classList.toggle('on', d.dataset.agent === name));
+  const a = S.agents.find(x => x.agent === name) || {};
+  $('#aname').textContent = `${a.emoji || ''} ${name}`; $('#model').textContent = a.model_string || '';
+  const n = S.idx.version.length; $('#slider').max = n - 1;
+  $('#tfirst').textContent = ts(S.idx.created_at[0]); $('#tlast').textContent = ts(S.idx.created_at[n - 1]);
+  $('#results').hidden = true; drawSpark();
+  go(v == null ? Math.min(1, n - 1) : v);
+}
+
+function drawSpark() {
+  const c = $('#spark'), w = c.clientWidth, h = c.clientHeight, dpr = devicePixelRatio || 1;
+  c.width = w * dpr; c.height = h * dpr; const g = c.getContext('2d'); g.scale(dpr, dpr);
+  const L = S.idx.length, n = L.length, max = L.reduce((m, x) => Math.max(m, x), 1), css = getComputedStyle(document.body);
+  g.fillStyle = css.getPropertyValue('--accent'); g.globalAlpha = .55;
+  for (let x = 0; x < w; x++) {  // one bar per pixel: the longest version in that pixel's range
+    const i0 = Math.floor(x * n / w), i1 = Math.max(i0 + 1, Math.floor((x + 1) * n / w)); let m = 0;
+    for (let i = i0; i < i1 && i < n; i++) m = Math.max(m, L[i]);
+    const bh = m / max * (h - 4); g.fillRect(x, h - bh, 1, bh);
+  }
+  g.globalAlpha = 1; g.fillStyle = css.getPropertyValue('--ink'); g.fillRect(Math.round(S.v * w / Math.max(n, 1)), 0, 2, h);
+}
+
+function go(v, pair) {
+  const n = S.idx.version.length; S.v = Math.max(0, Math.min(n - 1, v)); S.pair = pair || null;
+  $('#slider').value = S.v; $('#vlabel').textContent = `v ${S.v} / ${n - 1}`;
+  $('#tcur').textContent = `${ts(S.idx.created_at[S.v])} · ${S.idx.length[S.v].toLocaleString()} chars`;
+  history.replaceState(null, '', `#agent=${encodeURIComponent(S.agent)}&v=${S.v}`);
+  drawSpark(); clearTimeout(timer); timer = setTimeout(render, 120);
+}
+
+async function render() {
+  const head = $('#dhead'), box = $('#diff'), my = ++seq; box.replaceChildren(el('div', 'muted', 'loading…'));
+  try {
+    const [a, b] = S.pair || [S.v - 1, S.v];
+    if (S.full || a < 0) {  // v0 has nothing before it: shown in full
+      const r = await api('/api/version', {agent: S.agent, v: S.v});
+      if (my !== seq) return;
+      head.textContent = `v${r.version} · ${ts(r.created_at)} · ${r.length.toLocaleString()} chars · full text`;
+      box.replaceChildren(...r.content.split('\n').map(t => el('div', 'l', t)));
+    } else {
+      const r = await api('/api/diff', {agent: S.agent, a, b});
+      if (my !== seq) return;
+      head.textContent = `v${a} (${ts(r.a.created_at)}) → v${b} (${ts(r.b.created_at)}) · +${r.added} −${r.removed} lines`;
+      box.replaceChildren(...r.blocks.flatMap(blockNodes));
+      if (!r.added && !r.removed) box.prepend(el('div', 'muted', 'no line changes'));
+    }
+  } catch (e) { box.replaceChildren(el('div', 'muted', 'error: ' + e.message)); }
+  loadContext(my);
+}
+
+function line(cls, segs) {  // segs: string, or [[op, text], ...] for word-level marks
+  const d = el('div', 'l ' + cls);
+  if (typeof segs === 'string') d.textContent = segs;
+  else for (const [op, t] of segs) d.append(op === '=' ? document.createTextNode(t) : el(op === '+' ? 'ins' : 'del', '', t));
+  return d;
+}
+
+function blockNodes(b) {
+  if (b.op === 'equal') {
+    const out = b.head.map(t => line('', t));
+    if (b.hidden.length) {
+      const f = el('div', 'fold', `⋯ ${b.hidden.length} unchanged lines (click to show)`);
+      f.onclick = () => f.replaceWith(...b.hidden.map(t => line('', t))); out.push(f);
+    }
+    return out.concat(b.tail.map(t => line('', t)));
+  }
+  if (b.words) return b.words.map(w => line('del', w[0])).concat(b.words.map(w => line('add', w[1])));
+  return b.del.map(t => line('del', t)).concat(b.ins.map(t => line('add', t)));
+}
+
+async function loadContext(my = seq) {
+  const box = $('#clist'), t = S.idx.created_at[S.pair ? S.pair[1] : S.v];
+  const rows = await api('/api/context', {agent: S.agent, t, minutes: +$('#mins').value || 30});
+  if (my !== seq) return;
+  box.replaceChildren();
+  if (!rows.length) box.append(el('div', 'muted', 'nothing in this window'));
+  for (const r of rows.reverse()) {
+    const d = el('div', 'ev ' + r.kind), x = el('div', 'x', r.text || '');
+    x.onclick = () => x.classList.toggle('open');
+    d.append(el('div', 'h', `${ts(r.time).slice(11, 19)} · ${r.kind}`), x); box.append(d);
+  }
+}
+
+async function search() {
+  const q = $('#q').value.trim(), box = $('#results'); if (!q || !S.agent) return;
+  box.hidden = false; box.replaceChildren(el('div', 'muted', 'searching…'));
+  const r = await api('/api/search', {agent: S.agent, q});
+  const close = el('button', '', '×'); close.onclick = () => { box.hidden = true; };
+  const h = el('div', 'row'); h.append(el('b', '', `“${q}”`), el('span', 'muted', `in ${r.with.toLocaleString()} of ${r.versions.toLocaleString()} versions · ${r.transitions.length} transitions`), el('span', 'sp'), close);
+  box.replaceChildren(h);
+  for (const t of r.transitions) {
+    const d = el('div', 't ' + t.event);
+    d.append(el('div', '', `v${t.version} · ${t.event} · ${ts(t.created_at)}`));
+    if (t.snippet) d.append(el('div', 'snip', t.snippet));
+    d.onclick = () => go(t.version); box.append(d);
+  }
+}
+
+$('#slider').oninput = e => go(+e.target.value);
+$('#prev').onclick = () => go(S.v - 1); $('#next').onclick = () => go(S.v + 1);
+$('#spark').onclick = e => go(Math.floor(e.offsetX / e.target.clientWidth * S.idx.version.length));
+$('#full').onclick = () => { S.full = !S.full; $('#full').classList.toggle('on', S.full); render(); };
+$('#cmp').onclick = () => { const a = +$('#ca').value, b = +$('#cb').value; S.full = false; $('#full').classList.remove('on'); go(b, [a, b]); };
+$('#q').onkeydown = e => { if (e.key === 'Enter') search(); };
+$('#mins').onchange = loadContext;
+addEventListener('resize', () => S.idx && drawSpark());
+addEventListener('keydown', e => {
+  if (!S.idx || e.target.tagName === 'INPUT') return;  // a focused slider moves itself
+  if (e.key === 'ArrowLeft') { go(S.v - 1); e.preventDefault(); } else if (e.key === 'ArrowRight') { go(S.v + 1); e.preventDefault(); }
+});
+loadAgents().then(() => {
+  const h = new URLSearchParams(location.hash.slice(1));
+  const a = h.get('agent') || (S.agents.find(x => x.agent === 'Gemini 2.5 Pro') || S.agents[0]).agent;
+  selectAgent(a, h.has('v') ? +h.get('v') : null).then(() => { if (h.get('q')) { $('#q').value = h.get('q'); search(); } });
+});
+</script>
+</body>
+</html>

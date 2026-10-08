@@ -1,4 +1,4 @@
-.PHONY: demo findings null-demo review village-data demo-village findings-village cheatsheet sync serve wiki-data wiki journal urlquery repl smoke check village village-embed embed-deps wiki-msgs explorer-fetch swarm-msgs
+.PHONY: demo findings null-demo review village-data demo-village findings-village cheatsheet sync serve wiki-data wiki journal urlquery repl smoke check village village-embed embed-deps wiki-msgs explorer-fetch swarm-msgs village-memories memory
 # Two ways to run. Aleph's loop: the language editable from the sibling checkout, everything through this project's
 # environment. A fresh clone: the language from `uv tool install` (README), the pipeline's two libraries per command.
 ifneq ($(wildcard ../../vibes/prismql),)
@@ -62,6 +62,13 @@ village-embed:   ## same, with an `emb` column (multilingual model; needs embed-
 	$(PQ) ingest table data/village_events.parquet data/village.parquet \
 	  --id id --time created_at --sort seq \
 	  --embed text --model paraphrase-multilingual-MiniLM-L12-v2
+
+# --- AI Village: agents' memory files, one row per rewrite (research use only; stays local).
+village-memories: ## data/village/agent_memories.jsonl.gz → data/village_memories.parquet + _index.parquet (~70 s, ~1.2 GB peak RAM)
+	$(PY) prepare/village_memories.py
+memory:          ## the memory-file reader (versions, diffs, search, chat before each rewrite) on :8970; needs village-memories
+	uv run --no-project --with fastapi --with uvicorn --with "polars>=1.44,<2" --with "pyarrow>=15" \
+	  python tools/memory/memory_server.py --port $(or $(MEMORY_PORT),8970)
 
 # --- collusion.wiki: the public export (https://collusion.wiki/explorer/download; the site publicly logs visitor IPs).
 WIKI_FILES = events.jsonl.gz revisions.jsonl.gz pages.jsonl.gz labels.jsonl.gz records.jsonl.gz links.jsonl.gz \
